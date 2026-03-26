@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-poppins: 'Poppins', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-inter text-navy bg-white;
+  }
+
+  h1, h2, h3, h4, h5 {
+    @apply font-poppins text-navy;
+  }
+}
+
+@layer utilities {
+  .grad-text {
+    background: linear-gradient(135deg, #3dd63a, #2bbfa0, #29b4f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .grad-bg {
+    background: linear-gradient(135deg, #3dd63a, #2bbfa0, #29b4f6);
+  }
+
+  .grad-bg-h {
+    background: linear-gradient(90deg, #3dd63a, #2bbfa0, #29b4f6);
+  }
+}
