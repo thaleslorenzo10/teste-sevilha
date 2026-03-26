@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins, Inter } from "next/font/google";
 import "./globals.css";
+import { ModalProvider } from "./components/ModalContext";
+import { ModalForm } from "./components/ModalForm";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -26,7 +28,10 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${poppins.variable} ${inter.variable} antialiased`}>
-        {children}
+        <ModalProvider>
+          {children}
+          <ModalForm />
+        </ModalProvider>
       </body>
     </html>
   );

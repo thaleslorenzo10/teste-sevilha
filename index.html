@@ -11,19 +11,17 @@
 
     :root {
       --navy: #1a1c48;
-      --navy-light: #2d3072;
+      --navy2: #13153a;
       --bg: #ffffff;
-      --bg2: #f4f7f4;
-      --bg3: #eaf5ea;
-      --border: #e0e8e0;
+      --bg2: #f6f7f9;
+      --border: #e8eaed;
       --g-start: #3dd63a;
       --g-mid: #2bbfa0;
       --g-end: #29b4f6;
       --text: #1a1c48;
       --muted: #6b7280;
-      --muted2: #9ca3af;
-      --danger: #ef4444;
-      --success: #22c55e;
+      --red: #ef4444;
+      --green: #22c55e;
     }
 
     html { scroll-behavior: smooth; }
@@ -35,763 +33,349 @@
       line-height: 1.65;
     }
 
-    h1, h2, h3, h4, h5 {
-      font-family: 'Poppins', sans-serif;
-      line-height: 1.2;
-      color: var(--navy);
-    }
+    h1,h2,h3,h4 { font-family: 'Poppins', sans-serif; line-height: 1.2; }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
 
     .grad-text {
       background: linear-gradient(135deg, var(--g-start), var(--g-mid), var(--g-end));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* ─── TOPBAR ──────────────────────────────── */
-    .topbar {
-      background: linear-gradient(90deg, var(--g-start), var(--g-mid), var(--g-end));
-      color: #fff;
-      text-align: center;
-      padding: 10px 16px;
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-    }
-
-    /* ─── NAV ─────────────────────────────────── */
-    nav {
-      background: #fff;
-      border-bottom: 1px solid var(--border);
-      padding: 16px 24px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
-    }
-
-    .nav-inner {
-      max-width: 960px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-
-    .logo-text {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--navy);
-      line-height: 1.2;
-    }
-
-    .logo-text span {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 400;
-      color: var(--muted);
-    }
-
-    .nav-cta {
-      background: linear-gradient(135deg, var(--g-start), var(--g-end));
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 600;
-      padding: 9px 22px;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      border-radius: 4px;
-      white-space: nowrap;
-    }
-
-    /* ─── HERO ────────────────────────────────── */
-    .hero {
-      background: var(--navy);
-      padding: 80px 0 72px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -80px; right: -80px;
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(61,214,58,0.12) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: -60px; left: -60px;
-      width: 320px; height: 320px;
-      background: radial-gradient(circle, rgba(41,180,246,0.1) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: #a0f0a0;
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      margin-bottom: 24px;
-      border-radius: 2px;
-    }
-
-    .hero h1 {
-      font-size: clamp(1.9rem, 4.5vw, 3rem);
-      font-weight: 800;
-      color: #fff;
-      max-width: 720px;
-      margin-bottom: 20px;
-    }
-
-    .hero p.sub {
-      font-size: 1.05rem;
-      color: rgba(255,255,255,0.65);
-      max-width: 580px;
-      margin-bottom: 36px;
-    }
-
-    .hero-bullets {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 11px;
-      margin-bottom: 44px;
-    }
-
-    .hero-bullets li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.93rem;
-      color: rgba(255,255,255,0.8);
-    }
-
-    .hero-bullets li::before {
-      content: '';
-      display: block;
-      width: 8px;
-      height: 8px;
-      background: linear-gradient(135deg, var(--g-start), var(--g-end));
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    /* ─── BUTTONS ─────────────────────────────── */
-    .btn-grad {
+    .btn {
       display: inline-block;
       background: linear-gradient(135deg, var(--g-start), var(--g-mid), var(--g-end));
       color: #fff;
       font-family: 'Poppins', sans-serif;
-      font-size: 0.92rem;
       font-weight: 700;
-      padding: 15px 36px;
       border: none;
       cursor: pointer;
+      border-radius: 6px;
       text-decoration: none;
-      border-radius: 4px;
       transition: opacity 0.15s, transform 0.15s;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.01em;
     }
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-md  { font-size: 0.9rem;  padding: 13px 28px; }
+    .btn-lg  { font-size: 1rem;    padding: 15px 36px; }
+    .btn-sm  { font-size: 0.82rem; padding: 11px 22px; }
+    .btn-full{ width: 100%; text-align: center; padding: 16px; font-size: 0.95rem; }
 
-    .btn-grad:hover { opacity: 0.9; transform: translateY(-1px); }
-    .btn-grad.full { width: 100%; text-align: center; padding: 17px; font-size: 1rem; }
-
-    /* ─── COUNTDOWN ───────────────────────────── */
-    .countdown-wrap {
-      background: var(--bg2);
-      padding: 48px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .cd-inner {
-      display: flex;
-      align-items: flex-start;
-      gap: 48px;
-      flex-wrap: wrap;
-    }
-
-    .cd-text { flex: 1; min-width: 220px; }
-
-    .cd-label {
+    .eyebrow {
       font-family: 'Poppins', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--g-mid);
-      margin-bottom: 10px;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--g-mid); margin-bottom: 12px;
     }
 
-    .cd-text h2 {
-      font-size: clamp(1.25rem, 3vw, 1.7rem);
-      font-weight: 700;
-      margin-bottom: 8px;
+    /* ── TOP BAR ─────────────────────────────── */
+    .topbar {
+      background: linear-gradient(90deg, var(--g-start), var(--g-mid), var(--g-end));
+      color: #fff; text-align: center; padding: 10px 16px;
+      font-family: 'Poppins', sans-serif; font-size: 0.8rem; font-weight: 600;
     }
 
-    .cd-text p {
-      font-size: 0.88rem;
-      color: var(--muted);
+    /* ── NAV ─────────────────────────────────── */
+    nav {
+      background: #fff; border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.05);
     }
-
-    .cd-timer {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
+    .nav-inner {
+      max-width: 960px; margin: 0 auto; padding: 16px 24px;
+      display: flex; align-items: center; justify-content: space-between;
     }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-text { font-family: 'Poppins', sans-serif; }
+    .logo-text .name { font-weight: 700; font-size: 1rem; color: var(--navy); }
+    .logo-text .sub { font-size: 0.72rem; color: var(--muted); }
 
-    .cd-unit {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    /* ── HERO ─────────────────────────────────── */
+    .hero {
+      background: var(--navy); padding: 88px 0 80px; position: relative; overflow: hidden;
     }
+    .hero::before {
+      content:''; position:absolute; top:-60px; right:-80px;
+      width:420px; height:420px; border-radius:50%;
+      background: radial-gradient(circle, rgba(61,214,58,0.09) 0%, transparent 70%);
+    }
+    .hero::after {
+      content:''; position:absolute; bottom:-60px; left:-60px;
+      width:320px; height:320px; border-radius:50%;
+      background: radial-gradient(circle, rgba(41,180,246,0.08) 0%, transparent 70%);
+    }
+    .hero-badge {
+      font-family:'Poppins',sans-serif; font-size:0.68rem; font-weight:700;
+      letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.38);
+      margin-bottom:20px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem,5vw,3.2rem); font-weight:800; color:#fff;
+      max-width:700px; margin-bottom:20px;
+    }
+    .hero p.sub { color:rgba(255,255,255,0.52); font-size:1.05rem; max-width:540px; margin-bottom:32px; }
+    .hero-bullets { list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:36px; }
+    .hero-bullets li {
+      display:flex; align-items:center; gap:10px;
+      color:rgba(255,255,255,0.68); font-size:0.88rem;
+    }
+    .hero-bullets li::before {
+      content:''; width:6px; height:6px; border-radius:50%;
+      background:linear-gradient(135deg,var(--g-start),var(--g-end)); flex-shrink:0;
+    }
+    .hero-note { color:rgba(255,255,255,0.28); font-size:0.75rem; margin-top:10px; }
 
+    /* ── COUNTDOWN ────────────────────────────── */
+    .countdown-sec { background:var(--bg2); border-bottom:1px solid var(--border); padding:48px 0; }
+    .cd-wrap { display:flex; flex-wrap:wrap; align-items:flex-start; gap:48px; }
+    .cd-text { flex:1; min-width:220px; }
+    .cd-text h2 { font-size:clamp(1.3rem,3vw,1.8rem); font-weight:700; color:var(--navy); margin-bottom:8px; }
+    .cd-text p  { font-size:0.87rem; color:var(--muted); margin-bottom:20px; }
+    .cd-timer { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+    .cd-unit { display:flex; flex-direction:column; align-items:center; }
     .cd-num {
-      background: var(--navy);
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
-      font-size: 2.2rem;
-      font-weight: 800;
-      width: 70px;
-      height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 6px;
-      font-variant-numeric: tabular-nums;
+      background:var(--navy); color:#fff;
+      font-family:'Poppins',sans-serif; font-size:2.2rem; font-weight:800;
+      width:70px; height:70px; display:flex; align-items:center; justify-content:center;
+      border-radius:8px; font-variant-numeric:tabular-nums;
     }
+    .cd-lbl { font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-top:4px; }
+    .cd-sep { font-family:'Poppins',sans-serif; font-size:2rem; font-weight:700; color:rgba(26,28,72,0.2); margin-bottom:20px; }
 
-    .cd-lbl {
-      font-size: 0.68rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-top: 5px;
-    }
-
-    .cd-sep {
-      font-family: 'Poppins', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--navy-light);
-      margin-bottom: 20px;
-    }
-
-    /* ─── SECTIONS ────────────────────────────── */
+    /* ── SECTIONS ─────────────────────────────── */
     section { padding: 72px 0; }
-
     section.alt { background: var(--bg2); }
+    section.dark { background: var(--navy); }
+    section.dark2 { background: var(--navy2); border-top: 1px solid rgba(255,255,255,0.05); }
 
-    .section-eyebrow {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--g-mid);
-      margin-bottom: 10px;
+    .sec-title { font-size:clamp(1.6rem,4vw,2.2rem); font-weight:700; margin-bottom:36px; }
+    .sec-sub { color:var(--muted); font-size:0.93rem; max-width:560px; margin-bottom:32px; line-height:1.7; }
+
+    /* ── PAIN GRID ────────────────────────────── */
+    .pain-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:28px; }
+    @media(max-width:580px){ .pain-grid{ grid-template-columns:1fr; } }
+    .pain-item {
+      display:flex; align-items:flex-start; gap:14px;
+      background:#fff; border:1px solid var(--border);
+      border-left:3px solid var(--red); padding:14px 16px; font-size:0.88rem; color:#374151;
+    }
+    .pain-item .icon { font-size:1rem; flex-shrink:0; margin-top:2px; }
+    .pain-callout {
+      background:var(--navy); border-radius:12px; padding:20px 24px;
+      display:flex; flex-wrap:wrap; align-items:center; gap:16px;
+    }
+    .pain-callout p { color:rgba(255,255,255,0.65); font-size:0.88rem; flex:1; min-width:200px; line-height:1.6; }
+    .pain-callout strong { color:#fff; }
+
+    /* ── BREAK BELIEF ─────────────────────────── */
+    .tags { display:flex; flex-wrap:wrap; gap:10px; margin:24px 0; }
+    .tag {
+      font-family:'Poppins',sans-serif; font-weight:600; font-size:0.88rem;
+      padding:8px 20px; border-radius:99px; color:#fff;
+      background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
     }
 
-    .section-title {
-      font-size: clamp(1.5rem, 3.5vw, 2.1rem);
-      font-weight: 700;
-      margin-bottom: 14px;
-      max-width: 640px;
+    /* ── BIG IDEA ─────────────────────────────── */
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:36px; align-items:start; }
+    @media(max-width:700px){ .two-col{ grid-template-columns:1fr; } }
+    .dark-box {
+      background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
+      border-radius:12px; padding:24px;
     }
+    .dark-box-label { font-family:'Poppins',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:16px; }
+    .dark-box-label.red { color:#f87171; }
+    .dark-box-label.green { color:var(--g-mid); }
+    .dark-list { list-style:none; display:flex; flex-direction:column; gap:10px; }
+    .dark-list li { display:flex; gap:10px; font-size:0.88rem; color:rgba(255,255,255,0.55); }
 
-    .section-sub {
-      font-size: 0.97rem;
-      color: var(--muted);
-      max-width: 580px;
-      margin-bottom: 36px;
-    }
-
-    /* ─── PAIN LIST ───────────────────────────── */
-    .pain-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 28px;
-    }
-
-    .pain-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 16px 20px;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-left: 3px solid #ef4444;
-      font-size: 0.93rem;
-      color: var(--text);
-    }
-
-    .pain-list li .icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
-
-    .pain-close {
-      margin-top: 24px;
-      font-size: 0.9rem;
-      color: var(--muted);
-      font-style: italic;
-    }
-
-    /* ─── PILLARS ─────────────────────────────── */
-    .pillars-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: 16px;
-      margin-top: 32px;
-    }
-
+    /* ── PILLARS ──────────────────────────────── */
+    .pillars { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; }
     .pillar {
-      background: #fff;
-      border: 1px solid var(--border);
-      padding: 28px 22px;
-      border-radius: 6px;
-      position: relative;
-      overflow: hidden;
+      background:#fff; border:1px solid var(--border); border-radius:12px;
+      padding:24px; position:relative; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.04);
     }
-
     .pillar::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--g-start), var(--g-end));
+      content:''; position:absolute; top:0; left:0; right:0; height:3px;
+      background:linear-gradient(90deg,var(--g-start),var(--g-end));
+    }
+    .pillar-num { font-family:'Poppins',sans-serif; font-size:0.65rem; font-weight:700; color:var(--g-mid); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; }
+    .pillar h4 { font-size:0.98rem; font-weight:700; margin-bottom:6px; }
+    .pillar p  { font-size:0.82rem; color:var(--muted); }
+
+    /* ── HOW IT WORKS ─────────────────────────── */
+    .how-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start; }
+    @media(max-width:700px){ .how-grid{ grid-template-columns:1fr; } }
+    .step { display:flex; gap:16px; padding:18px 0; border-bottom:1px solid var(--border); }
+    .step:first-child { padding-top:0; }
+    .step:last-child  { border-bottom:none; padding-bottom:0; }
+    .step-circle {
+      width:40px; height:40px; border-radius:50%; flex-shrink:0;
+      background:linear-gradient(135deg,var(--g-start),var(--g-end));
+      color:#fff; font-family:'Poppins',sans-serif; font-weight:700; font-size:0.95rem;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .step h4 { font-size:0.95rem; font-weight:700; margin-bottom:3px; }
+    .step p  { font-size:0.83rem; color:var(--muted); }
+    .included-card {
+      background:var(--navy); border-radius:16px; padding:28px 24px; display:flex; flex-direction:column;
+    }
+    .included-card .accent-line { width:40px; height:2px; background:linear-gradient(90deg,var(--g-start),var(--g-end)); margin-bottom:20px; }
+    .included-card h4 { font-family:'Poppins',sans-serif; font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--g-mid); margin-bottom:18px; }
+    .included-list { list-style:none; display:flex; flex-direction:column; gap:12px; margin-bottom:24px; }
+    .included-list li { display:flex; gap:10px; font-size:0.85rem; color:rgba(255,255,255,0.6); align-items:flex-start; }
+    .check-circle {
+      width:18px; height:18px; border-radius:50%; flex-shrink:0;
+      background:linear-gradient(135deg,var(--g-start),var(--g-end));
+      color:var(--navy); font-size:9px; font-weight:800;
+      display:flex; align-items:center; justify-content:center; margin-top:2px;
     }
 
-    .pillar-num {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: var(--g-mid);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
+    /* ── FOR WHO ──────────────────────────────── */
+    .fw-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    @media(max-width:560px){ .fw-grid{ grid-template-columns:1fr; } }
+    .fw-box { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:24px; }
+    .fw-title { font-family:'Poppins',sans-serif; font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:18px; }
+    .fw-list  { list-style:none; display:flex; flex-direction:column; gap:10px; }
+    .fw-list li { display:flex; gap:9px; font-size:0.87rem; color:var(--muted); }
+    .fw-yes .fw-title { color:var(--green); }
+    .fw-no  .fw-title { color:var(--red); }
+    .fw-yes .fw-list li::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; }
+    .fw-no  .fw-list li::before { content:'✗'; color:var(--red);   font-weight:700; flex-shrink:0; }
 
-    .pillar h4 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 7px;
-    }
-
-    .pillar p {
-      font-size: 0.84rem;
-      color: var(--muted);
-    }
-
-    /* ─── STEPS ───────────────────────────────── */
-    .steps { margin-top: 32px; display: flex; flex-direction: column; gap: 0; }
-
-    .step {
-      display: flex;
-      gap: 22px;
-      padding: 22px 0;
-      border-bottom: 1px solid var(--border);
-      align-items: flex-start;
-    }
-
-    .step:last-child { border-bottom: none; }
-
-    .step-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--g-start), var(--g-end));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .step h4 { font-size: 0.98rem; font-weight: 700; margin-bottom: 3px; }
-    .step p { font-size: 0.85rem; color: var(--muted); }
-
-    /* ─── FOR WHO ─────────────────────────────── */
-    .for-who-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 32px;
-    }
-
-    @media (max-width: 580px) { .for-who-grid { grid-template-columns: 1fr; } }
-
-    .fw-box {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 28px 24px;
-    }
-
-    .fw-box h4 {
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 18px;
-    }
-
-    .fw-box.yes h4 { color: var(--success); }
-    .fw-box.no h4 { color: var(--danger); }
-
-    .fw-box ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-
-    .fw-box ul li {
-      display: flex;
-      gap: 10px;
-      font-size: 0.88rem;
-      color: var(--muted);
-      align-items: flex-start;
-    }
-
-    .fw-box.yes ul li .check { color: var(--success); font-weight: 700; flex-shrink: 0; }
-    .fw-box.no ul li .check { color: var(--danger); font-weight: 700; flex-shrink: 0; }
-
-    /* ─── MENTORS ─────────────────────────────── */
-    .mentors-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 24px;
-      margin-top: 36px;
-    }
-
-    .mentor-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      text-align: center;
-    }
-
+    /* ── MENTORS ──────────────────────────────── */
+    .mentors-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+    @media(max-width:660px){ .mentors-grid{ grid-template-columns:1fr; } }
+    .mentor-card { background:#fff; border:1px solid var(--border); border-radius:16px; overflow:hidden; text-align:center; box-shadow:0 1px 6px rgba(0,0,0,0.05); }
     .mentor-photo {
-      width: 100%;
-      aspect-ratio: 4/3.8;
-      object-fit: cover;
-      object-position: top center;
-      display: block;
+      width:100%; aspect-ratio:4/3.8; overflow:hidden;
+      background:linear-gradient(160deg,var(--g-start) 0%,var(--g-mid) 50%,var(--g-end) 100%);
+      position:relative;
     }
+    .mentor-photo img { width:100%; height:100%; object-fit:cover; object-position:top center; display:block; }
+    .mentor-info { padding:18px 16px 22px; }
+    .mentor-info h4 { font-size:1rem; font-weight:700; margin-bottom:5px; }
+    .mentor-info p  { font-size:0.82rem; color:var(--muted); line-height:1.45; }
 
-    .mentor-photo-placeholder {
-      width: 100%;
-      aspect-ratio: 4/3.8;
-      background: linear-gradient(160deg, #3dd63a 0%, #2bbfa0 50%, #29b4f6 100%);
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
+    /* ── AUTHORITY ────────────────────────────── */
+    .auth-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; }
+    @media(max-width:700px){ .auth-grid{ grid-template-columns:1fr; } }
+    .stats { display:flex; gap:36px; flex-wrap:wrap; margin-top:32px; }
+    .stat-value {
+      font-family:'Poppins',sans-serif; font-size:2.6rem; font-weight:800; line-height:1;
+      background:linear-gradient(135deg,var(--g-start),var(--g-end));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     }
-
-    .mentor-photo-placeholder img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top center;
+    .stat-label { font-size:0.78rem; color:rgba(255,255,255,0.38); margin-top:4px; }
+    .logo-card {
+      background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
+      border-radius:16px; padding:32px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center;
     }
+    .logo-card .brand-name { font-family:'Poppins',sans-serif; font-weight:700; color:#fff; font-size:1rem; }
+    .logo-card .brand-sub  { font-size:0.75rem; color:rgba(255,255,255,0.35); }
+    .logo-card .brand-note { font-size:0.78rem; color:rgba(255,255,255,0.35); line-height:1.5; }
 
-    .mentor-initials {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: 'Poppins', sans-serif;
-      font-size: 2.8rem;
-      font-weight: 800;
-      color: rgba(255,255,255,0.4);
+    /* ── FINAL CTA ────────────────────────────── */
+    .final-cta { text-align:center; padding:96px 0; }
+    .final-cta h2 { font-size:clamp(1.8rem,4vw,2.5rem); font-weight:700; max-width:600px; margin:0 auto 16px; line-height:1.25; }
+    .final-cta p  { color:var(--muted); font-size:0.97rem; max-width:480px; margin:0 auto 36px; }
+    .final-note   { color:#d1d5db; font-size:0.75rem; margin-top:12px; }
+
+    /* ── FOOTER ───────────────────────────────── */
+    footer { background:var(--navy); padding:36px 0; text-align:center; }
+    footer .flogo { display:inline-flex; align-items:center; gap:10px; margin-bottom:10px; }
+    footer p { font-size:0.78rem; color:rgba(255,255,255,0.25); }
+
+    /* ── MODAL ────────────────────────────────── */
+    .modal-overlay {
+      display:none; position:fixed; inset:0; z-index:200;
+      background:rgba(10,12,30,0.78);
+      backdrop-filter:blur(4px);
+      align-items:center; justify-content:center; padding:16px;
     }
-
-    .mentor-info {
-      padding: 20px 20px 24px;
+    .modal-overlay.active { display:flex; }
+    .modal {
+      background:var(--navy); width:100%; max-width:420px;
+      border-radius:18px; overflow:hidden; position:relative;
+      box-shadow:0 24px 80px rgba(0,0,0,0.5);
+      animation: modalIn 0.2s ease;
     }
-
-    .mentor-name {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-      color: var(--navy);
+    @keyframes modalIn {
+      from { opacity:0; transform:translateY(16px) scale(0.97); }
+      to   { opacity:1; transform:none; }
     }
-
-    .mentor-role {
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.45;
+    .modal-accent { height:3px; background:linear-gradient(90deg,var(--g-start),var(--g-mid),var(--g-end)); }
+    .modal-close {
+      position:absolute; top:14px; right:16px;
+      background:none; border:none; color:rgba(255,255,255,0.35);
+      font-size:1.2rem; cursor:pointer; line-height:1; padding:4px;
+      transition:color 0.15s;
     }
-
-    /* ─── PRICING ─────────────────────────────── */
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 32px;
-    }
-
-    @media (max-width: 540px) { .pricing-grid { grid-template-columns: 1fr; } }
-
-    .price-card {
-      background: #fff;
-      border: 2px solid var(--border);
-      border-radius: 10px;
-      padding: 32px 28px;
-      position: relative;
-    }
-
-    .price-card.featured {
-      border-color: transparent;
-      background: var(--navy);
-    }
-
-    .price-card.featured * { color: #fff; }
-    .price-card.featured .price-muted { color: rgba(255,255,255,0.55); }
-    .price-card.featured .price-features li { color: rgba(255,255,255,0.75); }
-
-    .price-pop {
-      position: absolute;
-      top: -12px; left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(90deg, var(--g-start), var(--g-end));
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 4px 14px;
-      border-radius: 20px;
-      white-space: nowrap;
-    }
-
-    .price-tag {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--g-mid);
-      margin-bottom: 10px;
-    }
-
-    .price-card.featured .price-tag { color: #6ff0c0; }
-
-    .price-value {
-      font-family: 'Poppins', sans-serif;
-      font-size: 2.4rem;
-      font-weight: 800;
-      color: var(--navy);
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-
-    .price-muted {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-bottom: 24px;
-    }
-
-    .price-features {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-    }
-
-    .price-features li {
-      font-size: 0.87rem;
-      color: var(--muted);
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
-    }
-
-    .price-features li .chk { color: var(--success); font-weight: 700; flex-shrink: 0; }
-
-    /* ─── FORM ────────────────────────────────── */
-    .form-wrap {
-      background: var(--navy);
-      border-radius: 12px;
-      padding: 48px 44px;
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    @media (max-width: 600px) { .form-wrap { padding: 32px 20px; } }
-
-    .form-wrap h2 { color: #fff; }
-    .form-wrap p { color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-top: 8px; margin-bottom: 28px; }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 14px;
-    }
-
+    .modal-close:hover { color:rgba(255,255,255,0.75); }
+    .modal-body { padding:28px 28px 32px; }
+    .modal-body .eyebrow { color:var(--g-mid); }
+    .modal-body h3 { font-family:'Poppins',sans-serif; font-size:1.4rem; font-weight:700; color:#fff; margin-bottom:6px; }
+    .modal-body .modal-sub { font-size:0.85rem; color:rgba(255,255,255,0.42); margin-bottom:24px; }
+    .form-group { display:flex; flex-direction:column; gap:5px; margin-bottom:14px; }
     .form-group label {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.5);
+      font-family:'Poppins',sans-serif; font-size:0.68rem; font-weight:600;
+      letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.38);
     }
-
-    .form-group input,
-    .form-group select {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
-      padding: 13px 16px;
-      border-radius: 6px;
-      outline: none;
-      transition: border-color 0.15s;
-      -webkit-appearance: none;
+    .form-group input {
+      background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1);
+      color:#fff; font-family:'Inter',sans-serif; font-size:0.93rem;
+      padding:12px 14px; border-radius:8px; outline:none; transition:border-color 0.15s;
     }
+    .form-group input::placeholder { color:rgba(255,255,255,0.2); }
+    .form-group input:focus { border-color:var(--g-mid); }
+    .form-note { text-align:center; font-size:0.73rem; color:rgba(255,255,255,0.22); margin-top:10px; }
+    .success-state { display:none; text-align:center; padding:20px 0; }
+    .success-state .big { font-size:3rem; margin-bottom:12px; }
+    .success-state h3 { color:#6ff0a0; font-size:1.1rem; margin-bottom:8px; }
+    .success-state p { color:rgba(255,255,255,0.45); font-size:0.85rem; line-height:1.6; }
+    .success-close { margin-top:16px; background:none; border:none; color:rgba(255,255,255,0.35); font-size:0.83rem; cursor:pointer; }
+    .success-close:hover { color:rgba(255,255,255,0.65); }
 
-    .form-group select option { background: var(--navy); }
-
-    .form-group input:focus,
-    .form-group select:focus {
-      border-color: var(--g-mid);
-    }
-
-    .form-group input::placeholder { color: rgba(255,255,255,0.25); }
-
-    .form-notice {
-      font-size: 0.78rem;
-      color: rgba(255,255,255,0.4);
-      text-align: center;
-      margin-top: 12px;
-    }
-
-    #success-msg {
-      display: none;
-      text-align: center;
-      padding: 32px 16px;
-    }
-
-    #success-msg .icon-big { font-size: 2.5rem; margin-bottom: 12px; }
-    #success-msg h3 { color: #6ff0a0; font-size: 1.2rem; margin-bottom: 8px; }
-    #success-msg p { color: rgba(255,255,255,0.55); font-size: 0.88rem; }
-
-    /* ─── FOOTER ──────────────────────────────── */
-    footer {
-      background: var(--navy);
-      padding: 36px 24px;
-      text-align: center;
-    }
-
-    footer .footer-logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    footer p {
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.35);
-    }
-
-    footer .footer-logo .logo-text { color: #fff; }
-    footer .footer-logo .logo-text span { color: rgba(255,255,255,0.45); }
-
-    /* ─── RESPONSIVE ──────────────────────────── */
-    @media (max-width: 680px) {
-      .cd-inner { flex-direction: column; align-items: flex-start; }
-      .mentors-grid { grid-template-columns: 1fr 1fr; }
-    }
-
-    @media (max-width: 480px) {
-      .mentors-grid { grid-template-columns: 1fr; }
-      .cd-num { width: 58px; height: 58px; font-size: 1.8rem; }
-    }
+    /* ── LOGO SVG ─────────────────────────────── */
+    .logo-svg { flex-shrink:0; }
   </style>
 </head>
 <body>
 
   <!-- TOP BAR -->
-  <div class="topbar">
-    🔒 Pré-inscrição aberta — Vagas liberadas em 02/04 às 12h00
-  </div>
+  <div class="topbar">🔒 Pré-inscrição aberta — Vagas liberadas em 02/04 às 12h00</div>
 
   <!-- NAV -->
   <nav>
     <div class="nav-inner">
       <a href="#" class="logo">
-        <!-- SVG Logo Mark -->
-        <svg width="38" height="46" viewBox="0 0 60 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="logo-svg" width="34" height="42" viewBox="0 0 60 72" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="logoGrad" x1="30" y1="0" x2="30" y2="72" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#3dd63a"/>
-              <stop offset="45%" stop-color="#2bbfa0"/>
-              <stop offset="100%" stop-color="#29b4f6"/>
+            <linearGradient id="lg1" x1="30" y1="0" x2="30" y2="72" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#3dd63a"/><stop offset="45%" stop-color="#2bbfa0"/><stop offset="100%" stop-color="#29b4f6"/>
             </linearGradient>
           </defs>
-          <!-- Top arcs (right-curving, upper half of S) -->
-          <path d="M8,38 C8,16 28,4 48,8" stroke="url(#logoGrad)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-          <path d="M14,38 C14,20 30,11 46,14" stroke="url(#logoGrad)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-          <path d="M20,38 C20,24 32,18 44,21" stroke="url(#logoGrad)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-          <!-- Bottom arcs (left-curving, lower half of S) -->
-          <path d="M52,34 C52,56 32,68 12,64" stroke="url(#logoGrad)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-          <path d="M46,34 C46,52 30,61 14,58" stroke="url(#logoGrad)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-          <path d="M40,34 C40,48 28,54 16,51" stroke="url(#logoGrad)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M8,38 C8,16 28,4 48,8"    stroke="url(#lg1)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+          <path d="M14,38 C14,20 30,11 46,14" stroke="url(#lg1)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <path d="M20,38 C20,24 32,18 44,21" stroke="url(#lg1)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M52,34 C52,56 32,68 12,64" stroke="url(#lg1)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+          <path d="M46,34 C46,52 30,61 14,58" stroke="url(#lg1)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <path d="M40,34 C40,48 28,54 16,51" stroke="url(#lg1)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
         </svg>
-        <div class="logo-text">Sevilha Performance<span>Clube da Performance</span></div>
+        <div class="logo-text">
+          <div class="name">Sevilha Performance</div>
+          <div class="sub">Clube da Performance</div>
+        </div>
       </a>
-      <a href="#pre-inscricao" class="nav-cta">Pré-inscrição</a>
+      <button class="btn btn-sm open-modal">Fazer pré-inscrição</button>
     </div>
   </nav>
 
   <!-- HERO -->
   <div class="hero">
     <div class="container">
-      <div class="hero-badge">🏆 Clube da Performance</div>
-      <h1>Mentoria para donos de contabilidade que querem <span class="grad-text">sair do caos</span> e construir um negócio de verdade</h1>
+      <div class="hero-badge">Mentoria Exclusiva · Sevilha Performance</div>
+      <h1>Mentoria para donos de contabilidade que querem <span class="grad-text">sair do caos operacional</span> e construir um negócio de verdade</h1>
       <p class="sub">Uma jornada prática para estruturar estratégia, operação, finanças e pessoas — sem fórmula mágica e com aplicação direta no seu dia a dia.</p>
       <ul class="hero-bullets">
         <li>1 encontro semanal ao vivo — exclusivo para donos</li>
@@ -799,137 +383,169 @@
         <li>Conteúdo baseado em +450 contabilidades atendidas</li>
         <li>Sem fidelidade — fica só se fizer sentido</li>
       </ul>
-      <a href="#pre-inscricao" class="btn-grad">Garantir minha pré-inscrição &rarr;</a>
+      <button class="btn btn-lg open-modal">Garantir minha pré-inscrição →</button>
+      <p class="hero-note">Sem compromisso. Vagas limitadas.</p>
     </div>
   </div>
 
   <!-- COUNTDOWN -->
-  <div class="countdown-wrap">
+  <div class="countdown-sec">
     <div class="container">
-      <div class="cd-inner">
+      <div class="cd-wrap">
         <div class="cd-text">
-          <div class="cd-label">Abertura das vagas</div>
-          <h2>Vagas liberadas em<br/>02/04 às 12h00</h2>
+          <div class="eyebrow">Abertura das vagas</div>
+          <h2>Vagas liberadas em 02/04 às 12h00</h2>
           <p>Faça sua pré-inscrição agora e receba o link de acesso antes de todo mundo.</p>
-          <br/>
-          <a href="#pre-inscricao" class="btn-grad">Quero minha pré-inscrição</a>
+          <button class="btn btn-md open-modal">Quero minha pré-inscrição →</button>
         </div>
         <div class="cd-timer">
-          <div class="cd-unit">
-            <div class="cd-num" id="cd-days">--</div>
-            <div class="cd-lbl">Dias</div>
-          </div>
+          <div class="cd-unit"><div class="cd-num" id="cd-d">--</div><div class="cd-lbl">Dias</div></div>
           <div class="cd-sep">:</div>
-          <div class="cd-unit">
-            <div class="cd-num" id="cd-hours">--</div>
-            <div class="cd-lbl">Horas</div>
-          </div>
+          <div class="cd-unit"><div class="cd-num" id="cd-h">--</div><div class="cd-lbl">Horas</div></div>
           <div class="cd-sep">:</div>
-          <div class="cd-unit">
-            <div class="cd-num" id="cd-mins">--</div>
-            <div class="cd-lbl">Min</div>
-          </div>
+          <div class="cd-unit"><div class="cd-num" id="cd-m">--</div><div class="cd-lbl">Min</div></div>
           <div class="cd-sep">:</div>
-          <div class="cd-unit">
-            <div class="cd-num" id="cd-secs">--</div>
-            <div class="cd-lbl">Seg</div>
-          </div>
+          <div class="cd-unit"><div class="cd-num" id="cd-s">--</div><div class="cd-lbl">Seg</div></div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- PROBLEM -->
-  <section class="alt">
-    <div class="container">
-      <div class="section-eyebrow">O problema</div>
-      <div class="section-title">Se você tem uma contabilidade com até 10 colaboradores, provavelmente está vivendo isso:</div>
-      <ul class="pain-list">
-        <li><span class="icon">📉</span>O faturamento cresce… mas a margem não acompanha</li>
-        <li><span class="icon">🔥</span>O time trabalha muito, mas você sente desorganização constante</li>
-        <li><span class="icon">🧭</span>Falta clareza de estratégia — crescer? nichar? ajustar preço ou valor?</li>
-        <li><span class="icon">⚙️</span>Você resolve tudo e não consegue sair da operação</li>
-        <li><span class="icon">😮‍💨</span>Sensação constante de estar "apagando incêndio"</li>
-      </ul>
-      <p class="pain-close">Você não está sozinho — isso é reflexo de um mercado que ficou mais complexo e exige gestão de verdade.</p>
-    </div>
-  </section>
-
-  <!-- VIRADA -->
   <section>
     <div class="container">
-      <div class="section-eyebrow">A virada</div>
-      <div class="section-title">O problema não é técnico. É gestão.</div>
-      <div class="section-sub">
-        Durante anos, ser bom tecnicamente sustentava uma contabilidade. Hoje isso não é mais suficiente.<br/><br/>
-        Para crescer, você precisa dominar estratégia, finanças, processos e pessoas. Sem isso, sua empresa trava — mesmo com muito esforço.
+      <div class="eyebrow">O Problema</div>
+      <div class="sec-title">Se você tem uma contabilidade com até 10 colaboradores, provavelmente está vivendo isso:</div>
+      <div class="pain-grid">
+        <div class="pain-item"><span class="icon">📉</span>O faturamento cresce… mas a margem não acompanha</div>
+        <div class="pain-item"><span class="icon">🔥</span>O time trabalha muito, mas você sente desorganização</div>
+        <div class="pain-item"><span class="icon">🧭</span>Falta clareza de estratégia — crescer? nichar? precificar?</div>
+        <div class="pain-item"><span class="icon">⚙️</span>Você resolve tudo e não consegue sair da operação</div>
+        <div class="pain-item"><span class="icon">📊</span>Não há gestão financeira real no seu negócio</div>
+        <div class="pain-item"><span class="icon">😮‍💨</span>Sensação constante de estar "apagando incêndio"</div>
+      </div>
+      <div class="pain-callout">
+        <p>Você não está sozinho — isso é reflexo de um mercado que ficou mais complexo e exige <strong>gestão de verdade</strong>. <span class="grad-text" style="-webkit-text-fill-color:unset; background:none; color:#3dd63a; font-weight:600;">A boa notícia: tem solução.</span></p>
+        <button class="btn btn-sm open-modal">Quero a solução →</button>
       </div>
     </div>
   </section>
 
-  <!-- MÉTODO / PILARES -->
-  <section class="alt">
+  <!-- BREAK BELIEF -->
+  <section class="dark">
     <div class="container">
-      <div class="section-eyebrow">O Método</div>
-      <div class="section-title">Você vai evoluir sua contabilidade em 4 dimensões</div>
-      <div class="pillars-grid">
-        <div class="pillar">
-          <div class="pillar-num">Dimensão 01</div>
-          <h4>Estratégia e Finanças</h4>
-          <p>Clareza de direção, metas e resultado financeiro real.</p>
+      <div class="eyebrow">A Virada</div>
+      <h2 class="sec-title" style="color:#fff; max-width:520px;">O problema não é técnico. <span class="grad-text">É gestão.</span></h2>
+      <p class="sec-sub" style="color:rgba(255,255,255,0.5);">Durante anos, ser bom tecnicamente sustentava uma contabilidade. Hoje isso não é mais suficiente. Para crescer de verdade, você precisa dominar quatro pilares:</p>
+      <div class="tags">
+        <span class="tag">Estratégia</span>
+        <span class="tag">Gestão Financeira</span>
+        <span class="tag">Processos</span>
+        <span class="tag">Pessoas</span>
+      </div>
+      <p style="color:rgba(255,255,255,0.35); font-size:0.85rem; max-width:400px;">Sem dominar esses pilares, sua empresa trava — mesmo com muito esforço e dedicação.</p>
+    </div>
+  </section>
+
+  <!-- BIG IDEA -->
+  <section class="dark2">
+    <div class="container">
+      <div class="two-col">
+        <div>
+          <h2 style="color:#fff; font-size:clamp(1.5rem,3.5vw,2.1rem); margin-bottom:20px; line-height:1.3;">
+            O Clube da Performance não é mais um curso. <span class="grad-text">É uma jornada de gestão.</span>
+          </h2>
+          <p style="color:rgba(255,255,255,0.5); font-size:0.9rem; line-height:1.7; margin-bottom:24px;">
+            Essa mentoria foi criada a partir da vivência real no mercado contábil — não de teoria. Aqui você não vai encontrar fórmula mágica nem conteúdo genérico. Vai encontrar reflexão prática, aplicação real e evolução contínua.
+          </p>
+          <button class="btn btn-md open-modal">Quero entrar →</button>
         </div>
-        <div class="pillar">
-          <div class="pillar-num">Dimensão 02</div>
-          <h4>Operação</h4>
-          <p>Processos mais eficientes, menos retrabalho, mais previsibilidade.</p>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div class="dark-box">
+            <div class="dark-box-label red">✗ Você não vai encontrar</div>
+            <ul class="dark-list">
+              <li><span style="color:#f87171; flex-shrink:0;">—</span>Fórmula mágica ou atalho</li>
+              <li><span style="color:#f87171; flex-shrink:0;">—</span>"Aperta botão e resolve"</li>
+              <li><span style="color:#f87171; flex-shrink:0;">—</span>Conteúdo genérico sem aplicação</li>
+            </ul>
+          </div>
+          <div class="dark-box">
+            <div class="dark-box-label green">✓ Você vai encontrar</div>
+            <ul class="dark-list">
+              <li><span style="color:#3dd63a; flex-shrink:0;">✓</span>Reflexão prática e aplicável</li>
+              <li><span style="color:#3dd63a; flex-shrink:0;">✓</span>Aplicação real no seu negócio</li>
+              <li><span style="color:#3dd63a; flex-shrink:0;">✓</span>Evolução contínua com método</li>
+            </ul>
+          </div>
         </div>
-        <div class="pillar">
-          <div class="pillar-num">Dimensão 03</div>
-          <h4>Pessoas</h4>
-          <p>Desenvolvimento e alinhamento do time para crescer com você.</p>
-        </div>
-        <div class="pillar">
-          <div class="pillar-num">Dimensão 04</div>
-          <h4>Propósito</h4>
-          <p>Posicionamento claro do seu negócio no mercado contábil.</p>
-        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILLARS -->
+  <section>
+    <div class="container">
+      <div class="eyebrow">O Método</div>
+      <h2 class="sec-title">Você vai evoluir sua contabilidade em <span class="grad-text">4 dimensões</span></h2>
+      <div class="pillars">
+        <div class="pillar"><div class="pillar-num">Dimensão 01</div><h4>Estratégia e Finanças</h4><p>Clareza de direção, metas e resultado financeiro real.</p></div>
+        <div class="pillar"><div class="pillar-num">Dimensão 02</div><h4>Operação</h4><p>Processos eficientes, menos retrabalho, mais previsibilidade.</p></div>
+        <div class="pillar"><div class="pillar-num">Dimensão 03</div><h4>Pessoas</h4><p>Desenvolvimento e alinhamento do time para crescer com você.</p></div>
+        <div class="pillar"><div class="pillar-num">Dimensão 04</div><h4>Propósito</h4><p>Posicionamento claro do seu negócio no mercado contábil.</p></div>
       </div>
     </div>
   </section>
 
   <!-- HOW IT WORKS -->
+  <section class="alt">
+    <div class="container">
+      <div class="eyebrow">Como Funciona</div>
+      <h2 class="sec-title">Uma rotina simples, mas <span class="grad-text">poderosa</span></h2>
+      <div class="how-grid">
+        <div>
+          <div class="step"><div class="step-circle">1</div><div><h4>1 encontro ao vivo por semana</h4><p>Sessão exclusiva para donos — sem dispersão, foco total em gestão.</p></div></div>
+          <div class="step"><div class="step-circle">2</div><div><h4>Tema semanal com rotação</h4><p>Estratégia, operação, pessoas ou tema atual do mercado.</p></div></div>
+          <div class="step"><div class="step-circle">3</div><div><h4>Aplicação prática ("para casa")</h4><p>Cada sessão termina com uma ação concreta para a semana.</p></div></div>
+        </div>
+        <div class="included-card">
+          <div class="accent-line"></div>
+          <h4>Tudo que está incluído</h4>
+          <ul class="included-list">
+            <li><div class="check-circle">✓</div>Encontros ao vivo exclusivos para donos</li>
+            <li><div class="check-circle">✓</div>Aulas gravadas para revisar quando quiser</li>
+            <li><div class="check-circle">✓</div>Grupo de troca com outros donos</li>
+            <li><div class="check-circle">✓</div>Aplicação prática com acompanhamento</li>
+            <li><div class="check-circle">✓</div>Conteúdo de +450 contabilidades atendidas</li>
+            <li><div class="check-circle">✓</div>Acesso ao calendário de temas mensais</li>
+          </ul>
+          <button class="btn btn-full open-modal">Quero participar →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOR WHO -->
   <section>
     <div class="container">
-      <div class="section-eyebrow">Como funciona</div>
-      <div class="section-title">Uma rotina simples, mas poderosa</div>
-      <div class="steps">
-        <div class="step">
-          <div class="step-icon">1</div>
-          <div>
-            <h4>1 encontro ao vivo por semana</h4>
-            <p>Sessão exclusiva para donos — sem dispersão, com foco total em gestão.</p>
-          </div>
+      <h2 class="sec-title">Essa mentoria é pra <span class="grad-text">você?</span></h2>
+      <div class="fw-grid">
+        <div class="fw-box fw-yes">
+          <div class="fw-title">Para quem é</div>
+          <ul class="fw-list">
+            <li>Donos de contabilidade com até 10 colaboradores</li>
+            <li>Quem quer estruturar a empresa de verdade</li>
+            <li>Quem sente que está perdido no crescimento</li>
+            <li>Quem quer sair do operacional definitivamente</li>
+          </ul>
         </div>
-        <div class="step">
-          <div class="step-icon">2</div>
-          <div>
-            <h4>Tema semanal com rotação</h4>
-            <p>Estratégia, operação, pessoas ou tema atual do mercado contábil.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-icon">3</div>
-          <div>
-            <h4>Aplicação prática ("para casa")</h4>
-            <p>Cada sessão termina com uma ação concreta para você implementar na semana.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-icon">4</div>
-          <div>
-            <h4>Aulas gravadas + grupo de troca</h4>
-            <p>Acesso ao histórico e uma comunidade de donos discutindo problemas reais.</p>
-          </div>
+        <div class="fw-box fw-no">
+          <div class="fw-title">Para quem não é</div>
+          <ul class="fw-list">
+            <li>Quem busca solução mágica ou atalho rápido</li>
+            <li>Quem não quer executar o que for discutido</li>
+            <li>Quem quer só mais conteúdo técnico contábil</li>
+            <li>Quem não está disposto a mudar sua gestão</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -938,220 +554,213 @@
   <!-- MENTORS -->
   <section class="alt">
     <div class="container">
-      <div class="section-eyebrow">Quem entrega</div>
-      <div class="section-title">Mentores com trajetória real no mercado contábil</div>
-      <div class="section-sub">Nada de teoria. O que você vai encontrar aqui é experiência acumulada em centenas de escritórios.</div>
+      <div class="eyebrow">Os Mentores</div>
+      <h2 class="sec-title">Os mentores do <span class="grad-text">Clube da Performance</span></h2>
       <div class="mentors-grid">
-
         <div class="mentor-card">
-          <div class="mentor-photo-placeholder">
-            <img src="bruno.jpg" alt="Bruno Silvestre" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <div class="mentor-initials" style="display:none">BS</div>
-          </div>
-          <div class="mentor-info">
-            <div class="mentor-name">Bruno Silvestre</div>
-            <div class="mentor-role">Referência em performance e produtividade no setor contábil, com foco em entrega e margem</div>
-          </div>
+          <div class="mentor-photo"><img src="bruno.jpg" alt="Bruno Silvestre" onerror="this.style.display='none'" /></div>
+          <div class="mentor-info"><h4>Bruno Silvestre</h4><p>Referência em performance e produtividade no setor contábil, com foco em entrega e margem</p></div>
         </div>
-
         <div class="mentor-card">
-          <div class="mentor-photo-placeholder">
-            <img src="vicente.jpg" alt="Vicente Sevilha" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <div class="mentor-initials" style="display:none">VS</div>
-          </div>
-          <div class="mentor-info">
-            <div class="mentor-name">Vicente Sevilha</div>
-            <div class="mentor-role">Empresário contábil há mais de 35 anos com visão estratégica e experiência prática</div>
-          </div>
+          <div class="mentor-photo"><img src="vicente.jpg" alt="Vicente Sevilha" onerror="this.style.display='none'" /></div>
+          <div class="mentor-info"><h4>Vicente Sevilha</h4><p>Empresário contábil há mais de 35 anos com visão estratégica e experiência prática</p></div>
         </div>
-
         <div class="mentor-card">
-          <div class="mentor-photo-placeholder">
-            <img src="rodrigo.jpg" alt="Rodrigo Pires" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <div class="mentor-initials" style="display:none">RP</div>
-          </div>
-          <div class="mentor-info">
-            <div class="mentor-name">Rodrigo Pires</div>
-            <div class="mentor-role">Especialista em Gestão Organizacional e de Pessoas, há 20 anos conectando estratégia, cultura e execução</div>
-          </div>
+          <div class="mentor-photo"><img src="rodrigo.jpg" alt="Rodrigo Pires" onerror="this.style.display='none'" /></div>
+          <div class="mentor-info"><h4>Rodrigo Pires</h4><p>Especialista em Gestão Organizacional e de Pessoas, há 20 anos conectando estratégia, cultura e execução</p></div>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- FOR WHO -->
-  <section>
+  <!-- AUTHORITY -->
+  <section class="dark">
     <div class="container">
-      <div class="section-eyebrow">Compatibilidade</div>
-      <div class="section-title">Pra quem é — e pra quem não é</div>
-      <div class="for-who-grid">
-        <div class="fw-box yes">
-          <h4>É pra você se…</h4>
-          <ul>
-            <li><span class="check">✓</span>Você tem escritório com até 10 colaboradores</li>
-            <li><span class="check">✓</span>Quer estruturar a empresa de verdade</li>
-            <li><span class="check">✓</span>Sente que está perdido no crescimento</li>
-            <li><span class="check">✓</span>Quer sair do operacional e pensar mais estrategicamente</li>
-          </ul>
-        </div>
-        <div class="fw-box no">
-          <h4>Não é pra você se…</h4>
-          <ul>
-            <li><span class="check">✗</span>Você busca solução mágica ou atalho rápido</li>
-            <li><span class="check">✗</span>Não quer executar o que for discutido</li>
-            <li><span class="check">✗</span>Quer só mais conteúdo técnico contábil</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRICING -->
-  <section class="alt">
-    <div class="container">
-      <div class="section-eyebrow">Investimento</div>
-      <div class="section-title">Acessível para quem quer evoluir</div>
-      <div class="section-sub">Sem fidelidade. Sem risco. Fica só enquanto fizer sentido.</div>
-      <div class="pricing-grid">
-
-        <div class="price-card">
-          <div class="price-tag">Até 5 colaboradores</div>
-          <div class="price-value">R$ 547</div>
-          <div class="price-muted">por mês · sem fidelidade</div>
-          <ul class="price-features">
-            <li><span class="chk">✓</span>1 encontro ao vivo por semana</li>
-            <li><span class="chk">✓</span>Aulas gravadas no histórico</li>
-            <li><span class="chk">✓</span>Grupo de troca entre donos</li>
-            <li><span class="chk">✓</span>Aplicação prática semanal</li>
-          </ul>
-        </div>
-
-        <div class="price-card featured">
-          <div class="price-pop">Mais contratado</div>
-          <div class="price-tag">Até 10 colaboradores</div>
-          <div class="price-value">R$ 647</div>
-          <div class="price-muted price-muted">por mês · sem fidelidade</div>
-          <ul class="price-features">
-            <li><span class="chk">✓</span>1 encontro ao vivo por semana</li>
-            <li><span class="chk">✓</span>Aulas gravadas no histórico</li>
-            <li><span class="chk">✓</span>Grupo de troca entre donos</li>
-            <li><span class="chk">✓</span>Aplicação prática semanal</li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- FORM -->
-  <section id="pre-inscricao">
-    <div class="container">
-      <div style="text-align:center; margin-bottom:36px;">
-        <div class="section-eyebrow" style="justify-content:center; display:block;">Pré-inscrição</div>
-        <div class="section-title" style="max-width:100%; text-align:center; margin:0 auto;">Garanta seu lugar na fila</div>
-        <p style="color:var(--muted); margin-top:10px; font-size:0.93rem;">As vagas abrem em <strong>02/04 às 12h</strong>. Quem se pré-inscrever recebe o link antes de todo mundo.</p>
-      </div>
-
-      <div class="form-wrap">
-        <form id="preinscricao-form" onsubmit="handleSubmit(event)">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="nome">Nome completo</label>
-              <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
-            </div>
-            <div class="form-group">
-              <label for="email">E-mail</label>
-              <input type="email" id="email" name="email" placeholder="seu@email.com" required />
-            </div>
+      <div class="auth-grid">
+        <div>
+          <div class="eyebrow">Sobre Nós</div>
+          <h2 style="color:#fff; font-size:clamp(1.6rem,3.5vw,2.1rem); margin-bottom:16px; line-height:1.3;">
+            Sevilha Performance: <span class="grad-text">especialistas em contabilidade</span>
+          </h2>
+          <p style="color:rgba(255,255,255,0.48); font-size:0.88rem; max-width:440px; line-height:1.75;">
+            A Sevilha Performance nasceu da experiência prática no mercado contábil. Ao longo de décadas, nossos mentores acompanharam centenas de escritórios — entendendo de perto as dores, os gargalos e o que realmente funciona para crescer com solidez.
+          </p>
+          <div class="stats">
+            <div><div class="stat-value">+450</div><div class="stat-label">Contabilidades atendidas</div></div>
+            <div><div class="stat-value">100%</div><div class="stat-label">Online e ao vivo</div></div>
+            <div><div class="stat-value">0</div><div class="stat-label">Meses de fidelidade</div></div>
           </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="whatsapp">WhatsApp</label>
-              <input type="tel" id="whatsapp" name="whatsapp" placeholder="(11) 99999-9999" required />
-            </div>
-            <div class="form-group">
-              <label for="colaboradores">Número de colaboradores</label>
-              <select id="colaboradores" name="colaboradores" required>
-                <option value="" disabled selected>Selecione</option>
-                <option value="1-5">1 a 5 colaboradores</option>
-                <option value="6-10">6 a 10 colaboradores</option>
-              </select>
-            </div>
+        </div>
+        <div style="display:flex; justify-content:center;">
+          <div class="logo-card">
+            <svg width="56" height="68" viewBox="0 0 60 72" fill="none">
+              <defs>
+                <linearGradient id="lg2" x1="30" y1="0" x2="30" y2="72" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#3dd63a"/><stop offset="45%" stop-color="#2bbfa0"/><stop offset="100%" stop-color="#29b4f6"/>
+                </linearGradient>
+              </defs>
+              <path d="M8,38 C8,16 28,4 48,8"    stroke="url(#lg2)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+              <path d="M14,38 C14,20 30,11 46,14" stroke="url(#lg2)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <path d="M20,38 C20,24 32,18 44,21" stroke="url(#lg2)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+              <path d="M52,34 C52,56 32,68 12,64" stroke="url(#lg2)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+              <path d="M46,34 C46,52 30,61 14,58" stroke="url(#lg2)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <path d="M40,34 C40,48 28,54 16,51" stroke="url(#lg2)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            </svg>
+            <div class="brand-name">Sevilha Performance</div>
+            <div class="brand-sub">Clube da Performance</div>
+            <div class="brand-note">Mentoria baseada em resultado real no mercado contábil</div>
           </div>
-          <button type="submit" class="btn-grad full">
-            Quero garantir minha pré-inscrição →
-          </button>
-          <p class="form-notice">Ao se pré-inscrever, você receberá o acesso às vagas em 02/04 às 12h pelo WhatsApp e e-mail.</p>
-        </form>
-        <div id="success-msg">
-          <div class="icon-big">✅</div>
-          <h3>Pré-inscrição confirmada!</h3>
-          <p>Você receberá o link de acesso no dia 02/04 às 12h.<br/>Fique atento ao seu WhatsApp e e-mail.</p>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- FINAL CTA -->
+  <div class="final-cta">
+    <div class="container">
+      <div class="eyebrow" style="display:block; text-align:center;">Por que agora</div>
+      <h2>Comece agora — e evolua sua contabilidade <span class="grad-text">com método</span></h2>
+      <p>Você pode continuar tentando sozinho… ou acelerar seu caminho com quem já vive isso há anos.</p>
+      <button class="btn btn-lg open-modal" style="text-transform:uppercase; letter-spacing:0.04em; font-size:0.88rem;">
+        Quero entrar para o Clube da Performance
+      </button>
+      <p class="final-note">Sem fidelidade. Vagas abertas em 02/04 às 12h.</p>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-logo">
-      <svg width="30" height="36" viewBox="0 0 60 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="fLogo" x1="30" y1="0" x2="30" y2="72" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#3dd63a"/>
-            <stop offset="45%" stop-color="#2bbfa0"/>
-            <stop offset="100%" stop-color="#29b4f6"/>
-          </linearGradient>
-        </defs>
-        <path d="M8,38 C8,16 28,4 48,8" stroke="url(#fLogo)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-        <path d="M14,38 C14,20 30,11 46,14" stroke="url(#fLogo)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-        <path d="M20,38 C20,24 32,18 44,21" stroke="url(#fLogo)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-        <path d="M52,34 C52,56 32,68 12,64" stroke="url(#fLogo)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-        <path d="M46,34 C46,52 30,61 14,58" stroke="url(#fLogo)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-        <path d="M40,34 C40,48 28,54 16,51" stroke="url(#fLogo)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <div class="flogo">
+      <svg width="28" height="34" viewBox="0 0 60 72" fill="none">
+        <defs><linearGradient id="lg3" x1="30" y1="0" x2="30" y2="72" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#3dd63a"/><stop offset="45%" stop-color="#2bbfa0"/><stop offset="100%" stop-color="#29b4f6"/></linearGradient></defs>
+        <path d="M8,38 C8,16 28,4 48,8"    stroke="url(#lg3)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+        <path d="M14,38 C14,20 30,11 46,14" stroke="url(#lg3)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <path d="M20,38 C20,24 32,18 44,21" stroke="url(#lg3)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <path d="M52,34 C52,56 32,68 12,64" stroke="url(#lg3)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+        <path d="M46,34 C46,52 30,61 14,58" stroke="url(#lg3)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <path d="M40,34 C40,48 28,54 16,51" stroke="url(#lg3)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
       </svg>
-      <div class="logo-text">Sevilha Performance<span>© 2025 · Todos os direitos reservados</span></div>
+      <div class="logo-text">
+        <div class="name" style="color:#fff;">Sevilha Performance</div>
+        <div class="sub">© 2025 · Todos os direitos reservados</div>
+      </div>
     </div>
     <p>Clube da Performance · Uma iniciativa Sevilha Performance</p>
   </footer>
 
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-accent"></div>
+      <button class="modal-close" id="modal-close">✕</button>
+      <div class="modal-body">
+
+        <div id="form-state">
+          <div class="eyebrow">Pré-inscrição</div>
+          <h3>Garanta seu lugar na fila</h3>
+          <p class="modal-sub">Vagas liberadas em <strong style="color:rgba(255,255,255,0.7)">02/04 às 12h</strong>. Pré-inscritos recebem o link primeiro.</p>
+
+          <form id="preinscricao-form" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+              <label>Nome completo</label>
+              <input type="text" name="nome" placeholder="Seu nome" required />
+            </div>
+            <div class="form-group">
+              <label>E-mail</label>
+              <input type="email" name="email" placeholder="seu@email.com" required />
+            </div>
+            <div class="form-group">
+              <label>Telefone / WhatsApp</label>
+              <input type="tel" name="telefone" id="phone-input" placeholder="(11) 99999-9999" required />
+            </div>
+            <!-- UTMs ocultos -->
+            <input type="hidden" name="utm_source"   id="utm_source" />
+            <input type="hidden" name="utm_medium"   id="utm_medium" />
+            <input type="hidden" name="utm_campaign" id="utm_campaign" />
+            <input type="hidden" name="utm_term"     id="utm_term" />
+            <input type="hidden" name="utm_content"  id="utm_content" />
+
+            <button type="submit" class="btn btn-full" style="margin-top:4px;">
+              Quero garantir minha pré-inscrição →
+            </button>
+            <p class="form-note">Sem spam. Você receberá apenas o aviso de abertura das vagas.</p>
+          </form>
+        </div>
+
+        <div class="success-state" id="success-state">
+          <div class="big">✅</div>
+          <h3>Pré-inscrição confirmada!</h3>
+          <p>Você receberá o link de acesso no dia<br/><strong style="color:rgba(255,255,255,0.7)">02/04 às 12h</strong> pelo WhatsApp e e-mail.</p>
+          <button class="success-close" id="success-close-btn">Fechar</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <script>
-    // ─── COUNTDOWN ───────────────────────────────────────────────────────────
-    const target = new Date('2025-04-02T12:00:00-03:00').getTime();
-
-    function pad(n) { return String(n).padStart(2, '0'); }
-
+    // ── COUNTDOWN ─────────────────────────────────────────────────────────────
+    const TARGET = new Date('2025-04-02T12:00:00-03:00').getTime();
+    function pad(n) { return String(n).padStart(2,'0'); }
     function tick() {
-      const diff = target - Date.now();
-      if (diff <= 0) {
-        ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => {
-          document.getElementById(id).textContent = '00';
-        });
-        return;
-      }
-      document.getElementById('cd-days').textContent  = pad(Math.floor(diff / 86400000));
-      document.getElementById('cd-hours').textContent = pad(Math.floor((diff % 86400000) / 3600000));
-      document.getElementById('cd-mins').textContent  = pad(Math.floor((diff % 3600000) / 60000));
-      document.getElementById('cd-secs').textContent  = pad(Math.floor((diff % 60000) / 1000));
+      const d = Math.max(0, TARGET - Date.now());
+      document.getElementById('cd-d').textContent = pad(Math.floor(d/86400000));
+      document.getElementById('cd-h').textContent = pad(Math.floor((d%86400000)/3600000));
+      document.getElementById('cd-m').textContent = pad(Math.floor((d%3600000)/60000));
+      document.getElementById('cd-s').textContent = pad(Math.floor((d%60000)/1000));
+    }
+    tick(); setInterval(tick, 1000);
+
+    // ── UTM CAPTURE ───────────────────────────────────────────────────────────
+    const UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+    function captureUtms() {
+      const params = new URLSearchParams(window.location.search);
+      UTM_KEYS.forEach(k => {
+        const v = params.get(k) || sessionStorage.getItem(k) || '';
+        if (v) { sessionStorage.setItem(k, v); }
+        const el = document.getElementById(k);
+        if (el) el.value = sessionStorage.getItem(k) || '';
+      });
     }
 
-    tick();
-    setInterval(tick, 1000);
+    // ── MODAL ─────────────────────────────────────────────────────────────────
+    const overlay = document.getElementById('modal-overlay');
 
-    // ─── FORM ────────────────────────────────────────────────────────────────
+    function openModal() {
+      captureUtms();
+      document.getElementById('form-state').style.display = 'block';
+      document.getElementById('success-state').style.display = 'none';
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.open-modal').forEach(el => el.addEventListener('click', openModal));
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('success-close-btn').addEventListener('click', closeModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // ── FORM ──────────────────────────────────────────────────────────────────
     function handleSubmit(e) {
       e.preventDefault();
-      document.getElementById('preinscricao-form').style.display = 'none';
-      document.getElementById('success-msg').style.display = 'block';
+      const data = new FormData(e.target);
+      // TODO: enviar para seu backend/CRM
+      console.log('Dados:', Object.fromEntries(data));
+      document.getElementById('form-state').style.display = 'none';
+      document.getElementById('success-state').style.display = 'block';
     }
 
-    // ─── WHATSAPP MASK ───────────────────────────────────────────────────────
-    document.getElementById('whatsapp').addEventListener('input', function(e) {
-      let v = e.target.value.replace(/\D/g, '').slice(0, 11);
-      if (v.length > 6) v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
-      else if (v.length > 2) v = '(' + v.slice(0,2) + ') ' + v.slice(2);
-      else if (v.length > 0) v = '(' + v;
+    // ── PHONE MASK ────────────────────────────────────────────────────────────
+    document.getElementById('phone-input').addEventListener('input', function(e) {
+      let v = e.target.value.replace(/\D/g,'').slice(0,11);
+      if (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+      else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+      else if (v.length > 0) v = `(${v}`;
       e.target.value = v;
     });
   </script>
