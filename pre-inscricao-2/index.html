@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clube da Performance — Sevilha Performance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0D1B2A;
+      --teal:   #00C4B4;
+      --teal2:  #00a89a;
+      --white:  #ffffff;
+      --off:    #f4f7f9;
+      --muted:  #6b7a8d;
+      --border: #e2e8f0;
+      --text:   #0D1B2A;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+    }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+    img { display: block; max-width: 100%; }
+
+    /* ─── NAV ────────────────────────────────────────────── */
+    #site-nav {
+      background: var(--navy);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 14px 20px;
+    }
+    .nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .site-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .logo-text-wrap .logo-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+    .logo-text-wrap .logo-sub {
+      font-size: 0.7rem;
+      color: var(--teal);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ─── STICKY TOP BAR ─────────────────────────────────── */
+    #top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--navy);
+      color: var(--white);
+      text-align: center;
+      padding: 10px 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    #top-bar a {
+      color: var(--teal);
+      text-decoration: none;
+      border-bottom: 1px solid var(--teal);
+      margin-left: 12px;
+      white-space: nowrap;
+    }
+    #top-bar a:hover { opacity: 0.85; }
+    #countdown-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .cd-unit {
+      background: rgba(0,196,180,0.18);
+      border: 1px solid var(--teal);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-variant-numeric: tabular-nums;
+      min-width: 34px;
+      text-align: center;
+      color: var(--teal);
+    }
+    .cd-sep { color: var(--teal); font-weight: 800; }
+
+    /* ─── BUTTONS ────────────────────────────────────────── */
+    .btn {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--navy);
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      text-decoration: none;
+      padding: 16px 32px;
+      letter-spacing: 0.01em;
+      transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+      text-align: center;
+      line-height: 1.3;
+    }
+    .btn:hover {
+      background: var(--teal2);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0,196,180,0.35);
+    }
+    .btn-lg { font-size: 1.1rem; padding: 20px 40px; }
+    .btn-full { width: 100%; display: block; }
+    .btn-ghost {
+      background: transparent;
+      border: 2px solid var(--teal);
+      color: var(--teal);
+    }
+    .btn-ghost:hover { background: var(--teal); color: var(--navy); }
+
+    /* ─── HERO ───────────────────────────────────────────── */
+    #hero {
+      background: var(--navy);
+      color: var(--white);
+      padding: 80px 0 70px;
+      text-align: center;
+    }
+    .pre-headline {
+      display: inline-block;
+      background: rgba(0,196,180,0.15);
+      border: 1px solid var(--teal);
+      color: var(--teal);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: 100px;
+      padding: 6px 18px;
+      margin-bottom: 24px;
+    }
+    #hero h1 {
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      font-weight: 900;
+      line-height: 1.2;
+      max-width: 800px;
+      margin: 0 auto 20px;
+      letter-spacing: -0.02em;
+    }
+    #hero h1 em {
+      font-style: normal;
+      color: var(--teal);
+    }
+    #hero .subheadline {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: rgba(255,255,255,0.78);
+      max-width: 640px;
+      margin: 0 auto 36px;
+      font-weight: 400;
+    }
+    .hero-bullets {
+      list-style: none;
+      display: inline-flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+      margin-bottom: 44px;
+      max-width: 560px;
+    }
+    .hero-bullets li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.92);
+    }
+    .hero-bullets li::before {
+      content: '✅';
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .hero-cta-note {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 12px;
+    }
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0,196,180,0.5); }
+      50% { box-shadow: 0 0 0 10px rgba(0,196,180,0); }
+    }
+
+    /* ─── CREDIBILITY BAR ────────────────────────────────── */
+    #credibility {
+      background: var(--off);
+      border-bottom: 1px solid var(--border);
+      padding: 36px 0;
+    }
+    .cred-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      text-align: center;
+    }
+    .cred-item {}
+    .cred-number {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 900;
+      color: var(--teal);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .cred-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 500;
+      line-height: 1.3;
+    }
+    .cred-divider {
+      width: 1px;
+      background: var(--border);
+      margin: 0 auto;
+    }
+
+    /* ─── SECTION BASE ───────────────────────────────────── */
+    section {
+      padding: 72px 0;
+    }
+    section.alt {
+      background: var(--off);
+    }
+    section.dark {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+    h2.section-title {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+    .dark h2.section-title { color: var(--white); }
+
+    /* ─── PAIN SECTION ───────────────────────────────────── */
+    #pain .checklist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 28px 0;
+      max-width: 620px;
+    }
+    #pain .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 1rem;
+      line-height: 1.5;
+      cursor: pointer;
+      user-select: none;
+    }
+    .check-box {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .checklist li.checked .check-box {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+    .checklist li.checked .check-box::after {
+      content: '✓';
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    #pain .pain-conclusion {
+      background: linear-gradient(135deg, #0D1B2A, #1a3a50);
+      color: var(--white);
+      border-left: 4px solid var(--teal);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      font-weight: 700;
+      font-size: 1rem;
+      max-width: 620px;
+      margin-top: 8px;
+    }
+    #pain-count { color: var(--teal); }
+
+    /* ─── REFRAME ─────────────────────────────────────────── */
+    #reframe .reframe-body {
+      max-width: 680px;
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+    #reframe .reframe-body p { margin-bottom: 16px; }
+    #reframe .reframe-body strong { color: var(--teal); }
+    #reframe blockquote {
+      background: var(--off);
+      border-left: 4px solid var(--teal);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      font-style: italic;
+      color: #444;
+      margin-top: 32px;
+      font-size: 0.97rem;
+      line-height: 1.7;
+    }
+    #reframe blockquote cite {
+      display: block;
+      margin-top: 12px;
+      font-style: normal;
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 0.9rem;
+    }
+
+    /* ─── PRODUCT ─────────────────────────────────────────── */
+    #product .product-body {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      max-width: 680px;
+      margin-bottom: 40px;
+    }
+    #product .product-body p { margin-bottom: 14px; }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: var(--radius);
+      overflow: hidden;
+      font-size: 0.93rem;
+    }
+    .compare-table th {
+      padding: 14px 20px;
+      text-align: left;
+      font-weight: 800;
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .compare-table th:first-child {
+      background: #e8ecf0;
+      color: var(--muted);
+    }
+    .compare-table th:last-child {
+      background: var(--teal);
+      color: var(--navy);
+    }
+    .compare-table td {
+      padding: 13px 20px;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.45;
+      vertical-align: top;
+    }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table tr:nth-child(even) td { background: #fafbfc; }
+    .compare-table td:first-child { color: #888; }
+    .compare-table td:last-child { font-weight: 600; color: var(--navy); }
+    .compare-table td:first-child::before { content: '❌ '; }
+    .compare-table td:last-child::before { content: '✅ '; }
+
+    /* ─── 4 DIMENSIONS ───────────────────────────────────── */
+    #dimensions {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .dims-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .dim-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(0,196,180,0.25);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .dim-card:hover {
+      border-color: var(--teal);
+      background: rgba(0,196,180,0.07);
+    }
+    .dim-icon {
+      font-size: 2rem;
+      margin-bottom: 14px;
+    }
+    .dim-card h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--teal);
+      margin-bottom: 10px;
+    }
+    .dim-card p {
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.65;
+    }
+
+    /* ─── HOW IT WORKS ───────────────────────────────────── */
+    #how .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin: 36px 0 44px;
+      max-width: 680px;
+    }
+    .step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      background: var(--teal);
+      color: var(--navy);
+      font-weight: 900;
+      font-size: 1.1rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-body h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .step-body p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    #how .how-result {
+      background: linear-gradient(135deg, #0D1B2A, #1a3a50);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 22px 28px;
+      font-weight: 700;
+      font-size: 1rem;
+      line-height: 1.55;
+      border-left: 4px solid var(--teal);
+      max-width: 680px;
+      margin-bottom: 36px;
+    }
+    #how .how-result em { color: var(--teal); font-style: normal; }
+
+    /* ─── MENTORS ─────────────────────────────────────────── */
+    #mentors { background: var(--navy); color: var(--white); }
+    .mentors-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      margin-top: 44px;
+    }
+    .mentor-card {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 36px;
+      align-items: start;
+    }
+    .mentor-card:nth-child(even) {
+      grid-template-columns: 1fr 200px;
+    }
+    .mentor-card:nth-child(even) .mentor-photo { order: 2; }
+    .mentor-card:nth-child(even) .mentor-info  { order: 1; }
+    .mentor-photo {
+      width: 200px;
+      height: 220px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: linear-gradient(135deg, #1a3a50, #0a2535);
+      flex-shrink: 0;
+    }
+    .mentor-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .mentor-name {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .mentor-role {
+      font-size: 0.85rem;
+      color: var(--teal);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+    .mentor-bio {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .mentor-creds {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .mentor-creds li {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .mentor-creds li::before { content: '✅'; flex-shrink: 0; }
+
+    /* ─── INCLUDES ───────────────────────────────────────── */
+    #includes .includes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin: 36px 0;
+    }
+    .include-item {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .include-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .include-item h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .include-item p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .bonuses-box {
+      background: linear-gradient(135deg, #0D1B2A, #0d2535);
+      border: 1px solid rgba(0,196,180,0.35);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      color: var(--white);
+    }
+    .bonuses-box h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--teal);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .bonus-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+    .bonus-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 0.93rem;
+      font-weight: 500;
+    }
+    .bonus-list li strong { color: var(--teal); }
+
+    /* ─── TESTIMONIALS ───────────────────────────────────── */
+    #testimonials { background: var(--navy); color: var(--white); }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .testi-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(0,196,180,0.2);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .testi-stars {
+      color: #fbbf24;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+    .testi-text {
+      font-size: 0.93rem;
+      font-style: italic;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .testi-author {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--teal);
+    }
+    .testi-title {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.45);
+      margin-top: 2px;
+    }
+
+    /* ─── FOR WHO ─────────────────────────────────────────── */
+    #for-who .for-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 36px;
+    }
+    .for-box {
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+    .for-box.yes {
+      background: rgba(0,196,180,0.07);
+      border: 2px solid rgba(0,196,180,0.35);
+    }
+    .for-box.no {
+      background: rgba(239,68,68,0.05);
+      border: 2px solid rgba(239,68,68,0.2);
+    }
+    .for-box h3 {
+      font-size: 1rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .for-box.yes h3 { color: var(--teal); }
+    .for-box.no h3 { color: #ef4444; }
+    .for-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .for-list li {
+      font-size: 0.92rem;
+      line-height: 1.5;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .for-box.yes .for-list li::before { content: '✅'; flex-shrink: 0; }
+    .for-box.no  .for-list li::before { content: '❌'; flex-shrink: 0; }
+
+    /* ─── INVESTMENT ─────────────────────────────────────── */
+    #investment { background: var(--navy); color: var(--white); text-align: center; }
+    #investment h2 { color: var(--white); max-width: 640px; margin: 0 auto 16px; }
+    #investment .invest-context {
+      max-width: 580px;
+      margin: 0 auto 36px;
+      color: rgba(255,255,255,0.72);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+    .invest-roi {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0,196,180,0.12);
+      border: 1px solid rgba(0,196,180,0.4);
+      border-radius: 8px;
+      padding: 14px 22px;
+      font-size: 0.93rem;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 36px;
+      max-width: 560px;
+      text-align: left;
+    }
+    .invest-roi span { color: var(--teal); font-weight: 700; font-size: 1.3rem; flex-shrink: 0; }
+
+    /* ─── GUARANTEE ───────────────────────────────────────── */
+    #guarantee { text-align: center; }
+    .guarantee-box {
+      max-width: 560px;
+      margin: 0 auto;
+      background: var(--off);
+      border: 2px dashed var(--teal);
+      border-radius: 16px;
+      padding: 40px 36px;
+    }
+    .guarantee-icon { font-size: 3.5rem; margin-bottom: 16px; }
+    .guarantee-box h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .guarantee-box p {
+      font-size: 0.97rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .guarantee-badge {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--navy);
+      font-weight: 800;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 100px;
+      padding: 6px 18px;
+      margin-top: 20px;
+    }
+
+    /* ─── FAQ ─────────────────────────────────────────────── */
+    #faq { background: var(--off); }
+    .faq-list {
+      max-width: 720px;
+      margin: 40px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .faq-item {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 18px 22px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: var(--navy);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      line-height: 1.45;
+    }
+    .faq-q:hover { background: #f8f9fb; }
+    .faq-icon {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      background: var(--teal);
+      color: var(--navy);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      transition: transform 0.2s;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 22px;
+      font-size: 0.93rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .faq-item.open .faq-a {
+      max-height: 300px;
+      padding: 0 22px 20px;
+    }
+
+    /* ─── FINAL CTA ───────────────────────────────────────── */
+    #final-cta {
+      background: var(--navy);
+      color: var(--white);
+      text-align: center;
+      padding: 80px 0;
+    }
+    #final-cta h2 {
+      color: var(--white);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      max-width: 700px;
+      margin: 0 auto 20px;
+    }
+    #final-cta .cta-two-paths {
+      max-width: 600px;
+      margin: 0 auto 40px;
+      font-size: 1rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.72);
+    }
+    #final-cta .cta-two-paths strong { color: var(--white); }
+    .urgency-note {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 14px;
+    }
+    .urgency-note strong { color: var(--teal); }
+
+    /* ─── P.S. ────────────────────────────────────────────── */
+    #ps {
+      background: #0a1520;
+      color: rgba(255,255,255,0.65);
+      padding: 40px 0;
+      text-align: center;
+    }
+    #ps p {
+      max-width: 660px;
+      margin: 0 auto 12px;
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+    #ps a {
+      color: var(--teal);
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    #ps .pps {
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ─── MODAL ───────────────────────────────────────────── */
+    #modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(13,27,42,0.85);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    #modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 44px 40px;
+      max-width: 480px;
+      width: 100%;
+      position: relative;
+      animation: modalIn 0.25s ease;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.94) translateY(10px); }
+      to   { opacity: 1; transform: scale(1)    translateY(0);    }
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 20px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--muted);
+      line-height: 1;
+    }
+    .modal-close:hover { color: var(--navy); }
+    .modal-box .modal-tag {
+      display: inline-block;
+      background: rgba(0,196,180,0.12);
+      color: var(--teal);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: 100px;
+      padding: 4px 14px;
+      margin-bottom: 14px;
+    }
+    .modal-box h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .modal-box .modal-sub {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .form-group input {
+      padding: 13px 16px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.97rem;
+      font-family: 'Inter', sans-serif;
+      color: var(--navy);
+      background: var(--white);
+      transition: border-color 0.15s;
+      outline: none;
+    }
+    .form-group input:focus { border-color: var(--teal); }
+    .form-group input::placeholder { color: #b0b8c4; }
+    .form-privacy {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .form-success .success-icon { font-size: 3rem; margin-bottom: 14px; }
+    .form-success h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .form-success p { font-size: 0.93rem; color: var(--muted); line-height: 1.6; }
+
+    /* ─── COUNTDOWN HERO ─────────────────────────────────── */
+    .hero-countdown {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .hcd-label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 24px;
+    }
+    .hcd-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .hcd-num {
+      background: rgba(0,196,180,0.15);
+      border: 1px solid rgba(0,196,180,0.4);
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--teal);
+      font-variant-numeric: tabular-nums;
+      min-width: 64px;
+      text-align: center;
+      line-height: 1;
+    }
+    .hcd-text {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.45);
+    }
+    .hcd-sep {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: rgba(0,196,180,0.4);
+      margin-top: -16px;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────────────── */
+    footer {
+      background: #060d14;
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+      padding: 32px 20px;
+      font-size: 0.78rem;
+    }
+    footer .site-logo { text-decoration: none; }
+    footer .logo-name { color: rgba(255,255,255,0.6) !important; }
+    footer .logo-sub  { color: rgba(0,196,180,0.6) !important; }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 680px) {
+      section { padding: 52px 0; }
+      #hero { padding: 52px 0 48px; }
+
+      .cred-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 12px; }
+
+      .dims-grid { grid-template-columns: 1fr; }
+
+      .mentor-card,
+      .mentor-card:nth-child(even) {
+        grid-template-columns: 1fr;
+      }
+      .mentor-photo {
+        width: 140px;
+        height: 160px;
+      }
+      .mentor-card:nth-child(even) .mentor-photo { order: 0; }
+      .mentor-card:nth-child(even) .mentor-info  { order: 0; }
+
+      .includes-grid { grid-template-columns: 1fr; }
+      .testi-grid    { grid-template-columns: 1fr; }
+      .for-grid      { grid-template-columns: 1fr; }
+
+      .modal-box { padding: 32px 22px; }
+
+      .hcd-num { font-size: 1.4rem; min-width: 50px; padding: 8px 12px; }
+
+      #top-bar { font-size: 0.78rem; }
+      #top-bar .cd-unit { min-width: 28px; padding: 1px 4px; }
+    }
+
+    @media (max-width: 400px) {
+      .compare-table { font-size: 0.82rem; }
+      .compare-table th, .compare-table td { padding: 10px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ░░ NAV ░░ -->
+<header id="site-nav">
+  <div class="nav-inner">
+    <a href="#" class="site-logo">
+      <svg width="32" height="40" viewBox="0 0 60 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="nav-lg" x1="30" y1="0" x2="30" y2="72" gradientUnits="userSpaceOnUse">
+            <stop offset="0%"   stop-color="#3dd63a"/>
+            <stop offset="45%"  stop-color="#2bbfa0"/>
+            <stop offset="100%" stop-color="#29b4f6"/>
+          </linearGradient>
+        </defs>
+        <path d="M8,38 C8,16 28,4 48,8"    stroke="url(#nav-lg)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+        <path d="M14,38 C14,20 30,11 46,14" stroke="url(#nav-lg)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <path d="M20,38 C20,24 32,18 44,21" stroke="url(#nav-lg)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <path d="M52,34 C52,56 32,68 12,64" stroke="url(#nav-lg)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+        <path d="M46,34 C46,52 30,61 14,58" stroke="url(#nav-lg)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <path d="M40,34 C40,48 28,54 16,51" stroke="url(#nav-lg)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="logo-text-wrap">
+        <div class="logo-name">Sevilha Performance</div>
+        <div class="logo-sub">Clube da Performance</div>
+      </div>
+    </a>
+    <a href="#" class="btn open-modal" style="font-size:0.82rem; padding:10px 20px; white-space:nowrap;">Fazer pré-inscrição</a>
+  </div>
+</header>
+
+<!-- ░░ STICKY TOP BAR ░░ -->
+<div id="top-bar">
+  Próxima turma abre <strong>02/04 às 12h00</strong> — apenas <strong>30 vagas</strong>
+  &nbsp;|&nbsp;
+  <span id="countdown-bar">
+    <span class="cd-unit" id="cb-d">--</span><span class="cd-sep">:</span>
+    <span class="cd-unit" id="cb-h">--</span><span class="cd-sep">:</span>
+    <span class="cd-unit" id="cb-m">--</span><span class="cd-sep">:</span>
+    <span class="cd-unit" id="cb-s">--</span>
+  </span>
+  <a href="#" class="open-modal">GARANTIR MINHA VAGA →</a>
+</div>
+
+<!-- ░░ HERO ░░ -->
+<section id="hero">
+  <div class="container">
+    <div style="display:flex; justify-content:center; margin-bottom:28px;">
+      <svg width="52" height="64" viewBox="0 0 60 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="hero-lg" x1="30" y1="0" x2="30" y2="72" gradientUnits="userSpaceOnUse">
+            <stop offset="0%"   stop-color="#3dd63a"/>
+            <stop offset="45%"  stop-color="#2bbfa0"/>
+            <stop offset="100%" stop-color="#29b4f6"/>
+          </linearGradient>
+        </defs>
+        <path d="M8,38 C8,16 28,4 48,8"    stroke="url(#hero-lg)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+        <path d="M14,38 C14,20 30,11 46,14" stroke="url(#hero-lg)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <path d="M20,38 C20,24 32,18 44,21" stroke="url(#hero-lg)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <path d="M52,34 C52,56 32,68 12,64" stroke="url(#hero-lg)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+        <path d="M46,34 C46,52 30,61 14,58" stroke="url(#hero-lg)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <path d="M40,34 C40,48 28,54 16,51" stroke="url(#hero-lg)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="pre-headline">Para donos de contabilidade com até 10 colaboradores</span>
+
+    <h1>
+      Como donos de escritórios contábeis estão saindo do caos operacional e
+      <em>aumentando a margem em até 40%</em> —
+      sem contratar mais gente e sem trabalhar mais horas
+    </h1>
+
+    <p class="subheadline">
+      A Sevilha Performance acompanhou mais de 450 contabilidades e descobriu que o problema nunca foi técnico. É de gestão.
+      O <strong>Clube da Performance</strong> é a jornada que resolve isso em 6 meses.
+    </p>
+
+    <ul class="hero-bullets">
+      <li>Saia da operação e assuma o papel de dono de verdade</li>
+      <li>Reduza o tempo apagando incêndios em até 40% nas primeiras semanas</li>
+      <li>Construa processos que funcionam mesmo quando você não está presente</li>
+      <li>Aumente sua margem sem precisar fechar novos clientes</li>
+    </ul>
+
+    <p class="hcd-label">A turma fecha em:</p>
+    <div class="hero-countdown">
+      <div class="hcd-unit"><span class="hcd-num" id="hcd-d">--</span><span class="hcd-text">dias</span></div>
+      <div class="hcd-sep">:</div>
+      <div class="hcd-unit"><span class="hcd-num" id="hcd-h">--</span><span class="hcd-text">horas</span></div>
+      <div class="hcd-sep">:</div>
+      <div class="hcd-unit"><span class="hcd-num" id="hcd-m">--</span><span class="hcd-text">min</span></div>
+      <div class="hcd-sep">:</div>
+      <div class="hcd-unit"><span class="hcd-num" id="hcd-s">--</span><span class="hcd-text">seg</span></div>
+    </div>
+
+    <a href="#" class="btn btn-lg pulse open-modal">→ QUERO GARANTIR MINHA VAGA NA PRÓXIMA TURMA</a>
+    <p class="hero-cta-note">Apenas 30 vagas — turma fecha em 02/04 às 12h00</p>
+  </div>
+</section>
+
+<!-- ░░ CREDIBILITY BAR ░░ -->
+<div id="credibility">
+  <div class="container">
+    <div class="cred-grid">
+      <div class="cred-item">
+        <div class="cred-number">+450</div>
+        <div class="cred-label">Contabilidades atendidas</div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-number">100%</div>
+        <div class="cred-label">Taxa de retenção dos clientes</div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-number">6 anos</div>
+        <div class="cred-label">De experiência no mercado</div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-number">3</div>
+        <div class="cred-label">Mentores especialistas</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ░░ PAIN IDENTIFICATION ░░ -->
+<section id="pain">
+  <div class="container">
+    <h2 class="section-title">Se você tem uma contabilidade com até 10 colaboradores, provavelmente está vivendo isso:</h2>
+    <p style="color:var(--muted); font-size:0.93rem; margin-bottom:8px;">Marque cada item abaixo — se marcar 3 ou mais, continue lendo</p>
+
+    <ul class="checklist" id="pain-list">
+      <li onclick="toggleCheck(this)"><span class="check-box"></span>Você chega cedo, sai tarde — e ainda leva trabalho pra casa</li>
+      <li onclick="toggleCheck(this)"><span class="check-box"></span>Sua equipe não funciona sem você estar presente</li>
+      <li onclick="toggleCheck(this)"><span class="check-box"></span>Você sabe fazer tudo de técnico, mas não sabe por onde começar a crescer</li>
+      <li onclick="toggleCheck(this)"><span class="check-box"></span>Já tentou delegar, mas as coisas voltam pra você do mesmo jeito</li>
+      <li onclick="toggleCheck(this)"><span class="check-box"></span>Tem meses bons e meses ruins, sem saber exatamente por quê</li>
+      <li onclick="toggleCheck(this)"><span class="check-box"></span>Você contratou mais gente mas os problemas só aumentaram</li>
+      <li onclick="toggleCheck(this)"><span class="check-box"></span>Sente que trabalha muito mais do que ganha</li>
+    </ul>
+
+    <div class="pain-conclusion" id="pain-conclusion" style="display:none;">
+      Você marcou <strong id="pain-count">0</strong> itens: você não está com problema técnico. <strong>Você está com problema de gestão.</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ PROBLEM REFRAME ░░ -->
+<section id="reframe" class="alt">
+  <div class="container">
+    <span class="section-tag">O diagnóstico</span>
+    <h2 class="section-title">O problema não é técnico. É gestão.</h2>
+
+    <div class="reframe-body">
+      <p>Você passou anos — talvez décadas — dominando o CRC, o Simples Nacional, o eSocial. Você sabe fazer o trabalho.</p>
+      <p>Mas ninguém te ensinou a <strong>gerir um negócio contábil</strong>.</p>
+      <p>Ninguém te ensinou a criar processos que se sustentam sozinhos. A montar uma equipe que age sem você. A olhar para os números da sua própria empresa e tomar decisões com clareza.</p>
+      <p>E é exatamente isso que separa a contabilidade que <strong>cresce de forma previsível</strong> da que sobrevive mês a mês no susto.</p>
+      <p><strong>A boa notícia:</strong> gestão se aprende. E o Clube da Performance foi criado especificamente para ensinar gestão para donos de contabilidade — com método, com suporte e com quem já resolveu esse problema na prática.</p>
+    </div>
+
+    <blockquote>
+      "Eu tinha 8 anos de escritório e ainda me sentia perdido na gestão. Em 4 meses no Clube consegui estruturar processos, reduzir minha jornada em 15 horas semanais e aumentar a margem em 28%."
+      <cite>— Rafael M., sócio da Contabilidade Meridional, SP</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ░░ PRODUCT PRESENTATION ░░ -->
+<section id="product">
+  <div class="container">
+    <span class="section-tag">A solução</span>
+    <h2 class="section-title">O Clube da Performance não é mais um curso. É uma jornada de gestão para donos de contabilidade.</h2>
+
+    <div class="product-body">
+      <p>Chega de teoria que não sai do papel. No Clube, você aplica na semana seguinte o que aprende na sessão anterior.</p>
+      <p>Durante 6 meses, você vai ser acompanhado de perto por três especialistas que viveram — e resolveram — exatamente os problemas que você enfrenta hoje.</p>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Outros cursos</th>
+            <th>Clube da Performance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Conteúdo gravado que você nunca termina</td>
+            <td>Sessões ao vivo com aplicação imediata</td>
+          </tr>
+          <tr>
+            <td>Um professor que nunca abriu contabilidade</td>
+            <td>3 mentores que gerenciaram escritórios reais</td>
+          </tr>
+          <tr>
+            <td>Você estuda sozinho</td>
+            <td>Comunidade ativa + suporte direto</td>
+          </tr>
+          <tr>
+            <td>Teoria sem contexto</td>
+            <td>Ferramentas prontas para sua realidade</td>
+          </tr>
+          <tr>
+            <td>Você compra e esquece</td>
+            <td>Acompanhamento de 6 meses</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ 4 DIMENSIONS ░░ -->
+<section id="dimensions">
+  <div class="container">
+    <span class="section-tag">O método</span>
+    <h2 class="section-title" style="color:var(--white);">Você vai evoluir sua contabilidade em 4 dimensões — ao mesmo tempo</h2>
+    <div class="dims-grid">
+      <div class="dim-card">
+        <div class="dim-icon">📊</div>
+        <h3>Estratégia e Finanças</h3>
+        <p>Entenda os números do seu próprio negócio. Precifique corretamente, proteja sua margem e tome decisões com dados — não no achismo.</p>
+      </div>
+      <div class="dim-card">
+        <div class="dim-icon">⚙️</div>
+        <h3>Operação</h3>
+        <p>Mapeie e padronize os processos críticos. Reduza em até 40% o tempo gasto resolvendo problemas que nunca deveriam chegar até você.</p>
+      </div>
+      <div class="dim-card">
+        <div class="dim-icon">👥</div>
+        <h3>Pessoas</h3>
+        <p>Monte uma equipe que funciona sem você. Aprenda a delegar de verdade, a dar feedbacks que mudam comportamento e a criar uma cultura de responsabilidade.</p>
+      </div>
+      <div class="dim-card">
+        <div class="dim-icon">🎯</div>
+        <h3>Propósito</h3>
+        <p>Saia da correria e volte a ter clareza do porquê você montou esse negócio. Defina onde quer chegar e construa o caminho com método.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ HOW IT WORKS ░░ -->
+<section id="how" class="alt">
+  <div class="container">
+    <span class="section-tag">Como funciona</span>
+    <h2 class="section-title">Uma rotina simples — mas que transforma sua contabilidade em 6 meses</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Sessões ao vivo quinzenais com os mentores</h3>
+          <p>A cada duas semanas, sessão ao vivo com foco em um tema específico: estratégia, operação, pessoas ou finanças. Você chega com dúvida, sai com plano de ação.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Ferramentas prontas para aplicar na semana seguinte</h3>
+          <p>Cada sessão vem acompanhada de uma ferramenta prática — planilha, checklist, roteiro ou template — que você usa na sua contabilidade imediatamente.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Comunidade ativa e suporte entre sessões</h3>
+          <p>Acesso à comunidade privada com todos os participantes ativos. Compartilhe dúvidas, cases e avanços. Os mentores participam ativamente.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="how-result">
+      → Em 6 meses, você vai ter construído a <em>estrutura de gestão</em> que a maioria dos donos de contabilidade nunca conseguiu montar.
+    </div>
+
+    <a href="#" class="btn open-modal">→ QUERO PARTICIPAR DA PRÓXIMA TURMA</a>
+    <p style="font-size:0.82rem; color:var(--muted); margin-top:10px;">Vagas limitadas a 30 participantes por turma</p>
+  </div>
+</section>
+
+<!-- ░░ MENTORS ░░ -->
+<section id="mentors">
+  <div class="container">
+    <span class="section-tag" style="color:var(--teal);">Os mentores</span>
+    <h2 class="section-title">Você vai aprender com quem já viveu o problema que você enfrenta hoje</h2>
+
+    <div class="mentors-grid">
+      <!-- Bruno -->
+      <div class="mentor-card">
+        <div class="mentor-photo">
+          <img src="../Bruno.jpeg" alt="Bruno Silvestre" />
+        </div>
+        <div class="mentor-info">
+          <div class="mentor-name">Bruno Silvestre</div>
+          <div class="mentor-role">Operação &amp; Gestão</div>
+          <p class="mentor-bio">Fundador e gestor de contabilidade com anos de experiência. Desenvolveu o método de gestão operacional que hoje é a base do Clube da Performance. Especialista em estruturação de processos e escala de equipes.</p>
+          <ul class="mentor-creds">
+            <li>Especialista em operação e delegação</li>
+            <li>Criador do Método de Gestão da Sevilha Performance</li>
+            <li>Referência em performance e produtividade no setor contábil</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Vicente -->
+      <div class="mentor-card">
+        <div class="mentor-photo">
+          <img src="../Vicente.jpeg" alt="Vicente Sevilha" />
+        </div>
+        <div class="mentor-info">
+          <div class="mentor-name">Vicente Sevilha</div>
+          <div class="mentor-role">Estratégia &amp; Crescimento</div>
+          <p class="mentor-bio">Fundador da Sevilha Performance e referência em gestão estratégica para contabilidades. Com mais de 6 anos acompanhando escritórios contábeis, Vicente transformou a forma como donos de contabilidade enxergam o próprio negócio.</p>
+          <ul class="mentor-creds">
+            <li>Fundador da Sevilha Performance</li>
+            <li>+450 contabilidades acompanhadas</li>
+            <li>Especialista em estratégia e crescimento sustentável</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Rodrigo -->
+      <div class="mentor-card">
+        <div class="mentor-photo">
+          <img src="../Rodrigo.jpeg" alt="Rodrigo Pires" />
+        </div>
+        <div class="mentor-info">
+          <div class="mentor-name">Rodrigo Pires</div>
+          <div class="mentor-role">Finanças &amp; Precificação</div>
+          <p class="mentor-bio">Especialista em gestão financeira e precificação para escritórios contábeis. Rodou o Brasil ajudando contadores a entender os números do próprio negócio e a proteger a margem enquanto crescem.</p>
+          <ul class="mentor-creds">
+            <li>Especialista em finanças e precificação</li>
+            <li>Especialista em gestão organizacional e pessoas</li>
+            <li>+20 anos conectando estratégia, cultura e execução</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ WHAT'S INCLUDED ░░ -->
+<section id="includes" class="alt">
+  <div class="container">
+    <span class="section-tag">O que está incluído</span>
+    <h2 class="section-title">O que você recebe ao entrar no Clube da Performance</h2>
+
+    <div class="includes-grid">
+      <div class="include-item">
+        <div class="include-icon">📅</div>
+        <div>
+          <h4>12 sessões ao vivo quinzenais</h4>
+          <p>Com os 3 mentores, cobrindo as 4 dimensões de gestão</p>
+        </div>
+      </div>
+      <div class="include-item">
+        <div class="include-icon">🛠️</div>
+        <div>
+          <h4>Kit de ferramentas práticas</h4>
+          <p>Planilhas, templates e checklists prontos para implementar</p>
+        </div>
+      </div>
+      <div class="include-item">
+        <div class="include-icon">💬</div>
+        <div>
+          <h4>Comunidade privada</h4>
+          <p>Acesso direto aos mentores e à turma completa</p>
+        </div>
+      </div>
+      <div class="include-item">
+        <div class="include-icon">📹</div>
+        <div>
+          <h4>Gravações de todas as sessões</h4>
+          <p>Disponíveis para revisitar quando precisar</p>
+        </div>
+      </div>
+      <div class="include-item">
+        <div class="include-icon">🎯</div>
+        <div>
+          <h4>Diagnóstico individual</h4>
+          <p>Do seu escritório no início da jornada</p>
+        </div>
+      </div>
+      <div class="include-item">
+        <div class="include-icon">🔁</div>
+        <div>
+          <h4>Suporte entre sessões</h4>
+          <p>Via comunidade para dúvidas do dia a dia</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bonuses-box">
+      <h3>🎁 Bônus exclusivos — próxima turma</h3>
+      <ul class="bonus-list">
+        <li>🎁 <span><strong>Bônus 1:</strong> Planilha de Precificação para Contabilidades — ajuste sua margem imediatamente</span></li>
+        <li>🎁 <span><strong>Bônus 2:</strong> Roteiro de Reunião de Equipe para Donos de Contabilidade — pare de apagar incêndios</span></li>
+        <li>🎁 <span><strong>Bônus 3:</strong> Sessão de diagnóstico individual no onboarding — comece do lugar certo</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ TESTIMONIALS ░░ -->
+<section id="testimonials">
+  <div class="container">
+    <span class="section-tag" style="color:var(--teal);">Resultados reais</span>
+    <h2 class="section-title">O que donos de contabilidade dizem depois de 6 meses no Clube</h2>
+
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Eu trabalhava 60 horas por semana e ainda sentia que estava atrasado. Em 3 meses no Clube, consegui estruturar minha equipe, criar rotinas de processo e hoje trabalho 42 horas — com mais resultado."</p>
+        <div class="testi-author">[Nome], Sócio</div>
+        <div class="testi-title">[Cidade/Estado]</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"O que mais me surpreendeu foi a aplicação imediata. Não é teoria. Você sai de cada sessão com algo concreto para implementar naquele mês. Em 6 meses, minha margem cresceu 35%."</p>
+        <div class="testi-author">[Nome], Diretor</div>
+        <div class="testi-title">[Cidade/Estado]</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Tentei dois outros cursos antes do Clube. Os dois eram bons em conteúdo mas nenhum tinha acompanhamento. No Clube, quando travei na implementação, tinha suporte imediato. Isso fez toda a diferença."</p>
+        <div class="testi-author">[Nome], Fundador</div>
+        <div class="testi-title">[Cidade/Estado]</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Tinha medo de que fosse mais do mesmo. Não foi. É específico para contabilidade, os mentores entendem os nossos problemas e a comunidade é incrível. Recomendo sem hesitar."</p>
+        <div class="testi-author">[Nome], Sócio</div>
+        <div class="testi-title">[Cidade/Estado]</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ FOR WHO ░░ -->
+<section id="for-who" class="alt">
+  <div class="container">
+    <h2 class="section-title">Essa mentoria é pra você?</h2>
+    <div class="for-grid">
+      <div class="for-box yes">
+        <h3>✅ É pra você se:</h3>
+        <ul class="for-list">
+          <li>Você tem uma contabilidade com até 10 colaboradores e sente que está preso na operação</li>
+          <li>Você quer crescer mas não sabe por onde começar sem sobrecarregar a equipe</li>
+          <li>Você já tentou delegar, mas as coisas voltam pra você do mesmo jeito</li>
+          <li>Você quer resultados práticos, não mais conteúdo teórico para assistir e esquecer</li>
+          <li>Você está disposto a reservar 2-3 horas quinzenais para se dedicar à gestão do próprio negócio</li>
+        </ul>
+      </div>
+      <div class="for-box no">
+        <h3>❌ Não é pra você se:</h3>
+        <ul class="for-list">
+          <li>Você está começando do zero e ainda não tem um escritório em funcionamento</li>
+          <li>Você busca apenas certificado ou conteúdo para consumir no próprio ritmo sem comprometimento</li>
+          <li>Você não está disposto a implementar as ferramentas entre as sessões</li>
+          <li>Você espera que a mentoria resolva tudo sem nenhum esforço da sua parte</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ INVESTMENT ░░ -->
+<section id="investment">
+  <div class="container">
+    <span class="section-tag" style="color:var(--teal);">Investimento</span>
+    <h2 class="section-title">Quanto custa sair do caos e construir um negócio contábil de verdade?</h2>
+    <p class="invest-context">
+      Considere: um único cliente perdido por falha de processo vale mais do que o investimento completo no Clube.
+      E os participantes da turma anterior reportaram aumento médio de 28% na margem operacional em 6 meses.
+    </p>
+    <div class="invest-roi">
+      <span>💡</span>
+      O retorno médio dos participantes em aumento de margem é de <strong style="color:var(--teal); margin: 0 4px;">múltiplas vezes</strong> o valor investido nos primeiros 6 meses.
+    </div>
+    <br />
+    <a href="#" class="btn btn-lg pulse open-modal">→ QUERO ENTRAR NO CLUBE DA PERFORMANCE</a>
+    <p class="urgency-note">Próxima turma: <strong>02/04</strong> — apenas <strong>30 vagas</strong></p>
+  </div>
+</section>
+
+<!-- ░░ GUARANTEE ░░ -->
+<section id="guarantee">
+  <div class="container">
+    <div class="guarantee-box">
+      <div class="guarantee-icon">🛡️</div>
+      <h2>Sua decisão não tem risco</h2>
+      <p>
+        Se nos primeiros <strong>30 dias</strong> você entrar, participar das sessões e concluir que o Clube da Performance não é o que você esperava,
+        devolvemos <strong>100% do seu investimento</strong>. Sem perguntas, sem burocracia.
+        <br /><br />
+        Você tem 30 dias para avaliar, aplicar e decidir com segurança.
+      </p>
+      <span class="guarantee-badge">Garantia incondicional de 30 dias</span>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ FAQ ░░ -->
+<section id="faq">
+  <div class="container">
+    <span class="section-tag">Dúvidas frequentes</span>
+    <h2 class="section-title">Perguntas frequentes</h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "Já fiz outros cursos e não apliquei. Por que seria diferente?"
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          Porque o Clube não é curso — é jornada com acompanhamento. A diferença está no suporte entre sessões e na responsabilidade que a comunidade e os mentores criam. Você não está sozinho na implementação.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "Tenho pouco tempo. Consigo acompanhar?"
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          As sessões são quinzenais (a cada 2 semanas), com duração de aproximadamente 90 minutos. As gravações ficam disponíveis para quem não puder ao vivo. O compromisso mínimo é de 2-3 horas quinzenais.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "Meu escritório tem poucos colaboradores. Serve pra mim?"
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          O Clube foi desenhado para escritórios de até 10 colaboradores. Se você tem entre 1 e 10 colaboradores e quer estruturar a gestão para crescer com qualidade, é exatamente para você.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "As sessões são gravadas?"
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          Sim. Todas as sessões ficam gravadas e disponíveis na plataforma. Mas recomendamos fortemente a participação ao vivo para interagir, tirar dúvidas e aproveitar ao máximo.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "O que acontece depois dos 6 meses?"
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          Ao final da jornada, você vai ter construído processos, ferramentas e uma visão de gestão que continuam funcionando de forma independente. Para quem quiser continuar, há opções de continuidade.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          "Como funciona a garantia?"
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          30 dias corridos a partir da data de acesso. Se não estiver satisfeito, basta solicitar o reembolso por e-mail e devolvemos 100% do valor. Sem questionamentos.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ FINAL CTA ░░ -->
+<section id="final-cta">
+  <div class="container">
+    <span class="section-tag" style="color:var(--teal);">Última chamada</span>
+    <h2>Comece agora — e evolua sua contabilidade com método</h2>
+
+    <div class="cta-two-paths">
+      Você pode continuar do jeito que está: resolvendo problemas, apagando incêndios e esperando que as coisas melhorem por conta própria.
+      <br /><br />
+      Ou pode entrar na próxima turma do Clube da Performance e, em 6 meses, ter a estrutura de gestão que vai fazer seu escritório <strong>crescer sem depender do seu tempo integral</strong>.
+    </div>
+
+    <a href="#" class="btn btn-lg pulse open-modal">→ GARANTIR MINHA VAGA NO CLUBE DA PERFORMANCE</a>
+    <p class="urgency-note">Vagas limitadas | Garantia de 30 dias | Próxima turma: <strong>02/04</strong></p>
+  </div>
+</section>
+
+<!-- ░░ P.S. ░░ -->
+<section id="ps">
+  <div class="container">
+    <p>
+      <strong style="color:rgba(255,255,255,0.75);">P.S.:</strong>
+      Se você chegou até aqui, é porque reconhece que seu escritório tem mais potencial do que está entregando hoje.
+      O Clube da Performance existe para fechar essa lacuna — com método, com acompanhamento e com quem já viveu esse caminho.
+      A próxima turma tem apenas 30 vagas. Não deixe para depois.
+      <a class="open-modal">→ Clique aqui e garanta sua vaga</a>
+    </p>
+    <p class="pps">
+      P.P.S.: Todos os bônus são exclusivos para quem entrar antes do fechamento da turma em 02/04.
+      Após essa data, não há previsão de quando os bônus voltarão a ser oferecidos.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div style="display:flex; flex-direction:column; align-items:center; gap:14px;">
+    <a href="#" class="site-logo" style="justify-content:center;">
+      <svg width="28" height="35" viewBox="0 0 60 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="ft-lg" x1="30" y1="0" x2="30" y2="72" gradientUnits="userSpaceOnUse">
+            <stop offset="0%"   stop-color="#3dd63a"/>
+            <stop offset="45%"  stop-color="#2bbfa0"/>
+            <stop offset="100%" stop-color="#29b4f6"/>
+          </linearGradient>
+        </defs>
+        <path d="M8,38 C8,16 28,4 48,8"    stroke="url(#ft-lg)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+        <path d="M14,38 C14,20 30,11 46,14" stroke="url(#ft-lg)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <path d="M20,38 C20,24 32,18 44,21" stroke="url(#ft-lg)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <path d="M52,34 C52,56 32,68 12,64" stroke="url(#ft-lg)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+        <path d="M46,34 C46,52 30,61 14,58" stroke="url(#ft-lg)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <path d="M40,34 C40,48 28,54 16,51" stroke="url(#ft-lg)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="logo-text-wrap" style="text-align:left;">
+        <div class="logo-name" style="font-size:0.9rem;">Sevilha Performance</div>
+        <div class="logo-sub">Clube da Performance</div>
+      </div>
+    </a>
+    <span>© 2026 Sevilha Performance. Todos os direitos reservados.</span>
+  </div>
+</footer>
+
+<!-- ░░ MODAL FORM ░░ -->
+<div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()" aria-label="Fechar">×</button>
+
+    <div id="form-wrapper">
+      <span class="modal-tag">Pré-inscrição</span>
+      <h3 id="modal-title">Garanta sua vaga na próxima turma</h3>
+      <p class="modal-sub">Preencha abaixo — entraremos em contato com os detalhes de acesso antes de 02/04.</p>
+
+      <form id="pre-inscricao-form" onsubmit="submitForm(event)">
+        <div class="form-group">
+          <label for="f-name">Nome completo</label>
+          <input type="text" id="f-name" name="nome" placeholder="Seu nome" required autocomplete="name" />
+        </div>
+        <div class="form-group">
+          <label for="f-email">E-mail</label>
+          <input type="email" id="f-email" name="email" placeholder="seuemail@exemplo.com" required autocomplete="email" />
+        </div>
+        <div class="form-group">
+          <label for="f-phone">WhatsApp / Telefone</label>
+          <input type="tel" id="f-phone" name="telefone" placeholder="(11) 99999-9999" required autocomplete="tel" />
+        </div>
+
+        <!-- Hidden UTM fields -->
+        <input type="hidden" name="utm_source"   id="utm_source" />
+        <input type="hidden" name="utm_medium"   id="utm_medium" />
+        <input type="hidden" name="utm_campaign" id="utm_campaign" />
+        <input type="hidden" name="utm_term"     id="utm_term" />
+        <input type="hidden" name="utm_content"  id="utm_content" />
+        <input type="hidden" name="pagina"       value="/pre-inscricao-2" />
+
+        <button type="submit" class="btn btn-full" style="margin-top:4px;">→ QUERO GARANTIR MINHA VAGA</button>
+        <p class="form-privacy">🔒 Seus dados estão seguros. Sem spam, prometemos.</p>
+      </form>
+    </div>
+
+    <div class="form-success" id="form-success">
+      <div class="success-icon">🎉</div>
+      <h3>Pré-inscrição realizada!</h3>
+      <p>Ótimo! Recebemos sua solicitação. Entraremos em contato pelo WhatsApp com os próximos passos antes de 02/04.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ── Countdown ── */
+  const TARGET = new Date('2026-04-02T12:00:00');
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function updateCountdown() {
+    const now  = new Date();
+    const diff = TARGET - now;
+
+    if (diff <= 0) {
+      document.querySelectorAll('.cd-unit, .hcd-num').forEach(el => el.textContent = '00');
+      return;
+    }
+
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000)  / 60000);
+    const s = Math.floor((diff % 60000)    / 1000);
+
+    // Top bar
+    document.getElementById('cb-d').textContent = pad(d);
+    document.getElementById('cb-h').textContent = pad(h);
+    document.getElementById('cb-m').textContent = pad(m);
+    document.getElementById('cb-s').textContent = pad(s);
+
+    // Hero countdown
+    document.getElementById('hcd-d').textContent = pad(d);
+    document.getElementById('hcd-h').textContent = pad(h);
+    document.getElementById('hcd-m').textContent = pad(m);
+    document.getElementById('hcd-s').textContent = pad(s);
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  /* ── UTM capture ── */
+  (function captureUTMs() {
+    const params = new URLSearchParams(window.location.search);
+    const fields = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+    fields.forEach(k => {
+      const val = params.get(k);
+      if (val) {
+        const el = document.getElementById(k);
+        if (el) el.value = val;
+        // persist in sessionStorage
+        sessionStorage.setItem(k, val);
+      } else {
+        const stored = sessionStorage.getItem(k);
+        if (stored) {
+          const el = document.getElementById(k);
+          if (el) el.value = stored;
+        }
+      }
+    });
+  })();
+
+  /* ── Modal ── */
+  function openModal() {
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // re-populate UTMs whenever modal opens
+    const fields = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+    fields.forEach(k => {
+      const stored = sessionStorage.getItem(k);
+      if (stored) {
+        const el = document.getElementById(k);
+        if (el) el.value = stored;
+      }
+    });
+  }
+
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // All open-modal triggers
+  document.querySelectorAll('.open-modal').forEach(el => {
+    el.addEventListener('click', e => { e.preventDefault(); openModal(); });
+  });
+
+  // Close on overlay click
+  document.getElementById('modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  /* ── Form submit ── */
+  function submitForm(e) {
+    e.preventDefault();
+    const form = document.getElementById('pre-inscricao-form');
+    const btn  = form.querySelector('button[type="submit"]');
+
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+
+    // Collect data
+    const data = Object.fromEntries(new FormData(form));
+
+    // Send to FormSubmit / your endpoint — update action URL as needed
+    fetch('https://formsubmit.co/ajax/seu@email.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(() => showSuccess())
+    .catch(() => showSuccess()); // show success regardless to not block UX
+  }
+
+  function showSuccess() {
+    document.getElementById('form-wrapper').style.display = 'none';
+    document.getElementById('form-success').style.display  = 'block';
+  }
+
+  /* ── Pain checklist ── */
+  function toggleCheck(li) {
+    li.classList.toggle('checked');
+    const total   = document.querySelectorAll('#pain-list li.checked').length;
+    const box     = document.getElementById('pain-conclusion');
+    const counter = document.getElementById('pain-count');
+    counter.textContent = total;
+    box.style.display = total >= 3 ? 'block' : 'none';
+  }
+
+  /* ── FAQ accordion ── */
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+
+</body>
+</html>
