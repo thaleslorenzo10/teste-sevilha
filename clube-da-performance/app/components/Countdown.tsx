@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-const TARGET = new Date("2025-04-02T12:00:00-03:00").getTime();
+const TARGET = new Date("2026-04-02T12:00:00-03:00").getTime();
 
 function pad(n: number) {
   return String(n).padStart(2, "0");

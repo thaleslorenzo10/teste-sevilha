@@ -250,9 +250,13 @@
     .mentor-photo {
       width:100%; aspect-ratio:4/3.8; overflow:hidden;
       background:linear-gradient(160deg,var(--g-start) 0%,var(--g-mid) 50%,var(--g-end) 100%);
-      position:relative;
+      position:relative; display:flex; align-items:center; justify-content:center;
     }
-    .mentor-photo img { width:100%; height:100%; object-fit:cover; object-position:top center; display:block; }
+    .mentor-photo img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top center; display:block; }
+    .mentor-initials {
+      font-family:'Poppins',sans-serif; font-size:3rem; font-weight:800;
+      color:rgba(255,255,255,0.35); letter-spacing:-2px; pointer-events:none;
+    }
     .mentor-info { padding:18px 16px 22px; }
     .mentor-info h4 { font-size:1rem; font-weight:700; margin-bottom:5px; }
     .mentor-info p  { font-size:0.82rem; color:var(--muted); line-height:1.45; }
@@ -558,15 +562,24 @@
       <h2 class="sec-title">Os mentores do <span class="grad-text">Clube da Performance</span></h2>
       <div class="mentors-grid">
         <div class="mentor-card">
-          <div class="mentor-photo"><img src="bruno.jpg" alt="Bruno Silvestre" onerror="this.style.display='none'" /></div>
+          <div class="mentor-photo">
+            <span class="mentor-initials">BS</span>
+            <img src="Bruno.jpeg" alt="Bruno Silvestre" onload="this.previousElementSibling.style.display='none'" onerror="this.style.display='none'" />
+          </div>
           <div class="mentor-info"><h4>Bruno Silvestre</h4><p>Referência em performance e produtividade no setor contábil, com foco em entrega e margem</p></div>
         </div>
         <div class="mentor-card">
-          <div class="mentor-photo"><img src="vicente.jpg" alt="Vicente Sevilha" onerror="this.style.display='none'" /></div>
+          <div class="mentor-photo">
+            <span class="mentor-initials">VS</span>
+            <img src="Vicente.jpeg" alt="Vicente Sevilha" onload="this.previousElementSibling.style.display='none'" onerror="this.style.display='none'" />
+          </div>
           <div class="mentor-info"><h4>Vicente Sevilha</h4><p>Empresário contábil há mais de 35 anos com visão estratégica e experiência prática</p></div>
         </div>
         <div class="mentor-card">
-          <div class="mentor-photo"><img src="rodrigo.jpg" alt="Rodrigo Pires" onerror="this.style.display='none'" /></div>
+          <div class="mentor-photo">
+            <span class="mentor-initials">RP</span>
+            <img src="Rodrigo.jpeg" alt="Rodrigo Pires" onload="this.previousElementSibling.style.display='none'" onerror="this.style.display='none'" />
+          </div>
           <div class="mentor-info"><h4>Rodrigo Pires</h4><p>Especialista em Gestão Organizacional e de Pessoas, há 20 anos conectando estratégia, cultura e execução</p></div>
         </div>
       </div>
@@ -700,7 +713,7 @@
 
   <script>
     // ── COUNTDOWN ─────────────────────────────────────────────────────────────
-    const TARGET = new Date('2025-04-02T12:00:00-03:00').getTime();
+    const TARGET = new Date('2026-04-02T12:00:00-03:00').getTime();
     function pad(n) { return String(n).padStart(2,'0'); }
     function tick() {
       const d = Math.max(0, TARGET - Date.now());
