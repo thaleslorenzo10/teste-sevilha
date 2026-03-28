@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "Landing Page (HTML estático)",
-      "runtimeExecutable": "ruby",
-      "runtimeArgs": ["-run", "-e", "httpd", "/Users/thaleslorenzo/Documents/GitHub/teste-sevilha", "-p", "3001"],
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "3001", "--directory", "/Users/thaleslorenzo/Documents/GitHub/teste-sevilha"],
       "port": 3001
     }
   ]
