@@ -195,7 +195,6 @@ module.exports = async function handler(req, res) {
       user_data:        userData,
       custom_data:      customData,
     }],
-    test_event_code: 'TEST59858',    // ← remover após validação
   };
 
   /* ── Chama a API ───────────────────────────────────── */
