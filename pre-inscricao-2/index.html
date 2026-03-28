@@ -6,6 +6,8 @@
   <title>Clube da Performance — Sevilha Performance</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet" />
+  <!-- Tracking centralizado: Meta Pixel + Google Ads + UTMs -->
+  <script src="/assets/tracking.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1077,6 +1079,8 @@
   </style>
 </head>
 <body>
+<!-- Meta Pixel noscript fallback -->
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=657178423444244&ev=PageView&noscript=1"/></noscript>
 
 <!-- ░░ NAV ░░ -->
 <header id="site-nav">
@@ -1729,12 +1733,22 @@
           <input type="tel" id="f-phone" name="telefone" placeholder="(11) 99999-9999" required autocomplete="tel" />
         </div>
 
-        <!-- Hidden UTM fields -->
-        <input type="hidden" name="utm_source"   id="utm_source" />
-        <input type="hidden" name="utm_medium"   id="utm_medium" />
-        <input type="hidden" name="utm_campaign" id="utm_campaign" />
-        <input type="hidden" name="utm_term"     id="utm_term" />
-        <input type="hidden" name="utm_content"  id="utm_content" />
+        <!-- Campos ocultos de tracking -->
+        <input type="hidden" name="utm_source"   />
+        <input type="hidden" name="utm_medium"   />
+        <input type="hidden" name="utm_campaign" />
+        <input type="hidden" name="utm_term"     />
+        <input type="hidden" name="utm_content"  />
+        <input type="hidden" name="fbclid"       />
+        <input type="hidden" name="gclid"        />
+        <input type="hidden" name="ttclid"       />
+        <input type="hidden" name="msclkid"      />
+        <input type="hidden" name="fbp"          />
+        <input type="hidden" name="fbc"          />
+        <input type="hidden" name="external_id"  />
+        <input type="hidden" name="event_id"     />
+        <input type="hidden" name="page_url"     />
+        <input type="hidden" name="user_agent"   />
         <input type="hidden" name="pagina"       value="/pre-inscricao-2" />
 
         <button type="submit" class="btn btn-full" style="margin-top:4px;">→ QUERO GARANTIR MINHA VAGA</button>
@@ -1786,40 +1800,10 @@
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
-  /* ── UTM capture ── */
-  (function captureUTMs() {
-    const params = new URLSearchParams(window.location.search);
-    const fields = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
-    fields.forEach(k => {
-      const val = params.get(k);
-      if (val) {
-        const el = document.getElementById(k);
-        if (el) el.value = val;
-        // persist in sessionStorage
-        sessionStorage.setItem(k, val);
-      } else {
-        const stored = sessionStorage.getItem(k);
-        if (stored) {
-          const el = document.getElementById(k);
-          if (el) el.value = stored;
-        }
-      }
-    });
-  })();
-
   /* ── Modal ── */
   function openModal() {
     document.getElementById('modal-overlay').classList.add('open');
     document.body.style.overflow = 'hidden';
-    // re-populate UTMs whenever modal opens
-    const fields = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
-    fields.forEach(k => {
-      const stored = sessionStorage.getItem(k);
-      if (stored) {
-        const el = document.getElementById(k);
-        if (el) el.value = stored;
-      }
-    });
   }
 
   function closeModal() {
@@ -1842,24 +1826,8 @@
 
   /* ── Form submit ── */
   function submitForm(e) {
-    e.preventDefault();
-    const form = document.getElementById('pre-inscricao-form');
-    const btn  = form.querySelector('button[type="submit"]');
-
-    btn.textContent = 'Enviando...';
-    btn.disabled = true;
-
-    // Collect data
-    const data = Object.fromEntries(new FormData(form));
-
-    // Send to FormSubmit / your endpoint — update action URL as needed
-    fetch('https://formsubmit.co/ajax/seu@email.com', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(data)
-    })
-    .then(() => showSuccess())
-    .catch(() => showSuccess()); // show success regardless to not block UX
+    var form = document.getElementById('pre-inscricao-form');
+    SP_handleSubmit(e, form, showSuccess);
   }
 
   function showSuccess() {
