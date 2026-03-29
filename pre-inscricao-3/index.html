@@ -301,7 +301,7 @@
     }
     .hero-cta-note {
       font-size: 0.78rem;
-      color: rgba(255,255,255,0.38);
+      color: rgba(255,255,255,0.62);
       margin-top: 12px;
       letter-spacing: 0.02em;
     }
@@ -309,7 +309,7 @@
     /* Countdown hero */
     .hcd-label {
       font-size: 0.7rem;
-      color: rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.65);
       text-transform: uppercase;
       letter-spacing: 0.1em;
       margin-bottom: 14px;
@@ -345,7 +345,7 @@
       font-size: 0.63rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.65);
     }
     .hcd-sep {
       font-size: 1.6rem;
@@ -356,10 +356,10 @@
 
     /* pulse */
     @media (prefers-reduced-motion: no-preference) {
-      .pulse { animation: gold-pulse 2.2s infinite; }
+      .pulse { animation: gold-pulse 2.2s ease-in-out infinite; }
       @keyframes gold-pulse {
-        0%, 100% { box-shadow: 0 0 0 0 rgba(200,155,60,0.45); }
-        50%       { box-shadow: 0 0 0 10px rgba(200,155,60,0); }
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50%       { opacity: 0.82; transform: scale(1.025); }
       }
     }
 
@@ -709,7 +709,7 @@
       flex-shrink: 0;
       margin-top: 2px;
     }
-    .include-item h4 {
+    .include-item h3 {
       font-size: 0.93rem;
       font-weight: 700;
       margin-bottom: 4px;
@@ -754,7 +754,7 @@
     .bonus-note {
       margin-top: 20px;
       font-size: 0.78rem;
-      color: rgba(255,255,255,0.38);
+      color: rgba(255,255,255,0.65);
       font-style: italic;
     }
 
@@ -925,11 +925,11 @@
     .urgency-item strong { color: var(--gold); display: block; font-size: 0.95rem; margin-bottom: 4px; }
     .urgency-cta-note {
       font-size: 0.78rem;
-      color: rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.65);
       margin-top: 14px;
       line-height: 1.6;
     }
-    .urgency-cta-note strong { color: rgba(255,255,255,0.6); }
+    .urgency-cta-note strong { color: rgba(255,255,255,0.88); }
 
     /* ─── FAQ ─────────────────────────────────────────── */
     #faq { background: var(--paper); }
@@ -1016,11 +1016,11 @@
     .cta-two-paths strong { color: rgba(255,255,255,0.88); }
     .final-cta-note {
       font-size: 0.78rem;
-      color: rgba(255,255,255,0.33);
+      color: rgba(255,255,255,0.65);
       margin-top: 16px;
       line-height: 1.7;
     }
-    .final-cta-note strong { color: rgba(255,255,255,0.55); }
+    .final-cta-note strong { color: rgba(255,255,255,0.88); }
 
     /* ─── P.S. ────────────────────────────────────────── */
     #ps {
@@ -1043,7 +1043,7 @@
     }
     #ps .pps {
       font-size: 0.8rem;
-      color: rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.62);
     }
 
     /* ─── MODAL ───────────────────────────────────────── */
@@ -1161,7 +1161,7 @@
     /* ─── FOOTER ──────────────────────────────────────── */
     footer {
       background: #060A10;
-      color: rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.62);
       text-align: center;
       padding: 36px 20px;
       font-size: 0.76rem;
@@ -1207,7 +1207,7 @@
 <!-- ░░ NAV ░░ -->
 <header id="site-nav">
   <div class="nav-inner">
-    <a href="#" class="site-logo">
+    <a href="/" class="site-logo" aria-label="Sevilha Performance — início">
       <svg width="30" height="37" viewBox="0 0 60 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <linearGradient id="nav-lg" x1="30" y1="0" x2="30" y2="72" gradientUnits="userSpaceOnUse">
@@ -1228,7 +1228,7 @@
         <div class="logo-sub">Clube da Performance</div>
       </div>
     </a>
-    <a href="#" class="btn open-modal" style="font-size:0.78rem; padding:10px 20px; white-space:nowrap;">Fazer pré-inscrição</a>
+    <a href="#modal-overlay" class="btn open-modal" style="font-size:0.78rem; padding:10px 20px; white-space:nowrap;">Fazer pré-inscrição</a>
   </div>
 </header>
 
@@ -1242,8 +1242,10 @@
     <span class="cd-unit" id="cb-m">--</span><span class="cd-sep">:</span>
     <span class="cd-unit" id="cb-s">--</span>
   </span>
-  <a href="#" class="open-modal">Garantir pré-inscrição →</a>
+  <a href="#modal-overlay" class="open-modal">Garantir pré-inscrição →</a>
 </div>
+
+<main id="conteudo-principal">
 
 <!-- ░░ HERO ░░ -->
 <section id="hero">
@@ -1283,7 +1285,7 @@
         <div class="hcd-unit"><span class="hcd-num" id="hcd-s">--</span><span class="hcd-text">seg</span></div>
       </div>
 
-      <a href="#" class="btn btn-lg pulse open-modal">Garantir minha pré-inscrição →</a>
+      <a href="#modal-overlay" class="btn btn-lg pulse open-modal">Garantir minha pré-inscrição →</a>
       <p class="hero-cta-note">Pré-inscritos recebem o link de acesso antes de todo mundo · Apenas 30 vagas</p>
     </div>
   </div>
@@ -1474,7 +1476,7 @@
       Em 6 meses, você vai ter construído o que a maioria dos donos de contabilidade nunca conseguiu: uma <em>estrutura de gestão que funciona</em> — e que não depende de você para operar.
     </div>
 
-    <a href="#" class="btn open-modal">Quero participar da próxima turma →</a>
+    <a href="#modal-overlay" class="btn open-modal">Quero participar da próxima turma →</a>
     <p style="font-size:0.8rem; color:var(--muted); margin-top:10px;">Vagas limitadas a 30 participantes por turma</p>
   </div>
 </section>
@@ -1489,42 +1491,42 @@
       <div class="include-item">
         <div class="include-icon">📅</div>
         <div>
-          <h4>12 sessões ao vivo quinzenais</h4>
+          <h3>12 sessões ao vivo quinzenais</h3>
           <p>Com os 3 mentores, cobrindo as 4 dimensões ao longo de 6 meses</p>
         </div>
       </div>
       <div class="include-item">
         <div class="include-icon">🛠</div>
         <div>
-          <h4>Kit de ferramentas práticas</h4>
+          <h3>Kit de ferramentas práticas</h3>
           <p>Planilhas, templates e checklists prontos para a realidade de contabilidades</p>
         </div>
       </div>
       <div class="include-item">
         <div class="include-icon">💬</div>
         <div>
-          <h4>Comunidade privada</h4>
+          <h3>Comunidade privada</h3>
           <p>Acesso direto aos mentores e à turma — suporte ativo entre sessões</p>
         </div>
       </div>
       <div class="include-item">
         <div class="include-icon">📹</div>
         <div>
-          <h4>Gravações de todas as sessões</h4>
+          <h3>Gravações de todas as sessões</h3>
           <p>Disponíveis na plataforma para rever quando precisar</p>
         </div>
       </div>
       <div class="include-item">
         <div class="include-icon">🎯</div>
         <div>
-          <h4>Diagnóstico individual</h4>
+          <h3>Diagnóstico individual</h3>
           <p>Do seu escritório no início da jornada — para começar do lugar certo</p>
         </div>
       </div>
       <div class="include-item">
         <div class="include-icon">🔁</div>
         <div>
-          <h4>Suporte entre sessões</h4>
+          <h3>Suporte entre sessões</h3>
           <p>Via comunidade — sem precisar esperar a próxima sessão para desbloquear</p>
         </div>
       </div>
@@ -1660,7 +1662,7 @@
       </div>
     </div>
 
-    <a href="#" class="btn btn-lg pulse open-modal">Garantir minha pré-inscrição →</a>
+    <a href="#modal-overlay" class="btn btn-lg pulse open-modal">Garantir minha pré-inscrição →</a>
     <p class="urgency-cta-note">
       Sem spam. Você receberá apenas o aviso de abertura das vagas.<br>
       <strong>A decisão de se pré-inscrever não custa nada.</strong> Você recebe o link e decide na hora.
@@ -1745,7 +1747,7 @@
       A decisão de se pré-inscrever não custa nada. Você recebe o link quando as vagas abrirem e decide na hora se quer entrar. <strong>O que você não quer é chegar no dia 02/04, tentar acessar, e as vagas já terem fechado.</strong>
     </div>
 
-    <a href="#" class="btn btn-lg pulse open-modal">Garantir minha pré-inscrição →</a>
+    <a href="#modal-overlay" class="btn btn-lg pulse open-modal">Garantir minha pré-inscrição →</a>
     <p class="final-cta-note">
       Vagas liberadas em <strong>02/04 às 12h</strong> · Apenas <strong>30 vagas</strong> · Sem spam · Pré-inscrição gratuita
     </p>
@@ -1760,7 +1762,7 @@
       Se você chegou até aqui, é porque reconhece que seu escritório tem mais potencial do que está entregando hoje.
       O Clube da Performance existe para fechar essa lacuna — com método, com acompanhamento e com quem já viveu esse caminho.
       A próxima turma tem apenas 30 vagas. Não deixe para depois.
-      <a class="open-modal">→ Clique aqui e faça sua pré-inscrição</a>
+      <a href="#modal-overlay" class="open-modal">→ Clique aqui e faça sua pré-inscrição</a>
     </p>
     <p class="pps">
       P.P.S.: Todos os bônus são exclusivos para quem entrar antes do fechamento da turma em 02/04. Sem previsão de quando voltam.
@@ -1768,10 +1770,12 @@
   </div>
 </section>
 
+</main>
+
 <!-- ░░ FOOTER ░░ -->
 <footer>
   <div style="display:flex; flex-direction:column; align-items:center; gap:14px;">
-    <a href="#" class="site-logo" style="justify-content:center; text-decoration:none;">
+    <a href="/" class="site-logo" style="justify-content:center; text-decoration:none;" aria-label="Sevilha Performance — início">
       <svg width="26" height="32" viewBox="0 0 60 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <linearGradient id="ft-lg" x1="30" y1="0" x2="30" y2="72" gradientUnits="userSpaceOnUse">
