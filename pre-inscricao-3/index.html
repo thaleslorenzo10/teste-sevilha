@@ -3,11 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Clube da Performance — Mentoria de gestão para escritórios contábeis que querem escalar sem depender de você." />
   <title>Clube da Performance — Sevilha Performance</title>
+
+  <!-- Preconnect: reduz latência das fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Google Fonts — não-bloqueante (preload + print trick) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" /></noscript>
+
   <!-- Tracking centralizado: Meta Pixel + Google Ads + UTMs -->
-  <script src="/assets/tracking.js"></script>
+  <script src="/assets/tracking.js" defer></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -29,7 +38,9 @@
       --radius:    10px;
     }
 
-    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -230,11 +241,13 @@
       width: 6px; height: 6px;
       background: var(--gold);
       border-radius: 50%;
-      animation: blink 1.6s ease-in-out infinite;
     }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-badge-dot { animation: blink 1.6s ease-in-out infinite; }
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+      }
     }
     #hero h1 {
       font-size: clamp(1.8rem, 4.2vw, 2.9rem);
@@ -342,10 +355,12 @@
     }
 
     /* pulse */
-    .pulse { animation: gold-pulse 2.2s infinite; }
-    @keyframes gold-pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(200,155,60,0.45); }
-      50%       { box-shadow: 0 0 0 10px rgba(200,155,60,0); }
+    @media (prefers-reduced-motion: no-preference) {
+      .pulse { animation: gold-pulse 2.2s infinite; }
+      @keyframes gold-pulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(200,155,60,0.45); }
+        50%       { box-shadow: 0 0 0 10px rgba(200,155,60,0); }
+      }
     }
 
     /* ─── CREDIBILITY BAR ─────────────────────────────── */
