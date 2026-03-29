@@ -3,11 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Clube da Performance — Mentoria de gestão para escritórios contábeis. Método aplicado para escalar sem depender de você." />
   <title>Clube da Performance — Sevilha Performance</title>
+
+  <!-- Preconnect: reduz latência das fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Google Fonts — não-bloqueante -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" /></noscript>
+
   <!-- Tracking centralizado: Meta Pixel + Google Ads + UTMs -->
-  <script src="/assets/tracking.js"></script>
+  <script src="/assets/tracking.js" defer></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -23,7 +32,9 @@
       --radius: 12px;
     }
 
-    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -206,15 +217,15 @@
     }
     .hero-cta-note {
       font-size: 0.82rem;
-      color: rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.65);
       margin-top: 12px;
     }
-    .pulse {
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(0,196,180,0.5); }
-      50% { box-shadow: 0 0 0 10px rgba(0,196,180,0); }
+    @media (prefers-reduced-motion: no-preference) {
+      .pulse { animation: pulse 2.2s ease-in-out infinite; }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50%       { opacity: 0.82; transform: scale(1.025); }
+      }
     }
 
     /* ─── CREDIBILITY BAR ────────────────────────────────── */
@@ -578,7 +589,7 @@
       align-items: flex-start;
     }
     .include-icon { font-size: 1.5rem; flex-shrink: 0; }
-    .include-item h4 {
+    .include-item h3 {
       font-size: 0.95rem;
       font-weight: 700;
       margin-bottom: 4px;
@@ -652,7 +663,7 @@
     }
     .testi-title {
       font-size: 0.8rem;
-      color: rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.65);
       margin-top: 2px;
     }
 
@@ -843,7 +854,7 @@
     #final-cta .cta-two-paths strong { color: var(--white); }
     .urgency-note {
       font-size: 0.85rem;
-      color: rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.65);
       margin-top: 14px;
     }
     .urgency-note strong { color: var(--teal); }
@@ -869,7 +880,7 @@
     }
     #ps .pps {
       font-size: 0.83rem;
-      color: rgba(255,255,255,0.4);
+      color: rgba(255,255,255,0.65);
     }
 
     /* ─── MODAL ───────────────────────────────────────────── */
@@ -991,7 +1002,7 @@
     }
     .hcd-label {
       font-size: 0.75rem;
-      color: rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.65);
       text-transform: uppercase;
       letter-spacing: 0.08em;
       margin-bottom: 24px;
@@ -1019,7 +1030,7 @@
       font-size: 0.68rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.65);
     }
     .hcd-sep {
       font-size: 1.8rem;
@@ -1031,7 +1042,7 @@
     /* ─── FOOTER ──────────────────────────────────────────── */
     footer {
       background: #060d14;
-      color: rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.65);
       text-align: center;
       padding: 32px 20px;
       font-size: 0.78rem;
@@ -1085,7 +1096,7 @@
 <!-- ░░ NAV ░░ -->
 <header id="site-nav">
   <div class="nav-inner">
-    <a href="#" class="site-logo">
+    <a href="/" class="site-logo" aria-label="Sevilha Performance — início">
       <svg width="32" height="40" viewBox="0 0 60 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <linearGradient id="nav-lg" x1="30" y1="0" x2="30" y2="72" gradientUnits="userSpaceOnUse">
@@ -1106,7 +1117,7 @@
         <div class="logo-sub">Clube da Performance</div>
       </div>
     </a>
-    <a href="#" class="btn open-modal" style="font-size:0.82rem; padding:10px 20px; white-space:nowrap;">Fazer pré-inscrição</a>
+    <a href="#modal-overlay" class="btn open-modal" style="font-size:0.82rem; padding:10px 20px; white-space:nowrap;">Fazer pré-inscrição</a>
   </div>
 </header>
 
@@ -1120,8 +1131,10 @@
     <span class="cd-unit" id="cb-m">--</span><span class="cd-sep">:</span>
     <span class="cd-unit" id="cb-s">--</span>
   </span>
-  <a href="#" class="open-modal">GARANTIR MINHA VAGA →</a>
+  <a href="#modal-overlay" class="open-modal">GARANTIR MINHA VAGA →</a>
 </div>
+
+<main id="conteudo-principal">
 
 <!-- ░░ HERO ░░ -->
 <section id="hero">
@@ -1174,7 +1187,7 @@
       <div class="hcd-unit"><span class="hcd-num" id="hcd-s">--</span><span class="hcd-text">seg</span></div>
     </div>
 
-    <a href="#" class="btn btn-lg pulse open-modal">→ QUERO GARANTIR MINHA VAGA NA PRÓXIMA TURMA</a>
+    <a href="#modal-overlay" class="btn btn-lg pulse open-modal">→ QUERO GARANTIR MINHA VAGA NA PRÓXIMA TURMA</a>
     <p class="hero-cta-note">Apenas 30 vagas — turma fecha em 02/04 às 12h00</p>
   </div>
 </section>
@@ -1356,7 +1369,7 @@
       → Em 6 meses, você vai ter construído a <em>estrutura de gestão</em> que a maioria dos donos de contabilidade nunca conseguiu montar.
     </div>
 
-    <a href="#" class="btn open-modal">→ QUERO PARTICIPAR DA PRÓXIMA TURMA</a>
+    <a href="#modal-overlay" class="btn open-modal">→ QUERO PARTICIPAR DA PRÓXIMA TURMA</a>
     <p style="font-size:0.82rem; color:var(--muted); margin-top:10px;">Vagas limitadas a 30 participantes por turma</p>
   </div>
 </section>
@@ -1371,7 +1384,7 @@
       <!-- Bruno -->
       <div class="mentor-card">
         <div class="mentor-photo">
-          <img src="../Bruno.jpeg" alt="Bruno Silvestre" />
+          <img src="../Bruno.jpeg" alt="Bruno Silvestre" width="200" height="220" loading="lazy" decoding="async" />
         </div>
         <div class="mentor-info">
           <div class="mentor-name">Bruno Silvestre</div>
@@ -1388,7 +1401,7 @@
       <!-- Vicente -->
       <div class="mentor-card">
         <div class="mentor-photo">
-          <img src="../Vicente.jpeg" alt="Vicente Sevilha" />
+          <img src="../Vicente.jpeg" alt="Vicente Sevilha" width="200" height="220" loading="lazy" decoding="async" />
         </div>
         <div class="mentor-info">
           <div class="mentor-name">Vicente Sevilha</div>
@@ -1405,7 +1418,7 @@
       <!-- Rodrigo -->
       <div class="mentor-card">
         <div class="mentor-photo">
-          <img src="../Rodrigo.jpeg" alt="Rodrigo Pires" />
+          <img src="../Rodrigo.jpeg" alt="Rodrigo Pires" width="200" height="220" loading="lazy" decoding="async" />
         </div>
         <div class="mentor-info">
           <div class="mentor-name">Rodrigo Pires</div>
@@ -1432,42 +1445,42 @@
       <div class="include-item">
         <div class="include-icon">📅</div>
         <div>
-          <h4>12 sessões ao vivo quinzenais</h4>
+          <h3>12 sessões ao vivo quinzenais</h3>
           <p>Com os 3 mentores, cobrindo as 4 dimensões de gestão</p>
         </div>
       </div>
       <div class="include-item">
         <div class="include-icon">🛠️</div>
         <div>
-          <h4>Kit de ferramentas práticas</h4>
+          <h3>Kit de ferramentas práticas</h3>
           <p>Planilhas, templates e checklists prontos para implementar</p>
         </div>
       </div>
       <div class="include-item">
         <div class="include-icon">💬</div>
         <div>
-          <h4>Comunidade privada</h4>
+          <h3>Comunidade privada</h3>
           <p>Acesso direto aos mentores e à turma completa</p>
         </div>
       </div>
       <div class="include-item">
         <div class="include-icon">📹</div>
         <div>
-          <h4>Gravações de todas as sessões</h4>
+          <h3>Gravações de todas as sessões</h3>
           <p>Disponíveis para revisitar quando precisar</p>
         </div>
       </div>
       <div class="include-item">
         <div class="include-icon">🎯</div>
         <div>
-          <h4>Diagnóstico individual</h4>
+          <h3>Diagnóstico individual</h3>
           <p>Do seu escritório no início da jornada</p>
         </div>
       </div>
       <div class="include-item">
         <div class="include-icon">🔁</div>
         <div>
-          <h4>Suporte entre sessões</h4>
+          <h3>Suporte entre sessões</h3>
           <p>Via comunidade para dúvidas do dia a dia</p>
         </div>
       </div>
@@ -1561,7 +1574,7 @@
       O retorno médio dos participantes em aumento de margem é de <strong style="color:var(--teal); margin: 0 4px;">múltiplas vezes</strong> o valor investido nos primeiros 6 meses.
     </div>
     <br />
-    <a href="#" class="btn btn-lg pulse open-modal">→ QUERO ENTRAR NO CLUBE DA PERFORMANCE</a>
+    <a href="#modal-overlay" class="btn btn-lg pulse open-modal">→ QUERO ENTRAR NO CLUBE DA PERFORMANCE</a>
     <p class="urgency-note">Próxima turma: <strong>02/04</strong> — apenas <strong>30 vagas</strong></p>
   </div>
 </section>
@@ -1660,7 +1673,7 @@
       Ou pode entrar na próxima turma do Clube da Performance e, em 6 meses, ter a estrutura de gestão que vai fazer seu escritório <strong>crescer sem depender do seu tempo integral</strong>.
     </div>
 
-    <a href="#" class="btn btn-lg pulse open-modal">→ GARANTIR MINHA VAGA NO CLUBE DA PERFORMANCE</a>
+    <a href="#modal-overlay" class="btn btn-lg pulse open-modal">→ GARANTIR MINHA VAGA NO CLUBE DA PERFORMANCE</a>
     <p class="urgency-note">Vagas limitadas | Garantia de 30 dias | Próxima turma: <strong>02/04</strong></p>
   </div>
 </section>
@@ -1682,9 +1695,11 @@
   </div>
 </section>
 
+</main>
+
 <footer>
   <div style="display:flex; flex-direction:column; align-items:center; gap:14px;">
-    <a href="#" class="site-logo" style="justify-content:center;">
+    <a href="/" class="site-logo" style="justify-content:center;" aria-label="Sevilha Performance — início">
       <svg width="28" height="35" viewBox="0 0 60 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <linearGradient id="ft-lg" x1="30" y1="0" x2="30" y2="72" gradientUnits="userSpaceOnUse">
