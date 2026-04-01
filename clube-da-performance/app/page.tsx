@@ -25,7 +25,7 @@ const PILLARS = [
 const STEPS = [
   { n: "01", title: "1 encontro ao vivo por semana",   desc: "Sessão exclusiva para donos — sem dispersão, foco total em gestão." },
   { n: "02", title: "Tema semanal com rotação",         desc: "Estratégia, operação, pessoas ou tema atual do mercado." },
-  { n: "03", title: "Aplicação prática ("para casa")",  desc: "Cada sessão termina com uma ação concreta para a semana." },
+  { n: "03", title: 'Aplicação prática ("para casa")',  desc: "Cada sessão termina com uma ação concreta para a semana." },
 ];
 
 const INCLUDED = [
@@ -68,7 +68,7 @@ export default function Home() {
     <>
       {/* ── TOP BAR ─────────────────────────────────────────── */}
       <div className="grad-bg-h text-white text-center py-2.5 px-4 font-poppins font-semibold text-xs tracking-wide">
-        🔒 Pré-inscrição aberta — Vagas liberadas em 02/04 às 12h00
+        🔒 Pré-inscrição aberta — Vagas liberadas em 09/04 às 16h00
       </div>
 
       <Navbar />
@@ -97,7 +97,7 @@ export default function Home() {
             <ul className="flex flex-col gap-2.5 mb-10">
               {[
                 "1 encontro semanal ao vivo — exclusivo para donos",
-                "Aplicação prática com "para casa" toda semana",
+                'Aplicação prática com "para casa" toda semana',
                 "Conteúdo baseado em +450 contabilidades atendidas",
                 "Sem fidelidade — fica só se fizer sentido",
               ].map((item) => (
@@ -206,7 +206,7 @@ export default function Home() {
                   ✗ Você não vai encontrar
                 </p>
                 <ul className="flex flex-col gap-2.5 text-sm text-white/50">
-                  {["Fórmula mágica ou atalho", ""Aperta botão e resolve"", "Conteúdo genérico sem aplicação"].map((i) => (
+                  {["Fórmula mágica ou atalho", '"Aperta botão e resolve"', "Conteúdo genérico sem aplicação"].map((i) => (
                     <li key={i} className="flex gap-2.5 items-start">
                       <span className="text-red-400 flex-shrink-0">—</span>{i}
                     </li>
@@ -474,7 +474,7 @@ export default function Home() {
             className="px-10 py-4 text-sm tracking-wide"
           />
           <p className="text-gray-300 text-xs mt-4">
-            Sem fidelidade. Vagas abertas em 02/04 às 12h.
+            Sem fidelidade. Vagas abertas em 09/04 às 16h.
           </p>
         </div>
       </section>

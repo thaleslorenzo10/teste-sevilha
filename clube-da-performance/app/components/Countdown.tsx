@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-const TARGET = new Date("2026-04-02T12:00:00-03:00").getTime();
+const TARGET = new Date("2026-04-09T16:00:00-03:00").getTime();
 
 function pad(n: number) {
   return String(n).padStart(2, "0");
@@ -43,7 +43,7 @@ export function Countdown() {
               Abertura das vagas
             </p>
             <h2 className="font-poppins font-bold text-2xl md:text-3xl text-navy mb-2">
-              Vagas liberadas em<br />02/04 às 12h00
+              Vagas liberadas em<br />09/04 às 16h00
             </h2>
             <p className="text-gray-500 text-sm mb-6">
               Faça sua pré-inscrição agora e receba o link de acesso antes de todo mundo.
