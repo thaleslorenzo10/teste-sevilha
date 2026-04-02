@@ -1,8 +1,15 @@
 {
   "rewrites": [
+    { "source": "/campanha", "destination": "/api/ab" },
     { "source": "/api/(.*)", "destination": "/api/$1" }
   ],
   "headers": [
+    {
+      "source": "/campanha",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, private" }
+      ]
+    },
     {
       "source": "/assets/(.*)",
       "headers": [
