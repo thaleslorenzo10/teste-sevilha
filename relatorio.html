@@ -25,7 +25,7 @@
       padding: 48px 24px;
     }
 
-    .container { max-width: 960px; margin: 0 auto; }
+    .container { max-width: 1020px; margin: 0 auto; }
 
     /* ── Header ── */
     .header {
@@ -33,8 +33,8 @@
       align-items: flex-start;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 36px;
+      gap: 16px;
+      margin-bottom: 28px;
     }
     .header-left h1 {
       font-family: 'Poppins', sans-serif;
@@ -54,19 +54,140 @@
       background-clip: text;
     }
 
-    /* ── Cards grid ── */
-    .cards {
+    /* ── Filtro de data ── */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 20px;
+      margin-bottom: 28px;
+    }
+    .filter-bar label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+    .filter-bar input[type="date"] {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      color: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      background: var(--bg);
+      outline: none;
+      cursor: pointer;
+    }
+    .filter-bar input[type="date"]:focus {
+      border-color: var(--g2);
+    }
+    .filter-sep {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .btn-filter {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, var(--g1), var(--g2), var(--g3));
+      border: none;
+      border-radius: 8px;
+      padding: 7px 18px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn-filter:hover { opacity: 0.85; }
+    .btn-clear {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .btn-clear:hover { border-color: var(--navy); color: var(--navy); }
+
+    /* ── Totais ── */
+    .totals {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      margin-bottom: 32px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .total-card {
+      background: var(--navy);
+      border-radius: 16px;
+      padding: 22px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .total-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--g1), var(--g3));
+    }
+    .total-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 8px;
+    }
+    .total-value {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1;
+      color: #fff;
+    }
+    .total-value.grad {
+      background: linear-gradient(135deg, var(--g1), var(--g2), var(--g3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .total-sub {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.35);
+      margin-top: 4px;
     }
 
+    /* ── Cards variantes ── */
+    .section-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-bottom: 28px;
+    }
     .card {
       background: #fff;
       border: 1px solid var(--border);
       border-radius: 18px;
-      padding: 28px 24px 24px;
+      padding: 26px 22px 22px;
       box-shadow: 0 1px 6px rgba(0,0,0,0.05);
       position: relative;
       overflow: hidden;
@@ -78,49 +199,61 @@
       height: 3px;
       background: linear-gradient(90deg, var(--g1), var(--g3));
     }
-    .card.winner {
-      border-color: var(--g2);
-      box-shadow: 0 2px 16px rgba(43,191,160,0.12);
-    }
+    .card.winner { border-color: var(--g2); box-shadow: 0 2px 16px rgba(43,191,160,0.13); }
 
     .card-eyebrow {
-      font-size: 0.65rem;
+      font-size: 0.63rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.14em;
       color: var(--muted);
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
     .card-title {
       font-family: 'Poppins', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.93rem;
       font-weight: 700;
-      margin-bottom: 20px;
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
     }
     .badge {
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       background: linear-gradient(135deg, var(--g1), var(--g2), var(--g3));
       color: #fff;
-      padding: 3px 10px;
+      padding: 3px 9px;
       border-radius: 20px;
     }
-
+    .url-hint {
+      font-size: 0.7rem;
+      color: var(--muted);
+      background: var(--bg);
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-family: monospace;
+      display: inline-block;
+      margin-bottom: 18px;
+    }
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, var(--g1), var(--g3));
+      border-radius: 2px;
+      width: 36px;
+      margin-bottom: 18px;
+    }
     .metrics {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      gap: 6px;
     }
-    .metric {}
     .metric-value {
       font-family: 'Poppins', sans-serif;
-      font-size: 1.9rem;
+      font-size: 1.8rem;
       font-weight: 800;
       line-height: 1;
       color: var(--navy);
@@ -132,21 +265,12 @@
       background-clip: text;
     }
     .metric-label {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: var(--muted);
       margin-top: 4px;
     }
 
-    /* ── Divider bar ── */
-    .divider {
-      height: 2px;
-      background: linear-gradient(90deg, var(--g1), var(--g3));
-      border-radius: 2px;
-      width: 40px;
-      margin-bottom: 20px;
-    }
-
-    /* ── Status bar ── */
+    /* ── Status ── */
     .status-bar {
       display: flex;
       align-items: center;
@@ -165,44 +289,35 @@
       0%, 100% { opacity: 1; transform: scale(1); }
       50%       { opacity: 0.35; transform: scale(0.85); }
     }
-
-    /* ── Error ── */
-    .error-msg {
-      color: #ef4444;
-      font-size: 0.85rem;
-      margin-top: 12px;
-      display: none;
-    }
+    .error-msg { color: #ef4444; font-size: 0.85rem; margin-top: 10px; display: none; }
 
     /* ── Skeleton ── */
-    .skeleton .metric-value {
-      background: #e8eaed !important;
+    .skeleton .metric-value,
+    .skeleton .total-value {
+      background: rgba(255,255,255,0.12) !important;
       color: transparent !important;
       -webkit-text-fill-color: transparent !important;
       border-radius: 6px;
       animation: shimmer 1.4s ease infinite;
     }
+    .card.skeleton .metric-value {
+      background: #e8eaed !important;
+    }
     @keyframes shimmer {
       0%, 100% { opacity: 1; }
-      50%       { opacity: 0.5; }
+      50%       { opacity: 0.45; }
     }
 
-    /* ── URL hint ── */
-    .url-hint {
-      display: inline-block;
-      font-size: 0.72rem;
-      color: var(--muted);
-      background: #f0f1f3;
-      padding: 3px 10px;
-      border-radius: 6px;
-      font-family: monospace;
-      margin-top: 4px;
+    @media (max-width: 600px) {
+      .totals { grid-template-columns: 1fr; }
+      .filter-bar { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
   <div class="container">
 
+    <!-- Header -->
     <div class="header">
       <div class="header-left">
         <h1>Relatório <span class="grad-text">A/B</span></h1>
@@ -210,8 +325,39 @@
       </div>
     </div>
 
+    <!-- Filtro de data -->
+    <div class="filter-bar">
+      <label>Período</label>
+      <input type="date" id="input-from" />
+      <span class="filter-sep">até</span>
+      <input type="date" id="input-to" />
+      <button class="btn-filter" onclick="applyFilter()">Filtrar</button>
+      <button class="btn-clear"  onclick="clearFilter()">Limpar</button>
+    </div>
+
+    <!-- Totais gerais -->
+    <p class="section-title">Totais gerais</p>
+    <div class="totals" id="totals">
+      <div class="total-card skeleton">
+        <div class="total-label">Total de visitas</div>
+        <div class="total-value">—</div>
+        <div class="total-sub">todas as variantes</div>
+      </div>
+      <div class="total-card skeleton">
+        <div class="total-label">Total de leads</div>
+        <div class="total-value">—</div>
+        <div class="total-sub">todas as variantes</div>
+      </div>
+      <div class="total-card skeleton">
+        <div class="total-label">Conversão geral</div>
+        <div class="total-value grad">—</div>
+        <div class="total-sub">leads ÷ visitas</div>
+      </div>
+    </div>
+
+    <!-- Cards por variante -->
+    <p class="section-title">Por variante</p>
     <div class="cards" id="cards">
-      <!-- Skeleton enquanto carrega -->
       <div class="card skeleton">
         <div class="card-eyebrow">Variante 0</div>
         <div class="card-title">Página 1 (Principal)</div>
@@ -254,21 +400,50 @@
 
   <script>
     var REFRESH_MS = 30000;
+    var refreshTimer = null;
 
     var PAGE_LABELS = {
       '/':                'Página 1 (Principal)',
       '/pre-inscricao-2': 'Página 2',
       '/pre-inscricao-3': 'Página 3',
     };
-
     var PAGE_URLS = {
       '/':                'pg.sevilhaperformance.com.br',
       '/pre-inscricao-2': 'pg.sevilhaperformance.com.br/pre-inscricao-2',
       '/pre-inscricao-3': 'pg.sevilhaperformance.com.br/pre-inscricao-3',
     };
 
-    function fmt(n) {
-      return Number(n).toLocaleString('pt-BR');
+    function fmt(n) { return Number(n).toLocaleString('pt-BR'); }
+
+    function buildUrl() {
+      var from = document.getElementById('input-from').value;
+      var to   = document.getElementById('input-to').value;
+      var url  = '/api/stats';
+      var qs   = [];
+      if (from) qs.push('from=' + from);
+      if (to)   qs.push('to='   + to);
+      if (qs.length) url += '?' + qs.join('&');
+      return url;
+    }
+
+    function renderTotals(totals) {
+      document.getElementById('totals').innerHTML = [
+        '<div class="total-card">',
+        '  <div class="total-label">Total de visitas</div>',
+        '  <div class="total-value">' + fmt(totals.visits) + '</div>',
+        '  <div class="total-sub">todas as variantes</div>',
+        '</div>',
+        '<div class="total-card">',
+        '  <div class="total-label">Total de leads</div>',
+        '  <div class="total-value">' + fmt(totals.leads) + '</div>',
+        '  <div class="total-sub">todas as variantes</div>',
+        '</div>',
+        '<div class="total-card">',
+        '  <div class="total-label">Conversão geral</div>',
+        '  <div class="total-value grad">' + totals.conversion_rate + '%</div>',
+        '  <div class="total-sub">leads ÷ visitas</div>',
+        '</div>',
+      ].join('\n');
     }
 
     function renderCards(variants) {
@@ -277,45 +452,27 @@
         if (v.visits > 0 && v.conversion_rate > maxRate) maxRate = v.conversion_rate;
       });
 
-      var html = variants.map(function(v) {
+      document.getElementById('cards').innerHTML = variants.map(function(v) {
         var isWinner = v.visits > 0 && v.conversion_rate === maxRate;
         var label    = PAGE_LABELS[v.pagina] || v.pagina;
         var url      = PAGE_URLS[v.pagina]   || v.pagina;
-
         return [
           '<div class="card' + (isWinner ? ' winner' : '') + '">',
           '  <div class="card-eyebrow">Variante ' + v.variant + '</div>',
-          '  <div class="card-title">',
-          '    <span>' + label + '</span>',
-          isWinner ? '<span class="badge">Melhor</span>' : '',
-          '  </div>',
+          '  <div class="card-title"><span>' + label + '</span>' + (isWinner ? '<span class="badge">Melhor</span>' : '') + '</div>',
           '  <div class="url-hint">' + url + '</div>',
-          '  <div class="divider" style="margin-top:16px"></div>',
+          '  <div class="divider"></div>',
           '  <div class="metrics">',
-          '    <div class="metric">',
-          '      <div class="metric-value">' + fmt(v.visits) + '</div>',
-          '      <div class="metric-label">Visitas</div>',
-          '    </div>',
-          '    <div class="metric">',
-          '      <div class="metric-value">' + fmt(v.leads) + '</div>',
-          '      <div class="metric-label">Leads</div>',
-          '    </div>',
-          '    <div class="metric">',
-          '      <div class="metric-value highlight">' + v.conversion_rate + '%</div>',
-          '      <div class="metric-label">Conversão</div>',
-          '    </div>',
+          '    <div class="metric"><div class="metric-value">' + fmt(v.visits) + '</div><div class="metric-label">Visitas</div></div>',
+          '    <div class="metric"><div class="metric-value">' + fmt(v.leads)  + '</div><div class="metric-label">Leads</div></div>',
+          '    <div class="metric"><div class="metric-value highlight">' + v.conversion_rate + '%</div><div class="metric-label">Conversão</div></div>',
           '  </div>',
           '</div>',
         ].join('\n');
       }).join('\n');
-
-      document.getElementById('cards').innerHTML = html;
     }
 
-    function setStatus(txt) {
-      document.getElementById('status-text').textContent = txt;
-    }
-
+    function setStatus(txt) { document.getElementById('status-text').textContent = txt; }
     function setError(msg) {
       var el = document.getElementById('error-msg');
       el.textContent = msg;
@@ -323,12 +480,13 @@
     }
 
     function load() {
-      fetch('/api/stats')
+      fetch(buildUrl())
         .then(function(res) {
           if (!res.ok) throw new Error('HTTP ' + res.status);
           return res.json();
         })
         .then(function(data) {
+          renderTotals(data.totals);
           renderCards(data.variants);
           var now = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
           setStatus('Atualizado às ' + now + ' · próxima atualização em 30s');
@@ -340,8 +498,32 @@
         });
     }
 
+    function applyFilter() {
+      clearInterval(refreshTimer);
+      load();
+      refreshTimer = setInterval(load, REFRESH_MS);
+    }
+
+    function clearFilter() {
+      document.getElementById('input-from').value = '';
+      document.getElementById('input-to').value   = '';
+      applyFilter();
+    }
+
+    // Inicializa com datas do mês atual como sugestão
+    (function initDates() {
+      var now   = new Date();
+      var year  = now.getFullYear();
+      var month = String(now.getMonth() + 1).padStart(2, '0');
+      var day   = String(now.getDate()).padStart(2, '0');
+      var firstDay = year + '-' + month + '-01';
+      var today    = year + '-' + month + '-' + day;
+      document.getElementById('input-from').value = firstDay;
+      document.getElementById('input-to').value   = today;
+    })();
+
     load();
-    setInterval(load, REFRESH_MS);
+    refreshTimer = setInterval(load, REFRESH_MS);
   </script>
 </body>
 </html>

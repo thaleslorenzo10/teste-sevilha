@@ -2,10 +2,11 @@
 
 /**
  * Sevilha Performance — A/B Stats Endpoint
- * GET /api/stats
+ * GET /api/stats?from=2026-04-01&to=2026-04-09
  *
- * Retorna visitas, leads e taxa de conversão por variante.
- * Usado pelo dashboard /relatorio.html
+ * Parâmetros opcionais:
+ *   from  — data inicial (ISO 8601, ex: 2026-04-01)
+ *   to    — data final   (ISO 8601, ex: 2026-04-09)
  */
 
 const PAGES = ['/', '/pre-inscricao-2', '/pre-inscricao-3'];
@@ -29,11 +30,22 @@ module.exports = async function handler(req, res) {
     'Content-Type':  'application/json',
   };
 
+  // Filtro de data via query params
+  const params = new URL(req.url, 'http://localhost').searchParams;
+  const from   = params.get('from'); // ex: "2026-04-01"
+  const to     = params.get('to');   // ex: "2026-04-09"
+
+  function buildFilter(table, select) {
+    let url = `${supabaseUrl}/rest/v1/${table}?select=${select}`;
+    if (from) url += `&created_at=gte.${from}T00:00:00`;
+    if (to)   url += `&created_at=lte.${to}T23:59:59`;
+    return url;
+  }
+
   try {
-    // Busca visitas e leads em paralelo
     const [viewsData, leadsData] = await Promise.all([
-      fetchAll(`${supabaseUrl}/rest/v1/page_views?select=pagina`, headers),
-      fetchAll(`${supabaseUrl}/rest/v1/leads?select=pagina`,      headers),
+      fetchAll(buildFilter('page_views', 'pagina'), headers),
+      fetchAll(buildFilter('leads',      'pagina'), headers),
     ]);
 
     const visits = countBy(viewsData, 'pagina');
@@ -51,8 +63,15 @@ module.exports = async function handler(req, res) {
       };
     });
 
+    const totalVisits = variants.reduce((s, v) => s + v.visits, 0);
+    const totalLeads  = variants.reduce((s, v) => s + v.leads,  0);
+    const totalRate   = totalVisits > 0
+      ? parseFloat(((totalLeads / totalVisits) * 100).toFixed(2))
+      : 0;
+
     return res.status(200).json({
       variants,
+      totals: { visits: totalVisits, leads: totalLeads, conversion_rate: totalRate },
       generated_at: new Date().toISOString(),
     });
 
