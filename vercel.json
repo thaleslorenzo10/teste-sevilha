@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/campanha", "destination": "/api/ab" },
+    { "source": "/relatorio", "destination": "/relatorio.html" },
     { "source": "/api/(.*)", "destination": "/api/$1" }
   ],
   "headers": [
