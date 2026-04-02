@@ -2,12 +2,13 @@
  * Sevilha Performance — Vercel Serverless Function
  * POST /api/leads
  *
- * Recebe dados do formulário e envia para a Meta Conversions API (CAPI).
- * Implementado conforme documentação oficial:
- *   https://developers.facebook.com/docs/marketing-api/conversions-api/parameters
+ * 1. Salva lead no Supabase (tabela: leads)
+ * 2. Envia para a Meta Conversions API (CAPI)
  *
- * Variável de ambiente obrigatória no Vercel:
- *   META_CAPI_TOKEN = <System User Access Token>
+ * Variáveis de ambiente no Vercel:
+ *   SUPABASE_URL          = https://hojcntkggnwrvbvmcwxe.supabase.co
+ *   SUPABASE_SERVICE_KEY  = <service_role key>
+ *   META_CAPI_TOKEN       = <System User Access Token>
  */
 
 'use strict';
@@ -20,75 +21,105 @@ const CAPI_URL    = `https://graph.facebook.com/${API_VERSION}/${PIXEL_ID}/event
 
 /* ─────────────────────────────────────────────────────────
    NORMALIZAÇÃO (conforme spec oficial do Meta)
-   https://developers.facebook.com/docs/marketing-api/conversions-api/parameters/customer-information-parameters
 ───────────────────────────────────────────────────────── */
 
-/** Hash SHA-256 de um valor já normalizado */
 function h(value) {
   if (!value) return null;
   return crypto.createHash('sha256').update(String(value)).digest('hex');
 }
 
-/**
- * Email → lowercase, trim
- * Ex: "  John@GMAIL.com " → "john@gmail.com"
- */
 function normalizeEmail(raw) {
   if (!raw) return null;
   return raw.trim().toLowerCase();
 }
 
-/**
- * Telefone → apenas dígitos + DDI obrigatório (sem zeros à esquerda)
- * Meta exige: country code + number, sem símbolos
- * Ex: "(11) 99999-9999" → "5511999999999"
- * Ex: "+55 11 99999-9999" → "5511999999999"
- */
 function normalizePhone(raw) {
   if (!raw) return null;
   const digits = raw.replace(/\D/g, '');
-
-  // Já tem DDI 55
   if (digits.startsWith('55') && digits.length >= 12) return digits;
-
-  // 11 dígitos (DDD + 9 dígitos) → adiciona 55
   if (digits.length === 11) return '55' + digits;
-
-  // 10 dígitos (DDD + 8 dígitos, celulares antigos) → adiciona 55
   if (digits.length === 10) return '55' + digits;
-
-  // Fallback: retorna o que tiver
   return digits;
 }
 
-/**
- * Nome → lowercase, sem pontuação (spec: "minúsculas, sem pontuação, UTF-8")
- * Ex: "João Da Silva" → "joão" / "silva"
- */
 function normalizeName(raw) {
   if (!raw) return null;
   return raw
     .trim()
     .toLowerCase()
-    .replace(/[^\p{L}\p{N}\s]/gu, ''); // remove pontuação, mantém letras (incluindo acentos) e números
+    .replace(/[^\p{L}\p{N}\s]/gu, '');
 }
 
-/**
- * País → ISO 3166-1 alfa-2, lowercase
- * Ex: "BR" → "br"
- */
 function normalizeCountry(raw) {
   return raw ? raw.trim().toLowerCase() : 'br';
 }
 
 /* ─────────────────────────────────────────────────────────
-   HELPERS DE REQUEST
+   HELPERS
 ───────────────────────────────────────────────────────── */
 
 function getClientIp(req) {
   const forwarded = req.headers['x-forwarded-for'];
   if (forwarded) return forwarded.split(',')[0].trim();
   return req.socket?.remoteAddress || '';
+}
+
+/* ─────────────────────────────────────────────────────────
+   SUPABASE — salva lead
+───────────────────────────────────────────────────────── */
+
+async function saveToSupabase(data) {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.warn('[Supabase] SUPABASE_URL ou SUPABASE_SERVICE_KEY não definidos');
+    return;
+  }
+
+  const payload = {
+    nome:         data.nome        || null,
+    email:        data.email       || null,
+    telefone:     data.telefone    || null,
+    pagina:       data.pagina      || null,
+    utm_source:   data.utm_source  || null,
+    utm_medium:   data.utm_medium  || null,
+    utm_campaign: data.utm_campaign || null,
+    utm_term:     data.utm_term    || null,
+    utm_content:  data.utm_content || null,
+    fbclid:       data.fbclid      || null,
+    gclid:        data.gclid       || null,
+    ttclid:       data.ttclid      || null,
+    msclkid:      data.msclkid     || null,
+    fbp:          data.fbp         || null,
+    fbc:          data.fbc         || null,
+    external_id:  data.external_id || null,
+    event_id:     data.event_id    || null,
+    page_url:     data.page_url    || null,
+    user_agent:   data.user_agent  || null,
+  };
+
+  try {
+    const res = await fetch(`${supabaseUrl}/rest/v1/leads`, {
+      method:  'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':        supabaseKey,
+        'Authorization': `Bearer ${supabaseKey}`,
+        'Prefer':        'return=minimal',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const err = await res.text();
+      console.error('[Supabase Error]', res.status, err);
+    } else {
+      console.log(`[Supabase OK] lead salvo — pagina=${payload.pagina} email=${payload.email}`);
+    }
+  } catch (err) {
+    console.error('[Supabase Exception]', err.message);
+  }
 }
 
 /* ─────────────────────────────────────────────────────────
@@ -104,14 +135,6 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST')   return res.status(405).json({ error: 'Method not allowed' });
 
-  const token = process.env.META_CAPI_TOKEN;
-  if (!token) {
-    console.error('[CAPI] META_CAPI_TOKEN não definido no Vercel → Settings → Environment Variables');
-    // Não bloqueia o usuário, apenas loga o erro
-    return res.status(200).json({ ok: true, warn: 'capi_token_missing' });
-  }
-
-  /* ── Extrai campos do body ─────────────────────────── */
   const body = req.body || {};
   const {
     nome        = '',
@@ -130,45 +153,53 @@ module.exports = async function handler(req, res) {
     utm_content = '',
     fbclid      = '',
     gclid       = '',
+    ttclid      = '',
+    msclkid     = '',
     pagina      = '/',
   } = body;
 
   const eventTime = Math.floor(Date.now() / 1000);
   const ip        = getClientIp(req);
   const ua        = user_agent || req.headers['user-agent'] || '';
+  const finalEventId = event_id || `ev_${eventTime}_${crypto.randomBytes(4).toString('hex')}`;
 
-  /* ── Monta user_data ───────────────────────────────── */
-  // Campos SEM hash
+  // ── 1. Salva no Supabase (não bloqueia o restante se falhar) ──
+  await saveToSupabase({
+    nome, email, telefone, pagina,
+    utm_source, utm_medium, utm_campaign, utm_term, utm_content,
+    fbclid, gclid, ttclid, msclkid,
+    fbp, fbc, external_id,
+    event_id: finalEventId,
+    page_url, user_agent: ua,
+  });
+
+  // ── 2. Meta CAPI ──────────────────────────────────────────────
+  const token = process.env.META_CAPI_TOKEN;
+  if (!token) {
+    console.warn('[CAPI] META_CAPI_TOKEN não definido');
+    return res.status(200).json({ ok: true, warn: 'capi_token_missing' });
+  }
+
   const userData = {
     client_ip_address: ip,
     client_user_agent: ua,
   };
 
-  // Campos COM hash SHA-256 (normalizar antes de hashear)
   if (email)    userData.em  = [h(normalizeEmail(email))];
   if (telefone) userData.ph  = [h(normalizePhone(telefone))];
-
-  // country: obrigatório segundo spec — Brasil = "br"
   userData.country = [h(normalizeCountry('br'))];
 
-  // Nome e sobrenome
   if (nome) {
     const parts = normalizeName(nome).split(/\s+/).filter(Boolean);
-    if (parts[0])                userData.fn = [h(parts[0])];
-    if (parts.length > 1)        userData.ln = [h(parts[parts.length - 1])];
+    if (parts[0])           userData.fn = [h(parts[0])];
+    if (parts.length > 1)   userData.ln = [h(parts[parts.length - 1])];
   }
 
-  // external_id: hashing recomendado pelo Meta
   if (external_id) userData.external_id = [h(external_id)];
-
-  // Campos SEM hash (identifiers)
-  if (fbp) userData.fbp = fbp;
-
-  // fbc: cookie tem prioridade; fallback monta a partir do fbclid
+  if (fbp)         userData.fbp = fbp;
   if (fbc)         userData.fbc = fbc;
   else if (fbclid) userData.fbc = `fb.1.${eventTime * 1000}.${fbclid}`;
 
-  /* ── Monta custom_data ─────────────────────────────── */
   const customData = {
     content_name:     pagina,
     content_category: 'pre-inscricao',
@@ -182,29 +213,24 @@ module.exports = async function handler(req, res) {
   if (utm_content)  customData.utm_content  = utm_content;
   if (gclid)        customData.gclid        = gclid;
 
-  /* ── Payload CAPI ──────────────────────────────────── */
-  const finalEventId = event_id || `ev_${eventTime}_${crypto.randomBytes(4).toString('hex')}`;
-
   const payload = {
     data: [{
       event_name:       'Lead',
       event_time:       eventTime,
-      event_id:         finalEventId,   // ← usado para deduplicação com o Pixel
+      event_id:         finalEventId,
       event_source_url: page_url || req.headers.referer || '',
-      action_source:    'website',      // obrigatório para eventos web
+      action_source:    'website',
       user_data:        userData,
       custom_data:      customData,
     }],
   };
 
-  /* ── Chama a API ───────────────────────────────────── */
   try {
-    const capiRes = await fetch(`${CAPI_URL}?access_token=${token}`, {
+    const capiRes  = await fetch(`${CAPI_URL}?access_token=${token}`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify(payload),
     });
-
     const capiData = await capiRes.json();
 
     if (!capiRes.ok) {
@@ -225,7 +251,6 @@ module.exports = async function handler(req, res) {
 
   } catch (err) {
     console.error('[CAPI Exception]', err.message);
-    // Sempre retorna 200 para não bloquear o UX do lead
     return res.status(200).json({ ok: true, error: 'capi_exception' });
   }
 };
