@@ -100,7 +100,7 @@ async function saveToSupabase(data) {
   };
 
   try {
-    const res = await fetch(`${supabaseUrl}/rest/v1/leads`, {
+    const res = await fetch(`${supabaseUrl}/rest/v1/leads_sevilhaperfomance`, {
       method:  'POST',
       headers: {
         'Content-Type':  'application/json',

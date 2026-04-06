@@ -44,8 +44,8 @@ module.exports = async function handler(req, res) {
 
   try {
     const [viewsData, leadsData] = await Promise.all([
-      fetchAll(buildFilter('page_views', 'pagina'), headers),
-      fetchAll(buildFilter('leads',      'pagina'), headers),
+      fetchAll(buildFilter('page_views_sevilhaperfomance', 'pagina'), headers),
+      fetchAll(buildFilter('leads_sevilhaperfomance',      'pagina'), headers),
     ]);
 
     const visits = countBy(viewsData, 'pagina');

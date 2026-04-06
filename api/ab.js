@@ -103,7 +103,7 @@ async function savePageView(data) {
   if (!supabaseUrl || !supabaseKey) return;
 
   try {
-    const res = await fetch(`${supabaseUrl}/rest/v1/page_views`, {
+    const res = await fetch(`${supabaseUrl}/rest/v1/page_views_sevilhaperfomance`, {
       method: 'POST',
       headers: {
         'Content-Type':  'application/json',
