@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Sevilha Performance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --navy:   #0D1F6E;
+  --navy2:  #162591;
+  --navy3:  #0a1750;
+  --accent: #3D5AF1;
+  --bg:     #EFECF6;
+  --white:  #ffffff;
+  --light:  #E8E6F2;
+  --gray:   #6B6B7B;
+  --border: #D6D3E4;
+  --black:  #2D2926;
+  --cp:     #7c3aed;
+  --se:     #0d9488;
+}
+:root[data-theme="dark"] {
+  --bg:    #0F111A; --white: #1A1D24; --black: #E8E6F2;
+  --gray:  #9CA3AF; --border:#2D3748; --light: #242835;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--black); -webkit-font-smoothing:antialiased; transition:background .3s,color .3s; }
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(107,107,123,.3);border-radius:4px}
+
+/* ── Header ── */
+.header { background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 50%,var(--navy3) 100%); color:white; padding:18px 40px 14px; position:relative; overflow:hidden; }
+.header::before { content:''; position:absolute; top:-50%; right:-10%; width:400px; height:400px; background:radial-gradient(circle,rgba(61,90,241,.15) 0%,transparent 70%); pointer-events:none; }
+.header-top { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; position:relative; }
+.header-logo { display:flex; align-items:center; gap:14px; }
+.header-divider { width:1px; height:36px; background:rgba(255,255,255,.2); }
+.header-text h1 { font-size:18px; font-weight:800; letter-spacing:-.4px; }
+.header-text .sub { font-size:12px; color:rgba(255,255,255,.6); margin-top:3px; }
+.header-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:10px; position:relative; }
+.header-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.08); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:5px 14px; font-size:12px; font-weight:500; }
+.status-dot { width:8px; height:8px; border-radius:50%; background:#4ade80; flex-shrink:0; }
+.status-dot.loading { background:#fbbf24; animation:pulse 1s infinite; }
+.status-dot.error { background:#f87171; }
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.btn-hdr { background:rgba(255,255,255,.12); border:1.5px solid rgba(255,255,255,.3); color:white; border-radius:20px; padding:7px 18px; font-size:13px; cursor:pointer; transition:all .2s; font-weight:700; backdrop-filter:blur(8px); }
+.btn-hdr:hover { background:rgba(255,255,255,.22); transform:translateY(-1px); }
+
+/* ── Filter bar ── */
+.filter-bar { background:rgba(255,255,255,.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:8px 40px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; position:sticky; top:0; z-index:100; box-shadow:0 1px 4px rgba(13,31,110,.04); }
+:root[data-theme="dark"] .filter-bar { background:rgba(26,29,36,.9); }
+.filter-label { font-size:10.5px; font-weight:700; color:var(--gray); text-transform:uppercase; letter-spacing:.5px; white-space:nowrap; }
+.filter-sep { width:1px; height:22px; background:var(--border); margin:0 4px; }
+.preset-btn { background:var(--light); border:1.5px solid transparent; color:var(--black); border-radius:20px; padding:5px 14px; font-size:12px; font-weight:600; cursor:pointer; transition:all .2s; white-space:nowrap; }
+.preset-btn:hover { background:#dde3fd; color:var(--navy); }
+.preset-btn.active { background:var(--navy); color:white; border-color:var(--navy); box-shadow:0 2px 8px rgba(13,31,110,.25); }
+.custom-dates { display:none; align-items:center; gap:6px; }
+.custom-dates.show { display:flex; }
+.date-input { border:1.5px solid var(--border); border-radius:8px; padding:4px 10px; font-size:12px; color:var(--black); background:var(--white); outline:none; cursor:pointer; }
+.btn-apply { background:var(--navy); color:white; border:none; border-radius:20px; padding:5px 14px; font-size:12px; font-weight:700; cursor:pointer; }
+
+/* ── Tab nav ── */
+.tab-nav { display:flex; background:var(--white); border-bottom:2px solid var(--border); padding:0 40px; position:sticky; top:49px; z-index:90; }
+:root[data-theme="dark"] .tab-nav { background:var(--white); }
+.tab-btn { padding:10px 22px; font-size:13px; font-weight:700; color:var(--gray); background:none; border:none; border-bottom:3px solid transparent; cursor:pointer; transition:all .2s; position:relative; top:2px; white-space:nowrap; }
+.tab-btn:hover { color:var(--navy); }
+.tab-btn.active { color:var(--navy); border-bottom-color:var(--navy); }
+.tab-btn.tab-cp.active { color:var(--cp); border-bottom-color:var(--cp); }
+.tab-btn.tab-se.active { color:var(--se); border-bottom-color:var(--se); }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+/* ── Layout ── */
+.container { max-width:1200px; margin:0 auto; padding:28px 20px; }
+
+/* ── Skeleton ── */
+.skeleton { background:linear-gradient(90deg,var(--border) 25%,var(--light) 50%,var(--border) 75%); background-size:200% 100%; animation:shimmer 1.4s ease-in-out infinite; border-radius:8px; }
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.kpi-skel { height:28px; width:80%; margin-top:10px; }
+
+/* ── KPI Groups ── */
+.kpi-groups { display:flex; flex-direction:column; gap:20px; margin-bottom:28px; }
+.kpi-group { display:flex; flex-wrap:wrap; gap:14px; }
+.kpi-group-label { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:1.2px; color:var(--navy); padding:0 4px 8px; border-bottom:2px solid var(--navy); margin-bottom:4px; display:flex; align-items:center; gap:8px; width:100%; }
+.kpi-group-label::before { content:''; display:inline-block; width:8px; height:8px; border-radius:50%; background:currentColor; flex-shrink:0; }
+.kpi-group-meta  .kpi-group-label { color:var(--navy); border-color:var(--navy); }
+.kpi-group-real  .kpi-group-label { color:#16a34a; border-color:#16a34a; }
+.kpi-group-crm   .kpi-group-label { color:#6d28d9; border-color:#6d28d9; }
+.kpi-group-perf  .kpi-group-label { color:#0d9488; border-color:#0d9488; }
+.kpi-group .kpi-card { flex:1; min-width:150px; }
+
+/* ── KPI Card ── */
+.kpi-card { background:var(--white); border-radius:16px; padding:20px 22px; box-shadow:0 2px 12px rgba(13,31,110,.06); border:1px solid var(--border); border-left:4px solid var(--border); transition:transform .25s,box-shadow .25s; }
+.kpi-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(13,31,110,.1); }
+.kpi-card.green  { border-left-color:#16a34a; }
+.kpi-card.orange { border-left-color:#f97316; }
+.kpi-card.purple { border-left-color:#8b5cf6; }
+.kpi-card.teal   { border-left-color:#0d9488; }
+.kpi-card.red    { border-left-color:#ef4444; }
+.kpi-card.blue   { border-left-color:var(--accent); }
+.kpi-label { font-size:11px; color:var(--gray); font-weight:700; text-transform:uppercase; letter-spacing:.8px; }
+.kpi-value { font-size:28px; font-weight:800; margin-top:10px; color:var(--black); line-height:1; letter-spacing:-.5px; }
+.kpi-sub { font-size:11px; color:#9ca3af; margin-top:8px; font-weight:500; }
+
+/* ── Section ── */
+.section { background:var(--white); border-radius:16px; box-shadow:0 2px 12px rgba(13,31,110,.06); padding:26px; margin-bottom:22px; border:1px solid var(--border); }
+.section-title { font-size:15px; font-weight:800; color:var(--navy); margin-bottom:18px; display:flex; align-items:center; gap:8px; padding-bottom:14px; border-bottom:1px solid var(--light); }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:22px; }
+@media(max-width:750px){.two-col{grid-template-columns:1fr}}
+
+/* ── Chart ── */
+.chart-wrap { position:relative; height:300px; }
+
+/* ── Table ── */
+.table-wrap { overflow-x:auto; border-radius:12px; border:1px solid var(--border); }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+thead th { background:var(--light); color:var(--navy); font-weight:700; padding:10px 14px; text-align:left; border-bottom:2px solid var(--border); white-space:nowrap; font-size:11px; text-transform:uppercase; letter-spacing:.4px; }
+tbody td { padding:10px 14px; border-bottom:1px solid var(--light); font-weight:500; font-size:12.5px; white-space:nowrap; }
+tbody tr:nth-child(even) { background:rgba(232,230,242,.25); }
+tbody tr:hover { background:rgba(232,230,242,.6); }
+tbody tr:last-child td { border-bottom:none; }
+.num { text-align:right; font-variant-numeric:tabular-nums; }
+
+/* ── Badge ── */
+.badge { display:inline-block; border-radius:20px; padding:3px 10px; font-size:11px; font-weight:700; }
+.badge-green  { background:#dcfce7; color:#166534; }
+.badge-gray   { background:var(--light); color:var(--gray); }
+.badge-blue   { background:#dde3fd; color:var(--navy); }
+.badge-orange { background:#ffedd5; color:#9a3412; }
+.badge-red    { background:#fee2e2; color:#991b1b; }
+.badge-purple { background:#f0e6ff; color:#7c3aed; }
+.badge-teal   { background:#ccfbf1; color:#0d9488; }
+.badge-hot    { background:#fee2e2; color:#dc2626; font-size:9px; padding:2px 7px; border-radius:4px; font-weight:800; letter-spacing:.3px; }
+.badge-cold   { background:#dbeafe; color:#2563eb; font-size:9px; padding:2px 7px; border-radius:4px; font-weight:800; letter-spacing:.3px; }
+.cpl-good { color:#166534; font-weight:700; background:#dcfce7; border-radius:6px; padding:2px 8px; }
+.cpl-ok   { color:#92400e; font-weight:700; background:#fef3c7; border-radius:6px; padding:2px 8px; }
+.cpl-bad  { color:#991b1b; font-weight:700; background:#fee2e2; border-radius:6px; padding:2px 8px; }
+
+/* ── Funnel ── */
+.funnel { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+.fn-step { display:flex; align-items:center; gap:14px; }
+.fn-bar-wrap { flex:1; background:var(--light); border-radius:8px; height:36px; overflow:hidden; }
+.fn-bar-fill { height:100%; border-radius:8px; display:flex; align-items:center; padding:0 14px; font-size:12px; font-weight:700; color:white; transition:width .8s ease-out; min-width:2px; }
+.fn-label { font-size:12px; font-weight:700; color:var(--black); width:140px; text-align:right; flex-shrink:0; }
+.fn-count { font-size:12px; color:var(--gray); width:60px; flex-shrink:0; }
+
+/* ── Error ── */
+.error-banner { background:#fef2f2; border:1px solid #fecaca; border-radius:10px; padding:14px 18px; margin-bottom:20px; color:#991b1b; font-size:13px; display:none; }
+.error-banner.show { display:block; }
+
+/* ── Dark mode ── */
+:root[data-theme="dark"] .kpi-card { box-shadow:0 2px 8px rgba(0,0,0,.3); border-color:#2D3748; }
+:root[data-theme="dark"] thead th { background:#242835; color:#9CA3AF; border-bottom-color:#2D3748; }
+:root[data-theme="dark"] tbody tr:nth-child(even) { background:rgba(255,255,255,.02); }
+:root[data-theme="dark"] tbody tr:hover { background:rgba(255,255,255,.06); }
+:root[data-theme="dark"] .section-title { color:#E8E6F2; border-bottom-color:#2D3748; }
+:root[data-theme="dark"] .preset-btn { background:#242835; color:#D1D5DB; }
+:root[data-theme="dark"] .preset-btn.active { background:var(--accent); color:white; border-color:var(--accent); }
+:root[data-theme="dark"] .date-input { background:#1A1D24; color:#E8E6F2; border-color:#4B5563; }
+:root[data-theme="dark"] .fn-bar-wrap { background:#2D3748; }
+
+@media(max-width:640px){
+  .header{padding:20px 20px 16px;} .tab-nav,.filter-bar{padding-left:12px;padding-right:12px;}
+  .container{padding:16px 12px;} .section{padding:18px 14px;}
+  .kpi-value{font-size:22px;} .chart-wrap{height:220px;}
+}
+footer { text-align:center; font-size:11px; color:var(--gray); padding:20px; }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<div class="header">
+  <div class="header-top">
+    <div class="header-logo">
+      <svg width="38" height="38" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+        <rect x="12" y="0" width="32" height="32" rx="3" fill="#fff" opacity=".9"/>
+        <rect x="0" y="12" width="32" height="32" rx="3" fill="rgba(255,255,255,.18)"/>
+        <rect x="12" y="12" width="20" height="20" rx="2" fill="rgba(13,31,110,.5)"/>
+      </svg>
+      <div class="header-divider"></div>
+      <div class="header-text">
+        <h1>Dashboard — Sevilha Performance</h1>
+        <div class="sub">Meta Ads · RD Station Marketing · RD CRM · Supabase</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn-hdr" onclick="toggleDark()" id="btnTheme">🌙</button>
+      <button class="btn-hdr" id="btnRefresh" onclick="loadAll()">⟳ Atualizar</button>
+    </div>
+  </div>
+  <div class="header-meta">
+    <div class="header-badge"><div class="status-dot loading" id="statusDot"></div><span id="statusText">Carregando...</span></div>
+    <div class="header-badge" id="lastUpdate">—</div>
+    <div class="header-badge" id="periodBadge">📅 Últimos 30 dias</div>
+  </div>
+</div>
+
+<!-- ═══ FILTER BAR ═══ -->
+<div class="filter-bar">
+  <span class="filter-label">Período:</span>
+  <button class="preset-btn" onclick="setPreset('today')">Hoje</button>
+  <button class="preset-btn" onclick="setPreset('last_7d')">7 dias</button>
+  <button class="preset-btn" onclick="setPreset('last_14d')">14 dias</button>
+  <button class="preset-btn active" id="btn-last_30d" onclick="setPreset('last_30d')">30 dias</button>
+  <button class="preset-btn" onclick="setPreset('this_month')">Este mês</button>
+  <button class="preset-btn" onclick="setPreset('last_month')">Mês anterior</button>
+  <div class="filter-sep"></div>
+  <button class="preset-btn" onclick="setPreset('custom')">Personalizado</button>
+  <div class="custom-dates" id="customDates">
+    <label style="font-size:12px;color:var(--gray);font-weight:600;">De</label>
+    <input type="date" class="date-input" id="dateSince">
+    <label style="font-size:12px;color:var(--gray);font-weight:600;">até</label>
+    <input type="date" class="date-input" id="dateUntil">
+    <button class="btn-apply" onclick="applyCustom()">Aplicar</button>
+  </div>
+</div>
+
+<!-- ═══ TAB NAV ═══ -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('geral')">📊 Visão Geral</button>
+  <button class="tab-btn tab-cp" onclick="switchTab('cp')">🎯 [CP] Clube da Performance</button>
+  <button class="tab-btn tab-se" onclick="switchTab('se')">💼 [SE] Sessão Estratégica</button>
+</div>
+
+<!-- ═══════════ TAB: VISÃO GERAL ═══════════ -->
+<div class="tab-panel active" id="tab-geral">
+<div class="container">
+  <div class="error-banner" id="errorBanner"></div>
+
+  <div class="kpi-groups">
+    <!-- Meta Ads Geral -->
+    <div class="kpi-group kpi-group-meta">
+      <div class="kpi-group-label">Meta Ads — Total</div>
+      <div class="kpi-card"><div class="kpi-label">Investido Total</div><div class="kpi-value skeleton kpi-skel" id="g-spend"></div><div class="kpi-sub" id="g-spend-sub"></div></div>
+      <div class="kpi-card"><div class="kpi-label">Leads Meta</div><div class="kpi-value skeleton kpi-skel" id="g-leads"></div><div class="kpi-sub" id="g-leads-sub"></div></div>
+      <div class="kpi-card orange"><div class="kpi-label">CPL Médio</div><div class="kpi-value skeleton kpi-skel" id="g-cpl"></div><div class="kpi-sub" id="g-cpl-sub"></div></div>
+    </div>
+    <!-- [CP] Meta -->
+    <div class="kpi-group" style="--accent-col:var(--cp)">
+      <div class="kpi-group-label" style="color:var(--cp);border-color:var(--cp);">[CP] Clube da Performance</div>
+      <div class="kpi-card" style="border-left-color:var(--cp)"><div class="kpi-label" style="color:var(--cp)">Investido [CP]</div><div class="kpi-value skeleton kpi-skel" id="cp-spend"></div><div class="kpi-sub" id="cp-spend-sub"></div></div>
+      <div class="kpi-card" style="border-left-color:var(--cp)"><div class="kpi-label" style="color:var(--cp)">Leads Meta [CP]</div><div class="kpi-value skeleton kpi-skel" id="cp-leads"></div><div class="kpi-sub"></div></div>
+      <div class="kpi-card orange" style="border-left-color:var(--cp)"><div class="kpi-label" style="color:var(--cp)">CPL [CP]</div><div class="kpi-value skeleton kpi-skel" id="cp-cpl"></div><div class="kpi-sub"></div></div>
+      <div class="kpi-card" style="border-left-color:var(--cp)"><div class="kpi-label" style="color:var(--cp)">Leads RD Mkt [CP]</div><div class="kpi-value skeleton kpi-skel" id="cp-rd-leads"></div><div class="kpi-sub"></div></div>
+      <div class="kpi-card purple" style="border-left-color:var(--cp)"><div class="kpi-label" style="color:var(--cp)">Deals CRM [CP]</div><div class="kpi-value skeleton kpi-skel" id="cp-crm-deals"></div><div class="kpi-sub"></div></div>
+    </div>
+    <!-- [SE] Meta -->
+    <div class="kpi-group">
+      <div class="kpi-group-label" style="color:var(--se);border-color:var(--se);">[SE] Sessão Estratégica</div>
+      <div class="kpi-card" style="border-left-color:var(--se)"><div class="kpi-label" style="color:var(--se)">Investido [SE]</div><div class="kpi-value skeleton kpi-skel" id="se-spend"></div><div class="kpi-sub" id="se-spend-sub"></div></div>
+      <div class="kpi-card" style="border-left-color:var(--se)"><div class="kpi-label" style="color:var(--se)">Leads Meta [SE]</div><div class="kpi-value skeleton kpi-skel" id="se-leads"></div><div class="kpi-sub"></div></div>
+      <div class="kpi-card orange" style="border-left-color:var(--se)"><div class="kpi-label" style="color:var(--se)">CPL [SE]</div><div class="kpi-value skeleton kpi-skel" id="se-cpl"></div><div class="kpi-sub"></div></div>
+      <div class="kpi-card" style="border-left-color:var(--se)"><div class="kpi-label" style="color:var(--se)">Leads RD Mkt [SE]</div><div class="kpi-value skeleton kpi-skel" id="se-rd-leads"></div><div class="kpi-sub"></div></div>
+      <div class="kpi-card teal" style="border-left-color:var(--se)"><div class="kpi-label" style="color:var(--se)">Deals CRM [SE]</div><div class="kpi-value skeleton kpi-skel" id="se-crm-deals"></div><div class="kpi-sub"></div></div>
+    </div>
+  </div>
+
+  <!-- Gráfico: Leads por dia (ambas as campanhas) -->
+  <div class="section">
+    <div class="section-title">📈 Leads por dia — Meta Ads</div>
+    <div class="chart-wrap"><canvas id="chartLeadsDia"></canvas></div>
+  </div>
+
+  <!-- Tabela de campanhas -->
+  <div class="section">
+    <div class="section-title">📋 Campanhas Ativas</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Campanha</th><th>Tipo</th>
+          <th class="num">Investido</th><th class="num">Leads</th>
+          <th class="num">CPL</th><th class="num">CTR</th><th class="num">CPM</th>
+        </tr></thead>
+        <tbody id="tblCampanhas"><tr><td colspan="7" style="text-align:center;padding:20px;color:var(--gray)">Carregando...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ TAB: [CP] ═══════════ -->
+<div class="tab-panel" id="tab-cp">
+<div class="container">
+  <div class="kpi-groups">
+    <div class="kpi-group kpi-group-meta">
+      <div class="kpi-group-label" style="color:var(--cp);border-color:var(--cp);">Meta Ads [CP]</div>
+      <div class="kpi-card" style="border-left-color:var(--cp)"><div class="kpi-label" style="color:var(--cp)">Investido</div><div class="kpi-value skeleton kpi-skel" id="cp2-spend"></div></div>
+      <div class="kpi-card" style="border-left-color:var(--cp)"><div class="kpi-label" style="color:var(--cp)">Leads Meta</div><div class="kpi-value skeleton kpi-skel" id="cp2-leads"></div></div>
+      <div class="kpi-card orange"><div class="kpi-label" style="color:var(--cp)">CPL</div><div class="kpi-value skeleton kpi-skel" id="cp2-cpl"></div></div>
+      <div class="kpi-card teal"><div class="kpi-label" style="color:var(--cp)">CTR</div><div class="kpi-value skeleton kpi-skel" id="cp2-ctr"></div></div>
+      <div class="kpi-card red"><div class="kpi-label" style="color:var(--cp)">CPM</div><div class="kpi-value skeleton kpi-skel" id="cp2-cpm"></div></div>
+    </div>
+    <div class="kpi-group kpi-group-real">
+      <div class="kpi-group-label">Leads Reais (RD Marketing)</div>
+      <div class="kpi-card green"><div class="kpi-label">Total RD Marketing</div><div class="kpi-value skeleton kpi-skel" id="cp2-rd-total"></div></div>
+      <div class="kpi-card green"><div class="kpi-label">CPL Real</div><div class="kpi-value skeleton kpi-skel" id="cp2-cpl-real"></div></div>
+      <div class="kpi-card teal"><div class="kpi-label">Formulários Supabase</div><div class="kpi-value skeleton kpi-skel" id="cp2-supa"></div></div>
+    </div>
+    <div class="kpi-group kpi-group-crm">
+      <div class="kpi-group-label">RD Station CRM — Pipeline Clube da Performance</div>
+      <div class="kpi-card purple"><div class="kpi-label">Pré-inscritos</div><div class="kpi-value skeleton kpi-skel" id="crm-cp-pi"></div></div>
+      <div class="kpi-card purple"><div class="kpi-label">Contato Feito</div><div class="kpi-value skeleton kpi-skel" id="crm-cp-cf"></div></div>
+      <div class="kpi-card purple"><div class="kpi-label">Total Deals</div><div class="kpi-value skeleton kpi-skel" id="crm-cp-total"></div></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="section">
+      <div class="section-title">📈 Leads [CP] por dia</div>
+      <div class="chart-wrap"><canvas id="chartCpDia"></canvas></div>
+    </div>
+    <div class="section">
+      <div class="section-title">🔀 Funil [CP]</div>
+      <div class="funnel" id="funnelCp"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">📋 Campanhas [CP]</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Campanha</th><th class="num">Investido</th><th class="num">Leads</th>
+          <th class="num">CPL</th><th class="num">CTR</th><th class="num">CPM</th><th>Temperatura</th>
+        </tr></thead>
+        <tbody id="tblCp"><tr><td colspan="7" style="text-align:center;padding:20px;color:var(--gray)">Carregando...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════ TAB: [SE] ═══════════ -->
+<div class="tab-panel" id="tab-se">
+<div class="container">
+  <div class="kpi-groups">
+    <div class="kpi-group kpi-group-meta">
+      <div class="kpi-group-label" style="color:var(--se);border-color:var(--se);">Meta Ads [SE]</div>
+      <div class="kpi-card" style="border-left-color:var(--se)"><div class="kpi-label" style="color:var(--se)">Investido</div><div class="kpi-value skeleton kpi-skel" id="se2-spend"></div></div>
+      <div class="kpi-card" style="border-left-color:var(--se)"><div class="kpi-label" style="color:var(--se)">Leads Meta</div><div class="kpi-value skeleton kpi-skel" id="se2-leads"></div></div>
+      <div class="kpi-card orange"><div class="kpi-label" style="color:var(--se)">CPL</div><div class="kpi-value skeleton kpi-skel" id="se2-cpl"></div></div>
+      <div class="kpi-card teal"><div class="kpi-label" style="color:var(--se)">CTR</div><div class="kpi-value skeleton kpi-skel" id="se2-ctr"></div></div>
+      <div class="kpi-card red"><div class="kpi-label" style="color:var(--se)">CPM</div><div class="kpi-value skeleton kpi-skel" id="se2-cpm"></div></div>
+    </div>
+    <div class="kpi-group kpi-group-real">
+      <div class="kpi-group-label">Leads Reais (RD Marketing)</div>
+      <div class="kpi-card green"><div class="kpi-label">Total RD Marketing</div><div class="kpi-value skeleton kpi-skel" id="se2-rd-total"></div></div>
+      <div class="kpi-card green"><div class="kpi-label">CPL Real</div><div class="kpi-value skeleton kpi-skel" id="se2-cpl-real"></div></div>
+    </div>
+    <div class="kpi-group kpi-group-crm">
+      <div class="kpi-group-label">RD Station CRM — Funil Padrão</div>
+      <div class="kpi-card purple"><div class="kpi-label">Novos Leads</div><div class="kpi-value skeleton kpi-skel" id="crm-se-nl"></div></div>
+      <div class="kpi-card purple"><div class="kpi-label">Agendamentos</div><div class="kpi-value skeleton kpi-skel" id="crm-se-ag"></div></div>
+      <div class="kpi-card purple"><div class="kpi-label">Em Negociação</div><div class="kpi-value skeleton kpi-skel" id="crm-se-en"></div></div>
+      <div class="kpi-card teal"><div class="kpi-label">Total Deals</div><div class="kpi-value skeleton kpi-skel" id="crm-se-total"></div></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="section">
+      <div class="section-title">📈 Leads [SE] por dia</div>
+      <div class="chart-wrap"><canvas id="chartSeDia"></canvas></div>
+    </div>
+    <div class="section">
+      <div class="section-title">🔀 Funil [SE]</div>
+      <div class="funnel" id="funnelSe"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">📋 Campanhas [SE]</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Campanha</th><th class="num">Investido</th><th class="num">Leads</th>
+          <th class="num">CPL</th><th class="num">CTR</th><th class="num">CPM</th><th>Temperatura</th>
+        </tr></thead>
+        <tbody id="tblSe"><tr><td colspan="7" style="text-align:center;padding:20px;color:var(--gray)">Carregando...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<footer>Sevilha Performance · Dashboard interno · Atualização automática a cada 60s</footer>
+
+<script>
+// ── Config ──
+const META_TOKEN   = 'EAASB7C6gP58BRC6L7xAD25wWX5MZAz5WabRELksJiJZB3nwz9ZBkxuTe1sK3p3IzequkKuxjOymPdI3ZB2P2v89NikoiExlZBM4jrA91rjWKMsx6CCnIdZAwYZBdUjaUsrb1y6N2qZBsidzHlwaD8GkjJm4ZBob9ZABMdqgOvyk6ZBgEC32z85iVSiu0cA45Q1lKAZDZD';
+const META_ACCOUNT = '1676714556216146';
+const SUPA_URL     = 'https://hojcntkggnwrvbvmcwxe.supabase.co';
+const SUPA_ANON    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhvamNudGtnZ253cnZidm1jd3hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwOTIyODQsImV4cCI6MjA5MDY2ODI4NH0.55PnZswNSKGkK7LfWSj1zS2Hnr-UM_8L00ZPb9AGKaY';
+const RD_STATS_URL = '/api/rd-stats';
+
+// ── State ──
+let since = '', until = '', activeTab = 'geral', charts = {}, autoRefreshTimer;
+
+// ── Dark mode ──
+function toggleDark() {
+  const d = document.documentElement;
+  const dark = d.getAttribute('data-theme') === 'dark';
+  d.setAttribute('data-theme', dark ? '' : 'dark');
+  document.getElementById('btnTheme').textContent = dark ? '🌙' : '☀️';
+  localStorage.setItem('sp-theme', dark ? '' : 'dark');
+}
+(function(){const t=localStorage.getItem('sp-theme');if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');document.getElementById('btnTheme').textContent='☀️';}})();
+
+// ── Tabs ──
+function switchTab(t) {
+  activeTab = t;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  const idx = ['geral','cp','se'].indexOf(t);
+  document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+  document.getElementById('tab-'+t).classList.add('active');
+}
+
+// ── Date presets ──
+function today() { return new Date().toISOString().slice(0,10); }
+function daysAgo(n) { const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); }
+function setPreset(p) {
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  const map = { today:[today(),today()], last_7d:[daysAgo(6),today()], last_14d:[daysAgo(13),today()], last_30d:[daysAgo(29),today()], this_month:[today().slice(0,7)+'-01',today()], last_month:lastMonthRange(), this_year:[today().slice(0,4)+'-01-01',today()] };
+  document.getElementById('customDates').classList.remove('show');
+  if (p === 'custom') { document.getElementById('customDates').classList.add('show'); document.getElementById('btn-custom') && document.getElementById('btn-custom').classList.add('active'); return; }
+  const range = map[p] || map.last_30d;
+  since = range[0]; until = range[1];
+  const btn = document.getElementById('btn-'+p);
+  if (btn) btn.classList.add('active');
+  document.getElementById('periodBadge').textContent = '📅 ' + fmtDate(since) + ' → ' + fmtDate(until);
+  loadAll();
+}
+function lastMonthRange() { const d=new Date(); d.setDate(1); d.setMonth(d.getMonth()-1); const s=d.toISOString().slice(0,10); d.setMonth(d.getMonth()+1); d.setDate(0); return [s,d.toISOString().slice(0,10)]; }
+function applyCustom() { since=document.getElementById('dateSince').value; until=document.getElementById('dateUntil').value; if(!since||!until)return; document.getElementById('periodBadge').textContent='📅 '+fmtDate(since)+' → '+fmtDate(until); loadAll(); }
+function fmtDate(s) { if(!s)return''; const [y,m,d]=s.split('-'); return d+'/'+m+'/'+y; }
+
+// ── Format helpers ──
+const fmtR = v => 'R$ ' + (v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtN = v => (v||0).toLocaleString('pt-BR');
+const fmtP = v => (v||0).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
+
+function setKPI(id, val, sub) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('skeleton','kpi-skel');
+  el.textContent = val;
+  if (sub !== undefined) {
+    const subEl = document.getElementById(id+'-sub');
+    if (subEl) subEl.textContent = sub;
+  }
+}
+function cplClass(v) { return v < 30 ? 'cpl-good' : v < 60 ? 'cpl-ok' : 'cpl-bad'; }
+function tempBadge(name) {
+  const n = name.toUpperCase();
+  if (n.includes('[HOT]')) return '<span class="badge-hot">HOT</span>';
+  if (n.includes('[COLD]')) return '<span class="badge-cold">COLD</span>';
+  return '<span class="badge badge-gray">-</span>';
+}
+
+// ── Meta Insights API ──
+async function fetchMetaInsights(filter, breakdown) {
+  const fields = 'campaign_name,spend,actions,impressions,clicks,ctr,cpm';
+  const timeRange = JSON.stringify({since, until});
+  const filtering = JSON.stringify([{field:'campaign.name',operator:'CONTAIN',value:filter}]);
+  let url = `https://graph.facebook.com/v19.0/act_${META_ACCOUNT}/insights?fields=${fields}&level=campaign&time_range=${encodeURIComponent(timeRange)}&filtering=${encodeURIComponent(filtering)}&limit=50&access_token=${META_TOKEN}`;
+  if (breakdown) url += '&time_increment=1';
+  const r = await fetch(url);
+  const d = await r.json();
+  if (d.error) throw new Error(d.error.message);
+  return d.data || [];
+}
+
+function extractLeads(row) {
+  const acts = row.actions || [];
+  const lead = acts.find(a => a.action_type === 'lead') || acts.find(a => a.action_type === 'onsite_conversion.lead_grouped');
+  return parseFloat(lead?.value || 0);
+}
+
+function aggregateInsights(rows) {
+  return rows.reduce((acc, r) => {
+    acc.spend += parseFloat(r.spend||0);
+    acc.leads += extractLeads(r);
+    acc.impressions += parseFloat(r.impressions||0);
+    acc.clicks += parseFloat(r.clicks||0);
+    return acc;
+  }, {spend:0,leads:0,impressions:0,clicks:0});
+}
+
+// ── Supabase leads count ──
+async function fetchSupabaseLeads() {
+  const r = await fetch(`${SUPA_URL}/rest/v1/leads_sevilhaperfomance?select=count`, {
+    headers: { apikey: SUPA_ANON, Authorization: 'Bearer '+SUPA_ANON, Prefer: 'count=exact', Range: '0-0' }
+  });
+  return parseInt(r.headers.get('Content-Range')?.split('/')[1] || '0');
+}
+
+// ── Daily chart data (with time_increment=1) ──
+async function fetchDailyLeads(filter) {
+  const fields = 'campaign_name,spend,actions,date_start';
+  const timeRange = JSON.stringify({since, until});
+  const filtering = JSON.stringify([{field:'campaign.name',operator:'CONTAIN',value:filter}]);
+  const url = `https://graph.facebook.com/v19.0/act_${META_ACCOUNT}/insights?fields=${fields}&level=campaign&time_range=${encodeURIComponent(timeRange)}&filtering=${encodeURIComponent(filtering)}&time_increment=1&limit=200&access_token=${META_TOKEN}`;
+  const r = await fetch(url);
+  const d = await r.json();
+  return d.data || [];
+}
+
+function buildDailyMap(rows) {
+  const map = {};
+  for (const r of rows) {
+    const dt = r.date_start;
+    if (!map[dt]) map[dt] = 0;
+    map[dt] += extractLeads(r);
+  }
+  return map;
+}
+
+function renderDailyChart(canvasId, cpMap, seMap, labels) {
+  if (charts[canvasId]) { charts[canvasId].destroy(); }
+  const ctx = document.getElementById(canvasId)?.getContext('2d');
+  if (!ctx) return;
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+  const textColor = isDark ? '#9CA3AF' : '#6B6B7B';
+
+  const datasets = [];
+  if (cpMap) datasets.push({ label:'[CP] Clube da Performance', data: labels.map(l=>cpMap[l]||0), borderColor:'#7c3aed', backgroundColor:'rgba(124,58,237,0.1)', tension:.4, fill:true, pointRadius:3 });
+  if (seMap) datasets.push({ label:'[SE] Sessão Estratégica', data: labels.map(l=>seMap[l]||0), borderColor:'#0d9488', backgroundColor:'rgba(13,148,136,0.1)', tension:.4, fill:true, pointRadius:3 });
+
+  charts[canvasId] = new Chart(ctx, {
+    type:'line',
+    data:{ labels: labels.map(l=>{ const [y,m,d]=l.split('-'); return d+'/'+m; }), datasets },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ labels:{ color:textColor, font:{size:12,weight:'600'} } } },
+      scales:{
+        x:{ grid:{color:gridColor}, ticks:{color:textColor,font:{size:11}} },
+        y:{ grid:{color:gridColor}, ticks:{color:textColor,font:{size:11}}, beginAtZero:true }
+      }
+    }
+  });
+}
+
+function dateRange(s,u) {
+  const labels=[], cur=new Date(s+'T00:00:00');
+  const end=new Date(u+'T00:00:00');
+  while(cur<=end){ labels.push(cur.toISOString().slice(0,10)); cur.setDate(cur.getDate()+1); }
+  return labels;
+}
+
+function renderFunnel(containerId, steps) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const max = Math.max(...steps.map(s=>s.val), 1);
+  const colors = ['#7c3aed','#0d9488','#3D5AF1','#f97316'];
+  el.innerHTML = steps.map((s,i) => `
+    <div class="fn-step">
+      <div class="fn-label">${s.label}</div>
+      <div class="fn-bar-wrap">
+        <div class="fn-bar-fill" style="width:${Math.max((s.val/max)*100,2)}%;background:${colors[i%colors.length]}">
+          ${s.val > 0 ? fmtN(s.val) : ''}
+        </div>
+      </div>
+      <div class="fn-count">${fmtN(s.val)}</div>
+    </div>`).join('');
+}
+
+function renderCampaignTable(tbodyId, rows, filter) {
+  const tbody = document.getElementById(tbodyId);
+  if (!tbody) return;
+  const filtered = rows.filter(r => r.campaign_name.includes(filter));
+  if (!filtered.length) { tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--gray)">Sem dados no período</td></tr>'; return; }
+  const sorted = [...filtered].sort((a,b)=>parseFloat(b.spend||0)-parseFloat(a.spend||0));
+  tbody.innerHTML = sorted.map(r => {
+    const spend = parseFloat(r.spend||0);
+    const leads = extractLeads(r);
+    const cpl = leads > 0 ? spend/leads : 0;
+    const ctr = parseFloat(r.ctr||0);
+    const cpm = parseFloat(r.cpm||0);
+    const name = r.campaign_name.replace(/\[CP\]\s*|\[SE\]\s*/g,'').trim();
+    return `<tr>
+      <td title="${r.campaign_name}">${name.length>52?name.slice(0,52)+'…':name}</td>
+      <td class="num">${fmtR(spend)}</td>
+      <td class="num">${fmtN(leads)}</td>
+      <td class="num"><span class="${cplClass(cpl)}">${leads>0?fmtR(cpl):'—'}</span></td>
+      <td class="num">${fmtP(ctr)}</td>
+      <td class="num">${fmtR(cpm)}</td>
+      <td>${tempBadge(r.campaign_name)}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderAllCampaignsTable(rows) {
+  const tbody = document.getElementById('tblCampanhas');
+  if (!tbody) return;
+  const relevant = rows.filter(r => r.campaign_name.startsWith('[CP]') || r.campaign_name.startsWith('[SE]'));
+  if (!relevant.length) { tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--gray)">Sem dados no período</td></tr>'; return; }
+  const sorted = [...relevant].sort((a,b)=>parseFloat(b.spend||0)-parseFloat(a.spend||0));
+  tbody.innerHTML = sorted.map(r => {
+    const spend = parseFloat(r.spend||0);
+    const leads = extractLeads(r);
+    const cpl = leads > 0 ? spend/leads : 0;
+    const tipo = r.campaign_name.startsWith('[CP]') ? '<span class="badge badge-purple">[CP]</span>' : '<span class="badge badge-teal">[SE]</span>';
+    const name = r.campaign_name.replace(/\[CP\]\s*|\[SE\]\s*/g,'').trim();
+    return `<tr>
+      <td title="${r.campaign_name}">${name.length>45?name.slice(0,45)+'…':name}</td>
+      <td>${tipo}</td>
+      <td class="num">${fmtR(spend)}</td>
+      <td class="num">${fmtN(leads)}</td>
+      <td class="num"><span class="${cplClass(cpl)}">${leads>0?fmtR(cpl):'—'}</span></td>
+      <td class="num">${fmtP(parseFloat(r.ctr||0))}</td>
+      <td class="num">${fmtR(parseFloat(r.cpm||0))}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Load all ──
+async function loadAll() {
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusText');
+  const err = document.getElementById('errorBanner');
+  dot.className = 'status-dot loading';
+  txt.textContent = 'Carregando...';
+  err.classList.remove('show');
+  document.getElementById('btnRefresh').disabled = true;
+
+  // Reset skeletons
+  document.querySelectorAll('.kpi-value').forEach(el => { if(!el.classList.contains('skeleton')){el.classList.add('skeleton','kpi-skel');el.textContent='';} });
+
+  try {
+    const labels = dateRange(since, until);
+
+    // Parallel fetches
+    const [cpRows, seRows, cpDailyRows, seDailyRows, rdStats, supaCount] = await Promise.all([
+      fetchMetaInsights('[CP]'),
+      fetchMetaInsights('[SE]'),
+      fetchDailyLeads('[CP]'),
+      fetchDailyLeads('[SE]'),
+      fetch(RD_STATS_URL).then(r=>r.json()).catch(()=>null),
+      fetchSupabaseLeads(),
+    ]);
+
+    // Aggregates
+    const cp = aggregateInsights(cpRows);
+    const se = aggregateInsights(seRows);
+    const total = { spend: cp.spend+se.spend, leads: cp.leads+se.leads };
+
+    const cpCpl = cp.leads > 0 ? cp.spend/cp.leads : 0;
+    const seCpl = se.leads > 0 ? se.spend/se.leads : 0;
+    const totalCpl = total.leads > 0 ? total.spend/total.leads : 0;
+    const cpCtr = cp.clicks > 0 ? (cp.clicks/cp.impressions)*100 : 0;
+    const seCtr = se.clicks > 0 ? (se.clicks/se.impressions)*100 : 0;
+    const cpCpm = cp.impressions > 0 ? (cp.spend/cp.impressions)*1000 : 0;
+    const seCpm = se.impressions > 0 ? (se.spend/se.impressions)*1000 : 0;
+
+    // RD data
+    const cpRd  = rdStats?.rd_marketing?.cp?.total ?? 0;
+    const seRd  = rdStats?.rd_marketing?.se?.total ?? 0;
+    const cpCrm = rdStats?.rd_crm?.cp?.total ?? 0;
+    const seCrm = rdStats?.rd_crm?.se?.total ?? 0;
+    const cpByStage = rdStats?.rd_crm?.cp?.by_stage ?? {};
+    const seByStage = rdStats?.rd_crm?.se?.by_stage ?? {};
+
+    const cpCplReal = cpRd > 0 ? cp.spend/cpRd : 0;
+    const seCplReal = seRd > 0 ? se.spend/seRd : 0;
+
+    // ── Visão Geral KPIs ──
+    setKPI('g-spend', fmtR(total.spend));
+    setKPI('g-leads', fmtN(total.leads));
+    setKPI('g-cpl', total.leads > 0 ? fmtR(totalCpl) : '—');
+    setKPI('cp-spend', fmtR(cp.spend));
+    setKPI('cp-leads', fmtN(cp.leads));
+    setKPI('cp-cpl', cp.leads > 0 ? fmtR(cpCpl) : '—');
+    setKPI('cp-rd-leads', fmtN(cpRd));
+    setKPI('cp-crm-deals', fmtN(cpCrm));
+    setKPI('se-spend', fmtR(se.spend));
+    setKPI('se-leads', fmtN(se.leads));
+    setKPI('se-cpl', se.leads > 0 ? fmtR(seCpl) : '—');
+    setKPI('se-rd-leads', fmtN(seRd));
+    setKPI('se-crm-deals', fmtN(seCrm));
+
+    // ── [CP] KPIs ──
+    setKPI('cp2-spend', fmtR(cp.spend));
+    setKPI('cp2-leads', fmtN(cp.leads));
+    setKPI('cp2-cpl', cp.leads > 0 ? fmtR(cpCpl) : '—');
+    setKPI('cp2-ctr', fmtP(cpCtr));
+    setKPI('cp2-cpm', fmtR(cpCpm));
+    setKPI('cp2-rd-total', fmtN(cpRd));
+    setKPI('cp2-cpl-real', cpRd > 0 ? fmtR(cpCplReal) : '—');
+    setKPI('cp2-supa', fmtN(supaCount));
+    setKPI('crm-cp-pi', fmtN(cpByStage['Pré-inscritos'] || 0));
+    setKPI('crm-cp-cf', fmtN(cpByStage['Contato feito'] || 0));
+    setKPI('crm-cp-total', fmtN(cpCrm));
+
+    // ── [SE] KPIs ──
+    setKPI('se2-spend', fmtR(se.spend));
+    setKPI('se2-leads', fmtN(se.leads));
+    setKPI('se2-cpl', se.leads > 0 ? fmtR(seCpl) : '—');
+    setKPI('se2-ctr', fmtP(seCtr));
+    setKPI('se2-cpm', fmtR(seCpm));
+    setKPI('se2-rd-total', fmtN(seRd));
+    setKPI('se2-cpl-real', seRd > 0 ? fmtR(seCplReal) : '—');
+    setKPI('crm-se-nl', fmtN(seByStage['Novos Leads'] || 0));
+    setKPI('crm-se-ag', fmtN(seByStage['Solicitação de Agendamento'] || 0));
+    setKPI('crm-se-en', fmtN(seByStage['Em Negociação'] || 0));
+    setKPI('crm-se-total', fmtN(seCrm));
+
+    // ── Daily charts ──
+    const cpDailyMap = buildDailyMap(cpDailyRows);
+    const seDailyMap = buildDailyMap(seDailyRows);
+    renderDailyChart('chartLeadsDia', cpDailyMap, seDailyMap, labels);
+    renderDailyChart('chartCpDia',   cpDailyMap, null, labels);
+    renderDailyChart('chartSeDia',   null, seDailyMap, labels);
+
+    // ── Funnels ──
+    renderFunnel('funnelCp', [
+      { label:'Leads Meta',     val: Math.round(cp.leads) },
+      { label:'RD Marketing',   val: cpRd },
+      { label:'Formulário',     val: supaCount },
+      { label:'Deals CRM',      val: cpCrm },
+    ]);
+    renderFunnel('funnelSe', [
+      { label:'Leads Meta',         val: Math.round(se.leads) },
+      { label:'RD Marketing',       val: seRd },
+      { label:'Novos Leads CRM',    val: seByStage['Novos Leads'] || 0 },
+      { label:'Em Negociação',      val: seByStage['Em Negociação'] || 0 },
+    ]);
+
+    // ── Campaign tables ──
+    const allRows = [...cpRows, ...seRows];
+    renderAllCampaignsTable(allRows);
+    renderCampaignTable('tblCp', cpRows, '[CP]');
+    renderCampaignTable('tblSe', seRows, '[SE]');
+
+    dot.className = 'status-dot';
+    txt.textContent = 'Dados atualizados';
+    document.getElementById('lastUpdate').textContent = '🕐 ' + new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+
+  } catch(e) {
+    console.error(e);
+    dot.className = 'status-dot error';
+    txt.textContent = 'Erro ao carregar';
+    err.textContent = '⚠️ Erro: ' + e.message;
+    err.classList.add('show');
+  }
+
+  document.getElementById('btnRefresh').disabled = false;
+
+  // Auto-refresh 60s
+  clearTimeout(autoRefreshTimer);
+  autoRefreshTimer = setTimeout(loadAll, 60000);
+}
+
+// ── Init ──
+setPreset('last_30d');
+</script>
+</body>
+</html>
