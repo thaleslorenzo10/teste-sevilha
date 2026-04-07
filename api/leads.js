@@ -178,6 +178,53 @@ async function sendToRDMarketing(data) {
 }
 
 /* ─────────────────────────────────────────────────────────
+   RD STATION CRM
+───────────────────────────────────────────────────────── */
+
+async function sendToRDCRM(data) {
+  const token = process.env.RD_CRM_TOKEN;
+  if (!token) {
+    console.warn('[RD CRM] RD_CRM_TOKEN não definido');
+    return;
+  }
+
+  const deal = {
+    name: data.nome || data.email,
+    deal_stage_id:  '69d52f54c0b8000015d2e7bb', // Pré-inscritos
+    deal_source_id: '68e5c150af14bb00013f8acb', // Busca Paga | Facebook Ads
+    campaign_id:    '69d52f437e5d76001a90e080', // [CP] Clube da Performance > CRM
+    contacts_attributes: [{
+      name:   data.nome  || undefined,
+      emails: data.email   ? [{ email: data.email }]   : [],
+      phones: data.telefone ? [{ phone: data.telefone }] : [],
+    }],
+    deal_custom_fields: [
+      { custom_field_id: '68e6668a5621790019a1ad6d', value: data.utm_source   || '' },
+      { custom_field_id: '68e6669152f4a7001f8d9f8f', value: data.utm_campaign || '' },
+      { custom_field_id: '68e666990450fa001e3e70f5', value: data.utm_content  || '' },
+      { custom_field_id: '68e666a608aace0019e118a1', value: data.utm_medium   || '' },
+    ].filter(f => f.value),
+  };
+
+  try {
+    const res = await fetch(`https://crm.rdstation.com/api/v1/deals?token=${token}`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ deal }),
+    });
+
+    if (!res.ok) {
+      console.error('[RD CRM Error]', res.status, await res.text());
+    } else {
+      const d = await res.json();
+      console.log(`[RD CRM OK] deal criado — id=${d._id} email=${data.email}`);
+    }
+  } catch (err) {
+    console.error('[RD CRM Exception]', err.message);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────
    HANDLER PRINCIPAL
 ───────────────────────────────────────────────────────── */
 
@@ -234,7 +281,13 @@ module.exports = async function handler(req, res) {
     utm_source, utm_medium, utm_campaign, utm_term, utm_content,
   });
 
-  // ── 3. Meta CAPI ──────────────────────────────────────────────
+  // ── 3. RD Station CRM ────────────────────────────────────────
+  await sendToRDCRM({
+    nome, email, telefone, pagina,
+    utm_source, utm_medium, utm_campaign, utm_term, utm_content,
+  });
+
+  // ── 4. Meta CAPI ──────────────────────────────────────────────
   const token = process.env.META_CAPI_TOKEN;
   if (!token) {
     console.warn('[CAPI] META_CAPI_TOKEN não definido');
