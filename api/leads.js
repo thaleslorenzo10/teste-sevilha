@@ -159,11 +159,10 @@ async function sendToRDMarketing(data) {
   });
 
   try {
-    const res = await fetch('https://api.rd.services/platform/conversions', {
+    const res = await fetch(`https://api.rd.services/platform/conversions?api_key=${token}`, {
       method:  'POST',
       headers: {
-        'Content-Type':  'application/json',
-        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
     });
