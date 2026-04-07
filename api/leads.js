@@ -2,13 +2,15 @@
  * Sevilha Performance — Vercel Serverless Function
  * POST /api/leads
  *
- * 1. Salva lead no Supabase (tabela: leads)
- * 2. Envia para a Meta Conversions API (CAPI)
+ * 1. Salva lead no Supabase (tabela: leads_sevilhaperfomance)
+ * 2. Envia para RD Station Marketing
+ * 3. Envia para a Meta Conversions API (CAPI)
  *
  * Variáveis de ambiente no Vercel:
  *   SUPABASE_URL          = https://hojcntkggnwrvbvmcwxe.supabase.co
  *   SUPABASE_SERVICE_KEY  = <service_role key>
  *   META_CAPI_TOKEN       = <System User Access Token>
+ *   RD_MARKETING_TOKEN    = <RD Station Marketing API token>
  */
 
 'use strict';
@@ -123,6 +125,60 @@ async function saveToSupabase(data) {
 }
 
 /* ─────────────────────────────────────────────────────────
+   RD STATION MARKETING
+───────────────────────────────────────────────────────── */
+
+async function sendToRDMarketing(data) {
+  const token = process.env.RD_MARKETING_TOKEN;
+  if (!token) {
+    console.warn('[RD Marketing] RD_MARKETING_TOKEN não definido');
+    return;
+  }
+
+  const payload = {
+    event_type:   'CONVERSION',
+    event_family: 'CDP',
+    payload: {
+      conversion_identifier: 'pre-inscricao-clube-da-performance',
+      name:             data.nome     || undefined,
+      email:            data.email    || undefined,
+      mobile_phone:     data.telefone || undefined,
+      tags:             ['pre-inscricao', 'clube-da-performance'],
+      traffic_source:   data.utm_source   || undefined,
+      traffic_medium:   data.utm_medium   || undefined,
+      traffic_campaign: data.utm_campaign || undefined,
+      traffic_value:    data.utm_term     || undefined,
+      traffic_content:  data.utm_content  || undefined,
+      cf_pagina:        data.pagina       || undefined,
+    },
+  };
+
+  // Remove campos undefined
+  Object.keys(payload.payload).forEach(k => {
+    if (payload.payload[k] === undefined) delete payload.payload[k];
+  });
+
+  try {
+    const res = await fetch('https://api.rd.services/platform/conversions', {
+      method:  'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      console.error('[RD Marketing Error]', res.status, await res.text());
+    } else {
+      console.log(`[RD Marketing OK] lead enviado — email=${data.email}`);
+    }
+  } catch (err) {
+    console.error('[RD Marketing Exception]', err.message);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────
    HANDLER PRINCIPAL
 ───────────────────────────────────────────────────────── */
 
@@ -173,7 +229,13 @@ module.exports = async function handler(req, res) {
     page_url, user_agent: ua,
   });
 
-  // ── 2. Meta CAPI ──────────────────────────────────────────────
+  // ── 2. RD Station Marketing ───────────────────────────────────
+  await sendToRDMarketing({
+    nome, email, telefone, pagina,
+    utm_source, utm_medium, utm_campaign, utm_term, utm_content,
+  });
+
+  // ── 3. Meta CAPI ──────────────────────────────────────────────
   const token = process.env.META_CAPI_TOKEN;
   if (!token) {
     console.warn('[CAPI] META_CAPI_TOKEN não definido');
