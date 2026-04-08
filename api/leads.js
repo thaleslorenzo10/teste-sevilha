@@ -273,8 +273,7 @@ module.exports = async function handler(req, res) {
   const ua        = user_agent || req.headers['user-agent'] || '';
   const finalEventId = event_id || `ev_${eventTime}_${crypto.randomBytes(4).toString('hex')}`;
 
-  // ── 1. Salva no Supabase (não bloqueia o restante se falhar) ──
-  await saveToSupabase({
+  const leadData = {
     nome, email, telefone, pagina,
     utm_source, utm_medium, utm_campaign, utm_term, utm_content,
     fbclid, gclid, ttclid, msclkid,
@@ -282,54 +281,30 @@ module.exports = async function handler(req, res) {
     event_id: finalEventId,
     page_url, user_agent: ua,
     cargo, colaboradores,
-  });
-
-  // ── 2. RD Station Marketing ───────────────────────────────────
-  await sendToRDMarketing({
-    nome, email, telefone, pagina,
-    utm_source, utm_medium, utm_campaign, utm_term, utm_content,
-    cargo, colaboradores,
-  });
-
-  // ── 3. RD Station CRM ────────────────────────────────────────
-  await sendToRDCRM({
-    nome, email, telefone, pagina,
-    utm_source, utm_medium, utm_campaign, utm_term, utm_content,
-    cargo, colaboradores,
-  });
-
-  // ── 4. Meta CAPI ──────────────────────────────────────────────
-  const token = process.env.META_CAPI_TOKEN;
-  if (!token) {
-    console.warn('[CAPI] META_CAPI_TOKEN não definido');
-    return res.status(200).json({ ok: true, warn: 'capi_token_missing' });
-  }
-
-  const userData = {
-    client_ip_address: ip,
-    client_user_agent: ua,
   };
 
-  if (email)    userData.em  = [h(normalizeEmail(email))];
-  if (telefone) userData.ph  = [h(normalizePhone(telefone))];
-  userData.country = [h(normalizeCountry('br'))];
+  // ── 1. Supabase primeiro — crítico, aguarda antes de tudo ─────
+  await saveToSupabase(leadData);
 
+  // ── 2-4. RD Marketing + RD CRM + Meta CAPI em paralelo ───────
+  const capiToken = process.env.META_CAPI_TOKEN;
+
+  const userData = { client_ip_address: ip, client_user_agent: ua };
+  if (email)    userData.em      = [h(normalizeEmail(email))];
+  if (telefone) userData.ph      = [h(normalizePhone(telefone))];
+  userData.country = [h(normalizeCountry('br'))];
   if (nome) {
     const parts = normalizeName(nome).split(/\s+/).filter(Boolean);
-    if (parts[0])           userData.fn = [h(parts[0])];
-    if (parts.length > 1)   userData.ln = [h(parts[parts.length - 1])];
+    if (parts[0])         userData.fn = [h(parts[0])];
+    if (parts.length > 1) userData.ln = [h(parts[parts.length - 1])];
   }
-
   if (external_id) userData.external_id = [h(external_id)];
   if (fbp)         userData.fbp = fbp;
   if (fbc)         userData.fbc = fbc;
   else if (fbclid) userData.fbc = `fb.1.${eventTime * 1000}.${fbclid}`;
 
   const customData = {
-    content_name:     pagina,
-    content_category: 'pre-inscricao',
-    currency:         'BRL',
-    value:            0,
+    content_name: pagina, content_category: 'pre-inscricao', currency: 'BRL', value: 0,
   };
   if (utm_source)   customData.utm_source   = utm_source;
   if (utm_medium)   customData.utm_medium   = utm_medium;
@@ -338,40 +313,37 @@ module.exports = async function handler(req, res) {
   if (utm_content)  customData.utm_content  = utm_content;
   if (gclid)        customData.gclid        = gclid;
 
-  const payload = {
+  const capiPayload = {
     data: [{
-      event_name:       'Lead',
-      event_time:       eventTime,
-      event_id:         finalEventId,
+      event_name: 'Lead', event_time: eventTime, event_id: finalEventId,
       event_source_url: page_url || req.headers.referer || '',
-      action_source:    'website',
-      user_data:        userData,
-      custom_data:      customData,
+      action_source: 'website', user_data: userData, custom_data: customData,
     }],
   };
 
+  const [, , capiResult] = await Promise.allSettled([
+    sendToRDMarketing(leadData),
+    sendToRDCRM(leadData),
+    capiToken
+      ? fetch(`${CAPI_URL}?access_token=${capiToken}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(capiPayload),
+        }).then(r => r.json()).then(d => {
+          if (d.error) console.error('[CAPI Error]', JSON.stringify(d));
+          else console.log(`[CAPI OK] event_id=${finalEventId} events_received=${d.events_received}`);
+          return d;
+        })
+      : Promise.resolve(null),
+  ]);
+
+  const capiData = capiResult.status === 'fulfilled' ? capiResult.value : {};
+
   try {
-    const capiRes  = await fetch(`${CAPI_URL}?access_token=${token}`, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify(payload),
-    });
-    const capiData = await capiRes.json();
-
-    if (!capiRes.ok) {
-      console.error('[CAPI Error]', JSON.stringify(capiData));
-    } else {
-      console.log(
-        `[CAPI OK] event_id=${finalEventId}` +
-        ` events_received=${capiData.events_received}` +
-        ` fbtrace=${capiData.fbtrace_id}`
-      );
-    }
-
     return res.status(200).json({
       ok:              true,
-      events_received: capiData.events_received ?? 0,
-      fbtrace_id:      capiData.fbtrace_id ?? '',
+      events_received: capiData?.events_received ?? 0,
+      fbtrace_id:      capiData?.fbtrace_id ?? '',
     });
 
   } catch (err) {
