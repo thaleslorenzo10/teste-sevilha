@@ -970,14 +970,8 @@
     }
     .form-group input:focus { border-color: var(--teal); }
     .form-group input::placeholder { color: #b0b8c4; }
-    .qual-options { display:flex; flex-direction:column; gap:7px; margin-top:6px; }
-    .qual-option { display:flex; align-items:center; gap:10px; background:#f5f7fa; border:1.5px solid var(--border); border-radius:8px; padding:10px 13px; cursor:pointer; transition:all 0.15s; }
-    .qual-option:hover { border-color:var(--teal); background:#eaf9f7; }
-    .qual-option input[type="radio"] { display:none; }
-    .qual-option.selected { border-color:var(--teal); background:rgba(0,196,180,0.07); }
-    .qual-letter { width:22px; height:22px; border-radius:50%; background:#e0e7ef; color:var(--navy); font-size:0.68rem; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-    .qual-option.selected .qual-letter { background:var(--teal); color:#fff; }
-    .qual-option span:last-child { font-size:0.85rem; color:var(--navy); line-height:1.4; }
+    .form-group select { padding:13px 16px; border:2px solid var(--border); border-radius:8px; font-size:0.97rem; font-family:'Inter',sans-serif; color:var(--navy); background:var(--white); transition:border-color 0.15s; outline:none; appearance:none; cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23667eea' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:36px; }
+    .form-group select:focus { border-color:var(--teal); }
     .form-privacy {
       font-size: 0.78rem;
       color: var(--muted);
@@ -1772,29 +1766,28 @@
         <input type="hidden" name="event_id"     />
         <input type="hidden" name="page_url"     />
         <input type="hidden" name="user_agent"   />
-        <input type="hidden" name="pagina"       value="/pre-inscricao-2" />
-        <input type="hidden" name="cargo"         />
-        <input type="hidden" name="colaboradores" />
+        <input type="hidden" name="pagina" value="/pre-inscricao-2" />
 
-        <!-- Qualificação -->
-        <div class="form-group" style="margin-bottom:14px;">
-          <label>Qual a sua posição no escritório Contábil?</label>
-          <div class="qual-options">
-            <label class="qual-option" onclick="selectQual(this,'cargo')"><input type="radio" name="_cargo" value="Dono/Sócio"><span class="qual-letter">A</span><span>Dono/Sócio</span></label>
-            <label class="qual-option" onclick="selectQual(this,'cargo')"><input type="radio" name="_cargo" value="Cargo Gerencial"><span class="qual-letter">B</span><span>Cargo Gerencial (Lider / Gerente / Encarregado / Coordenador...)</span></label>
-            <label class="qual-option" onclick="selectQual(this,'cargo')"><input type="radio" name="_cargo" value="Cargo Operacional"><span class="qual-letter">C</span><span>Cargo Operacional (Assistente / Analista...)</span></label>
-          </div>
+        <div class="form-group">
+          <label for="f-cargo">Posição no escritório</label>
+          <select id="f-cargo" name="cargo">
+            <option value="">Selecione sua posição</option>
+            <option value="Dono/Sócio">Dono/Sócio</option>
+            <option value="Cargo Gerencial">Cargo Gerencial (Lider / Gerente / Encarregado / Coordenador...)</option>
+            <option value="Cargo Operacional">Cargo Operacional (Assistente / Analista...)</option>
+          </select>
         </div>
-        <div class="form-group" style="margin-bottom:18px;">
-          <label>Quantos colaboradores você tem?</label>
-          <div class="qual-options">
-            <label class="qual-option" onclick="selectQual(this,'colaboradores')"><input type="radio" name="_colab" value="De 0 a 4"><span class="qual-letter">A</span><span>De 0 a 4</span></label>
-            <label class="qual-option" onclick="selectQual(this,'colaboradores')"><input type="radio" name="_colab" value="De 5 a 9"><span class="qual-letter">B</span><span>De 5 a 9</span></label>
-            <label class="qual-option" onclick="selectQual(this,'colaboradores')"><input type="radio" name="_colab" value="De 10 a 19"><span class="qual-letter">C</span><span>De 10 a 19</span></label>
-            <label class="qual-option" onclick="selectQual(this,'colaboradores')"><input type="radio" name="_colab" value="De 20 a 29"><span class="qual-letter">D</span><span>De 20 a 29</span></label>
-            <label class="qual-option" onclick="selectQual(this,'colaboradores')"><input type="radio" name="_colab" value="De 30 a 49"><span class="qual-letter">E</span><span>De 30 a 49</span></label>
-            <label class="qual-option" onclick="selectQual(this,'colaboradores')"><input type="radio" name="_colab" value="Mais de 50"><span class="qual-letter">F</span><span>Mais de 50</span></label>
-          </div>
+        <div class="form-group">
+          <label for="f-colab">Quantos colaboradores</label>
+          <select id="f-colab" name="colaboradores">
+            <option value="">Selecione o número</option>
+            <option value="De 0 a 4">De 0 a 4</option>
+            <option value="De 5 a 9">De 5 a 9</option>
+            <option value="De 10 a 19">De 10 a 19</option>
+            <option value="De 20 a 29">De 20 a 29</option>
+            <option value="De 30 a 49">De 30 a 49</option>
+            <option value="Mais de 50">Mais de 50</option>
+          </select>
         </div>
 
         <button type="submit" class="btn btn-full" style="margin-top:4px;">→ QUERO GARANTIR MINHA VAGA</button>
@@ -1869,13 +1862,6 @@
 
   // Close on Escape
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-  function selectQual(el, field) {
-    var group = el.closest('.qual-options');
-    group.querySelectorAll('.qual-option').forEach(function(o){ o.classList.remove('selected'); });
-    el.classList.add('selected');
-    document.querySelector('input[name="'+field+'"]').value = el.querySelector('input').value;
-  }
 
   /* ── Form submit ── */
   function submitForm(e) {
