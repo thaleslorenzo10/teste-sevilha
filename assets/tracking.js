@@ -172,6 +172,50 @@ var SP_CONFIG = {
     }
   };
 
+  /* ── Retry com backoff + localStorage fallback ─────── */
+  var PENDING_KEY = 'sp_pending_leads';
+
+  function savePending(data) {
+    try {
+      var list = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
+      list.push(data);
+      localStorage.setItem(PENDING_KEY, JSON.stringify(list));
+    } catch(e) {}
+  }
+
+  function postLead(data, attempt) {
+    attempt = attempt || 1;
+    return fetch(SP_CONFIG.FORM_ENDPOINT, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body:    JSON.stringify(data),
+    }).then(function(res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res;
+    }).catch(function(err) {
+      if (attempt < 3) {
+        log('retry', attempt, err.message);
+        return new Promise(function(resolve) {
+          setTimeout(function() { resolve(postLead(data, attempt + 1)); }, attempt * 1500);
+        });
+      }
+      savePending(data);
+      log('saved to localStorage after', attempt, 'attempts');
+      throw err;
+    });
+  }
+
+  // Reenviar leads pendentes ao carregar a página
+  (function retrySaved() {
+    try {
+      var list = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
+      if (!list.length) return;
+      log('retrying', list.length, 'pending lead(s)');
+      localStorage.removeItem(PENDING_KEY);
+      list.forEach(function(data) { postLead(data).catch(function(){}); });
+    } catch(e) {}
+  })();
+
   /* ── Handler de submit unificado ─────────────────────── */
   window.SP_handleSubmit = function (e, form, onSuccess) {
     e.preventDefault();
@@ -188,19 +232,15 @@ var SP_CONFIG = {
 
     log('submitting to', SP_CONFIG.FORM_ENDPOINT, data);
 
-    fetch(SP_CONFIG.FORM_ENDPOINT, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body:    JSON.stringify(data),
-    })
+    postLead(data)
     .then(function (res) {
       log('form submitted', res.status);
       window.SP_fireLeadEvents(eventId, data);
       onSuccess();
     })
     .catch(function (err) {
-      log('form error', err);
-      // Dispara conversão mesmo se o POST falhar para não bloquear UX
+      log('form error after retries', err);
+      // Dispara conversão mesmo se falhar — não bloqueia o usuário
       window.SP_fireLeadEvents(eventId, data);
       onSuccess();
     });
