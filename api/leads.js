@@ -99,6 +99,8 @@ async function saveToSupabase(data) {
     event_id:     data.event_id    || null,
     page_url:     data.page_url    || null,
     user_agent:   data.user_agent  || null,
+    cargo:        data.cargo       || null,
+    colaboradores: data.colaboradores || null,
   };
 
   try {
@@ -150,6 +152,8 @@ async function sendToRDMarketing(data) {
       traffic_value:    data.utm_term     || undefined,
       traffic_content:  data.utm_content  || undefined,
       cf_pagina:        data.pagina       || undefined,
+      cf_cargo:         data.cargo        || undefined,
+      cf_colaboradores: data.colaboradores || undefined,
     },
   };
 
@@ -253,11 +257,13 @@ module.exports = async function handler(req, res) {
     utm_campaign = '',
     utm_term    = '',
     utm_content = '',
-    fbclid      = '',
-    gclid       = '',
-    ttclid      = '',
-    msclkid     = '',
-    pagina      = '/',
+    fbclid        = '',
+    gclid         = '',
+    ttclid        = '',
+    msclkid       = '',
+    pagina        = '/',
+    cargo         = '',
+    colaboradores = '',
   } = body;
 
   const eventTime = Math.floor(Date.now() / 1000);
@@ -273,18 +279,21 @@ module.exports = async function handler(req, res) {
     fbp, fbc, external_id,
     event_id: finalEventId,
     page_url, user_agent: ua,
+    cargo, colaboradores,
   });
 
   // ── 2. RD Station Marketing ───────────────────────────────────
   await sendToRDMarketing({
     nome, email, telefone, pagina,
     utm_source, utm_medium, utm_campaign, utm_term, utm_content,
+    cargo, colaboradores,
   });
 
   // ── 3. RD Station CRM ────────────────────────────────────────
   await sendToRDCRM({
     nome, email, telefone, pagina,
     utm_source, utm_medium, utm_campaign, utm_term, utm_content,
+    cargo, colaboradores,
   });
 
   // ── 4. Meta CAPI ──────────────────────────────────────────────

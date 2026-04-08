@@ -333,6 +333,15 @@
     .form-group input::placeholder { color:rgba(255,255,255,0.2); }
     .form-group input:focus { border-color:var(--g-mid); }
     .form-note { text-align:center; font-size:0.73rem; color:rgba(255,255,255,0.22); margin-top:10px; }
+    .qual-group label.form-label { font-family:'Poppins',sans-serif; font-size:0.68rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.38); margin-bottom:6px; display:block; }
+    .qual-options { display:flex; flex-direction:column; gap:7px; }
+    .qual-option { display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.06); border:1.5px solid rgba(255,255,255,0.1); border-radius:8px; padding:10px 13px; cursor:pointer; transition:all 0.15s; }
+    .qual-option:hover { border-color:rgba(255,255,255,0.25); background:rgba(255,255,255,0.1); }
+    .qual-option input[type="radio"] { display:none; }
+    .qual-option.selected { border-color:var(--g-mid); background:rgba(0,196,180,0.12); }
+    .qual-letter { width:22px; height:22px; border-radius:50%; background:rgba(255,255,255,0.12); color:rgba(255,255,255,0.6); font-size:0.68rem; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .qual-option.selected .qual-letter { background:var(--g-mid); color:#0d1117; }
+    .qual-option span:last-child { font-size:0.85rem; color:rgba(255,255,255,0.75); line-height:1.4; }
     .success-state { display:none; text-align:center; padding:20px 0; }
     .success-state .big { font-size:3rem; margin-bottom:12px; }
     .success-state h3 { color:#6ff0a0; font-size:1.1rem; margin-bottom:8px; }
@@ -707,6 +716,29 @@
             <input type="hidden" name="page_url"     />
             <input type="hidden" name="user_agent"   />
             <input type="hidden" name="pagina"       value="/" />
+            <input type="hidden" name="cargo"         />
+            <input type="hidden" name="colaboradores" />
+
+            <!-- Qualificação -->
+            <div class="form-group qual-group" style="margin-bottom:14px;">
+              <label class="form-label">Qual a sua posição no escritório Contábil?</label>
+              <div class="qual-options">
+                <label class="qual-option" onclick="selectQual(this,'cargo')"><input type="radio" name="_cargo" value="Dono/Sócio"><span class="qual-letter">A</span><span>Dono/Sócio</span></label>
+                <label class="qual-option" onclick="selectQual(this,'cargo')"><input type="radio" name="_cargo" value="Cargo Gerencial"><span class="qual-letter">B</span><span>Cargo Gerencial (Lider / Gerente / Encarregado / Coordenador...)</span></label>
+                <label class="qual-option" onclick="selectQual(this,'cargo')"><input type="radio" name="_cargo" value="Cargo Operacional"><span class="qual-letter">C</span><span>Cargo Operacional (Assistente / Analista...)</span></label>
+              </div>
+            </div>
+            <div class="form-group qual-group" style="margin-bottom:18px;">
+              <label class="form-label">Quantos colaboradores você tem?</label>
+              <div class="qual-options">
+                <label class="qual-option" onclick="selectQual(this,'colaboradores')"><input type="radio" name="_colab" value="De 0 a 4"><span class="qual-letter">A</span><span>De 0 a 4</span></label>
+                <label class="qual-option" onclick="selectQual(this,'colaboradores')"><input type="radio" name="_colab" value="De 5 a 9"><span class="qual-letter">B</span><span>De 5 a 9</span></label>
+                <label class="qual-option" onclick="selectQual(this,'colaboradores')"><input type="radio" name="_colab" value="De 10 a 19"><span class="qual-letter">C</span><span>De 10 a 19</span></label>
+                <label class="qual-option" onclick="selectQual(this,'colaboradores')"><input type="radio" name="_colab" value="De 20 a 29"><span class="qual-letter">D</span><span>De 20 a 29</span></label>
+                <label class="qual-option" onclick="selectQual(this,'colaboradores')"><input type="radio" name="_colab" value="De 30 a 49"><span class="qual-letter">E</span><span>De 30 a 49</span></label>
+                <label class="qual-option" onclick="selectQual(this,'colaboradores')"><input type="radio" name="_colab" value="Mais de 50"><span class="qual-letter">F</span><span>Mais de 50</span></label>
+              </div>
+            </div>
 
             <button type="submit" class="btn btn-full" style="margin-top:4px;">
               Quero garantir minha pré-inscrição →
@@ -761,6 +793,14 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
     // ── FORM ──────────────────────────────────────────────────────────────────
+    function selectQual(el, field) {
+      var group = el.closest('.qual-options');
+      group.querySelectorAll('.qual-option').forEach(function(o){ o.classList.remove('selected'); });
+      el.classList.add('selected');
+      var val = el.querySelector('input').value;
+      document.querySelector('input[name="'+field+'"]').value = val;
+    }
+
     function handleSubmit(e) {
       var form = document.getElementById('preinscricao-form');
       SP_handleSubmit(e, form, function () {
