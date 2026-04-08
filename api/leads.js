@@ -203,10 +203,12 @@ async function sendToRDCRM(data) {
       phones: data.telefone ? [{ phone: data.telefone }] : [],
     }],
     deal_custom_fields: [
-      { custom_field_id: '68e6668a5621790019a1ad6d', value: data.utm_source   || '' },
-      { custom_field_id: '68e6669152f4a7001f8d9f8f', value: data.utm_campaign || '' },
-      { custom_field_id: '68e666990450fa001e3e70f5', value: data.utm_content  || '' },
-      { custom_field_id: '68e666a608aace0019e118a1', value: data.utm_medium   || '' },
+      { custom_field_id: '68e6668a5621790019a1ad6d', value: data.utm_source    || '' },
+      { custom_field_id: '68e6669152f4a7001f8d9f8f', value: data.utm_campaign  || '' },
+      { custom_field_id: '68e666990450fa001e3e70f5', value: data.utm_content   || '' },
+      { custom_field_id: '68e666a608aace0019e118a1', value: data.utm_medium    || '' },
+      { custom_field_id: '68e6647cca456d0019525bae', value: data.cargo         || '' },
+      { custom_field_id: '68e6647462dc7600149cef2c', value: data.colaboradores || '' },
     ].filter(f => f.value),
   };
 
