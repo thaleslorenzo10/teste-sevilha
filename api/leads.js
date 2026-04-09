@@ -219,11 +219,15 @@ async function sendToRDCRM(data) {
     phones: phoneNormalized ? [{ phone: phoneNormalized, type: 'cellphone' }]  : [],
   };
 
+  // TODOS os novos deals vão pro Geraldo Tadeu (100% dos leads)
+  const GERALDO_USER_ID = '68e6e08c6c2ac10017538422';
+
   const deal = {
     name:           data.nome || data.email || 'Lead',
     deal_stage_id:  '69d52f54c0b8000015d2e7bb', // Pré-inscritos
     deal_source_id: '68e5c150af14bb00013f8acb', // Busca Paga | Facebook Ads
     campaign_id:    '69d52f437e5d76001a90e080', // [CP] Clube da Performance > CRM
+    user_id:        GERALDO_USER_ID,            // owner = Geraldo Tadeu (100% dos leads)
     deal_custom_fields: [
       { custom_field_id: '68e6668a5621790019a1ad6d', value: data.utm_source    || '' },
       { custom_field_id: '68e6669152f4a7001f8d9f8f', value: data.utm_campaign  || '' },
