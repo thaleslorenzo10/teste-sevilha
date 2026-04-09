@@ -183,6 +183,20 @@ async function sendToRDMarketing(data) {
 
 /* ─────────────────────────────────────────────────────────
    RD STATION CRM
+
+   IMPORTANTE — comportamento verificado empiricamente da API v1
+   (validado em scripts/test-api-leads-e2e.js):
+
+   • Para CRIAR deal + contato novo:
+       POST /deals  →  body: { deal: {...}, contacts: [{name, emails, phones}] }
+       (contacts INLINE no ROOT do body — NÃO funciona passar só {id}/{_id})
+
+   • Para vincular um contato EXISTENTE a um deal NOVO:
+       1. POST /deals  →  body: { deal: {...} }   (sem contacts)
+       2. PUT /contacts/:id  →  body: { contact: { deal_ids: [novoDealId, ...] } }
+
+   • Campo `contact_id` dentro de `deal` é SILENCIOSAMENTE IGNORADO
+     (era o bug que deixava deals sem email/telefone no CRM).
 ───────────────────────────────────────────────────────── */
 
 async function sendToRDCRM(data) {
@@ -192,16 +206,22 @@ async function sendToRDCRM(data) {
     return;
   }
 
+  const BASE = 'https://crm.rdstation.com/api/v1';
+
+  // Telefone sempre normalizado (só dígitos, 55 + DDD + número)
+  const phoneNormalized = data.telefone ? normalizePhone(data.telefone) : null;
+
+  const contactInline = {
+    name:   data.nome || data.email || 'Lead',
+    emails: data.email      ? [{ email: data.email }]                          : [],
+    phones: phoneNormalized ? [{ phone: phoneNormalized, type: 'cellphone' }]  : [],
+  };
+
   const deal = {
-    name: data.nome || data.email,
+    name:           data.nome || data.email || 'Lead',
     deal_stage_id:  '69d52f54c0b8000015d2e7bb', // Pré-inscritos
     deal_source_id: '68e5c150af14bb00013f8acb', // Busca Paga | Facebook Ads
     campaign_id:    '69d52f437e5d76001a90e080', // [CP] Clube da Performance > CRM
-    contacts_attributes: [{
-      name:   data.nome  || undefined,
-      emails: data.email   ? [{ email: data.email }]   : [],
-      phones: data.telefone ? [{ phone: data.telefone }] : [],
-    }],
     deal_custom_fields: [
       { custom_field_id: '68e6668a5621790019a1ad6d', value: data.utm_source    || '' },
       { custom_field_id: '68e6669152f4a7001f8d9f8f', value: data.utm_campaign  || '' },
@@ -213,17 +233,82 @@ async function sendToRDCRM(data) {
   };
 
   try {
-    const res = await fetch(`https://crm.rdstation.com/api/v1/deals?token=${token}`, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ deal }),
-    });
+    // ── 1. Busca contato existente pelo email ─────────────────────
+    let existingContactId = null;
+    if (data.email) {
+      try {
+        const sRes = await fetch(
+          `${BASE}/contacts?token=${token}&email=${encodeURIComponent(data.email)}`
+        );
+        if (sRes.ok) {
+          const sData = await sRes.json();
+          const found = (sData.contacts || [])[0];
+          if (found) existingContactId = found._id || found.id;
+        }
+      } catch (e) {
+        console.warn('[RD CRM] busca por email falhou:', e.message);
+      }
+    }
 
-    if (!res.ok) {
-      console.error('[RD CRM Error]', res.status, await res.text());
+    // ── 2. Cria deal ──────────────────────────────────────────────
+    let dealId = null;
+
+    if (existingContactId) {
+      // 2a. Contato existe → atualiza dados, cria deal bare, vincula depois
+      try {
+        await fetch(`${BASE}/contacts/${existingContactId}?token=${token}`, {
+          method:  'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ contact: contactInline }),
+        });
+      } catch (e) {
+        console.warn('[RD CRM] update contato existente falhou:', e.message);
+      }
+
+      const dRes = await fetch(`${BASE}/deals?token=${token}`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ deal }),
+      });
+      if (!dRes.ok) {
+        console.error('[RD CRM Deal Error]', dRes.status, await dRes.text());
+        return;
+      }
+      const d = await dRes.json();
+      dealId = d._id || d.id;
+
+      // Vincula deal ao contato via PUT /contacts com deal_ids mesclado
+      try {
+        const gRes = await fetch(`${BASE}/contacts/${existingContactId}?token=${token}`);
+        const currentContact = gRes.ok ? await gRes.json() : {};
+        const currentIds = (currentContact.deal_ids || [])
+          .map(d => typeof d === 'string' ? d : (d._id || d.id))
+          .filter(Boolean);
+        const newIds = currentIds.includes(dealId) ? currentIds : [...currentIds, dealId];
+
+        await fetch(`${BASE}/contacts/${existingContactId}?token=${token}`, {
+          method:  'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ contact: { deal_ids: newIds } }),
+        });
+        console.log(`[RD CRM OK] deal ${dealId} vinculado a contato existente ${existingContactId} — email=${data.email}`);
+      } catch (e) {
+        console.warn('[RD CRM] vínculo pós-criação falhou:', e.message);
+      }
     } else {
-      const d = await res.json();
-      console.log(`[RD CRM OK] deal criado — id=${d._id} email=${data.email}`);
+      // 2b. Contato novo → POST /deals com contacts inline no ROOT
+      const dRes = await fetch(`${BASE}/deals?token=${token}`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ deal, contacts: [contactInline] }),
+      });
+      if (!dRes.ok) {
+        console.error('[RD CRM Deal Error]', dRes.status, await dRes.text());
+        return;
+      }
+      const d = await dRes.json();
+      dealId = d._id || d.id;
+      console.log(`[RD CRM OK] deal criado com contato inline — id=${dealId} email=${data.email}`);
     }
   } catch (err) {
     console.error('[RD CRM Exception]', err.message);
