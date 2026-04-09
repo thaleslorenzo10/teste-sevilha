@@ -73,21 +73,11 @@ var SP_CONFIG = {
     });
   })();
 
-  /* ── Meta Pixel ──────────────────────────────────────── */
-  !function(f,b,e,v,n,t,s){
-    if(f.fbq) return;
-    n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq) f._fbq=n;
-    n.push=n; n.loaded=!0; n.version='2.0'; n.queue=[];
-    t=b.createElement(e); t.async=!0; t.src=v;
-    s=b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s);
-  }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-
-  fbq('init', SP_CONFIG.META_PIXEL_ID, {
-    external_id: getOrCreateExtId(),
-  });
-  fbq('track', 'PageView');
-  log('Meta Pixel init + PageView');
+  /* ── Meta Pixel — advanced matching (pixel já iniciado inline no HTML) ── */
+  if (window.fbq) {
+    fbq('init', SP_CONFIG.META_PIXEL_ID, { external_id: getOrCreateExtId() });
+    log('Meta Pixel advanced matching set (external_id)');
+  }
 
   /* ── Google Tag (gtag.js) ────────────────────────────── */
   (function loadGtag() {
