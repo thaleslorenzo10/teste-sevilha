@@ -101,6 +101,7 @@ async function saveToSupabase(data) {
     user_agent:   data.user_agent  || null,
     cargo:        data.cargo       || null,
     colaboradores: data.colaboradores || null,
+    escritorio:   data.escritorio  || null,
   };
 
   try {
@@ -154,6 +155,7 @@ async function sendToRDMarketing(data) {
       cf_pagina:        data.pagina       || undefined,
       cf_cargo:         data.cargo        || undefined,
       cf_colaboradores: data.colaboradores || undefined,
+      cf_escritorio:    data.escritorio   || undefined,
     },
   };
 
@@ -229,6 +231,7 @@ async function sendToRDCRM(data) {
       { custom_field_id: '68e666a608aace0019e118a1', value: data.utm_medium    || '' },
       { custom_field_id: '68e6647cca456d0019525bae', value: data.cargo         || '' },
       { custom_field_id: '68e6647462dc7600149cef2c', value: data.colaboradores || '' },
+      { custom_field_id: '693057aecc0b1f0020a3fa25', value: data.escritorio    || '' },
     ].filter(f => f.value),
   };
 
