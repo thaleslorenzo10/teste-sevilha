@@ -358,6 +358,7 @@ module.exports = async function handler(req, res) {
     pagina        = '/',
     cargo         = '',
     colaboradores = '',
+    escritorio    = '',
   } = body;
 
   const eventTime = Math.floor(Date.now() / 1000);
@@ -372,7 +373,7 @@ module.exports = async function handler(req, res) {
     fbp, fbc, external_id,
     event_id: finalEventId,
     page_url, user_agent: ua,
-    cargo, colaboradores,
+    cargo, colaboradores, escritorio,
   };
 
   // ── 1. Supabase primeiro — crítico, aguarda antes de tudo ─────
